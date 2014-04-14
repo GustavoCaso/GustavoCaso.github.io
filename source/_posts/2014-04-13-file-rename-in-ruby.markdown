@@ -13,8 +13,9 @@ as part of some exercise, that was renaming a bunch of picture from a folder, I 
 
 Using the method `File.rename(old_name, new_name)` and after running my program it seems that the file haven't been rename instead it has been deleted, but that's not what happen.
 What ruby was doing is renaming and moving the file to my printing working directory.
-What really solve my problem was to give an absolute path to the method.
-`File.rename(old_name, "Users/gus/Desktop/myImages/new_name").
+What really solve it was giving an absolute path to the method.
+
+`File.rename(old_name, "Users/gus/Desktop/myImages/new_name")`
 
 <!-- more -->
 
