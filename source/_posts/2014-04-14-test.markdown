@@ -1,0 +1,8 @@
+---
+layout: post
+title: "Test"
+date: 2014-04-14 07:27:25 +0200
+comments: true
+categories:
+---
+Testing for deploy
