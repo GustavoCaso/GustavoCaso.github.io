@@ -14,6 +14,8 @@ After hours of searching the web and reading lot of post about the topic I had a
 
 So I thought of sharing my experience:
 
+<!-- more -->
+
 Fisrt you have to register you site in [Disqus](https://disqus.com/), you will receive a short code. After that go to your `_config.yml` file inside your project and add it.
 {% codeblock lang:yaml %}
 # Disqus Comments

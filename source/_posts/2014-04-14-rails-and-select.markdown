@@ -23,6 +23,8 @@ end
 
 So the goal of this select was to obtain all the `Sales` where the `LineItems` has express_checkout set it to true.
 
+<!-- more -->
+
 I thought it was easy, in the `Sales controller` I will get all the sales `Sales.all` do a select `Sales.all.select` that's the easy part, inside the block is were
 I got lost, because I have access to sale not the line_items associated to it, I started trying to fetch the line_items and perform another
 select inside.
