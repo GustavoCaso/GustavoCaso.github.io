@@ -15,7 +15,7 @@ Using the method `File.rename(old_name, new_name)` and after running my program 
 What ruby was doing is renaming and moving the file to my printing working directory.
 What really solve it was giving an absolute path to the method.
 
-`File.rename(old_name, "Users/gus/Desktop/myImages/new_name")`
+`File.rename(old_name, "/Users/gus/Desktop/myImages/new_name")`
 
 <!-- more -->
 
