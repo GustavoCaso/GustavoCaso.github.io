@@ -320,6 +320,10 @@ $header-height: 30px;
 			&:hover{
 				opacity: 1;
 			}
+			&.codepen{
+				background: image-url('social/codepen_01.png') center no-repeat black;
+				border: 1px solid white;
+			}
 			&.email{
 				background: image-url('social/email.png') center no-repeat #050505;
 				border: 1px solid #050505;
