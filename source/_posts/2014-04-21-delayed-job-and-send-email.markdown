@@ -8,7 +8,7 @@ categories: [rails, ruby]
 
 ##Sending emails with rails
 
-Rails make extremly easy to send emails to, I'm not going to explain how to do it, there are pretty good tutorials around the internet,
+Rails makes extremly easy to send emails, I'm not going to explain how to do it, there are pretty good tutorials around the internet,
 this one is really well explain: [Action Mailer Basics](http://edgeguides.rubyonrails.org/action_mailer_basics.html).
 
 It is common to delay the task in our rails applications, that way the app doesn't stop. There are many good gems that help us,
