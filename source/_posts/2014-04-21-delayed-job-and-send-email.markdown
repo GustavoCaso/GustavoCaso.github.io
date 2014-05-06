@@ -3,10 +3,10 @@ layout: post
 title: "Delayed job and Send email with Attachements"
 date: 2014-04-21 20:21:46 +0200
 comments: true
-categories: [rails, ruby]
+categories: [rails, ruby, heroku, delayed_job]
 ---
 
-##Sending emails with rails
+##Sending emails with rails and Heroku (Updated 2014-04-24)
 
 Rails makes extremly easy to send emails, I'm not going to explain how to do it, there are pretty good tutorials around the internet,
 this one is really well explain: [Action Mailer Basics](http://edgeguides.rubyonrails.org/action_mailer_basics.html).
@@ -49,39 +49,76 @@ class Mailer < ActionMailer::Base
 end
 ```
 
-Thats one way of doing it, the problem with delay job is that the temp file will be erase before the the email process is finish,
-after some reading and understanding this problem I decided to change my approach and create a file inside our `temp` folder inside our `Rails.root`
-so when sending it there is a file to read from.
+Thats one way of doing it, but [Heroku](https://www.heroku.com) do not allow us to write file in the system, do to the file system they have.
+There multiple solutions to this problem, basically we can store the file in one of the store service like [S3](http://aws.amazon.com/).
+To use the S3 service we must add a gem to our Gemfile `gem 'aws-sdk'`
 
+Once the file is uploaded to the S3 it will be posible to download it and attach it to the email.
+
+So how we could do this:
+
+Lets create the file and write what ever we want, in my case I created some helper method to create the file and store it in [S3](http://aws.amazon.com/).
+Inside `app/controller/helpers`.
 
 ```ruby
-File.open("#{Rails.root}/tmp/new_file.csv", "w*") do |f|
-  f.write ("Hello")
-  f.write ("\n")
-  f.write ("World")
+# We must write this to use the S3 store file
+require 'aws-sdk'
+
+class create_file
+# This way the file will be created and close when the block is finish
+  file = File.open("#{Rails.root}/tmp/filename.txt", "w+") do |f|
+          f.write ("Hello")
+          f.write ("\n")
+          f.write ("World")
+        end
+  file
 end
 
-
-Mailer.delay.sendMail
-
-
+class store_S3(file)
+# We create a connection with amazon S3
+  AWS.config(
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    )
+    s3 = AWS::S3.new
+    bucket = s3.buckets[ENV['S3_BUCKET_NAME']]
+    object = bucket.objects[File.basename(file)]
+# the file is not the content of the file is the route
+    object.write(:file => file)
+# save the file and return an url to download it
+    object.url_for(:read)
+end
 ```
 
-Inside our Mailer the new code is:
+With this two method we are able to create and store the file in AWS, no is the easy part send the email.
+
+Inside our controller we could call our mailer with our file url, to read from and send the email.
+
+```ruby
+class SaleController < ApplicationController::Base
+  def send_email
+    file = create_file
+    url = store_S3(file)
+    Mailer.delay.send_mail(url)
+  end
+end
+```
+
+And for the last touch, inside our Mailer
+
 ```ruby
 class Mailer < ActionMailer::Base
 
-  def send_mail
-    attachments['filename.csv'] = File.read("#{Rails.root}/tmp/new_file.csv")
+  def send_mail(url)
+    attachments['filename.csv'] = open(url).read
     mail(to: foo@bar.com, subject: 'Welcome to My Awesome Site')
-    File.delete("#{Rails.root}/tmp/new_file.csv")
   end
 
 end
 ```
 
-I know deleting the file inside the send_mail action is not the best way of doing it, I'm trying to work with hooks provided by `delayed_job` gem, but right I haven't figured out.
-When I learn how to do it I will update the post.
+I hope this could help anyone, there are some problems with heroku if the file is to big there might be some problems, I'm working to solve it, hopefuly I could get and answer and share with all of you.
+
 
 Happy coding.
 
