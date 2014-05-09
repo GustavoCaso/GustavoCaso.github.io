@@ -320,6 +320,10 @@ $header-height: 30px;
 			&:hover{
 				opacity: 1;
 			}
+			&.domestika{
+				background: image-url('social/domestika.png') center no-repeat rgba(240,45,0,1);
+				border: 1px solid rgba(240,45,0,1);
+			}
 			&.codepen{
 				background: image-url('social/codepen_01.png') center no-repeat black;
 				border: 1px solid white;
