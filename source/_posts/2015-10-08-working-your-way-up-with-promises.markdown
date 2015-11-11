@@ -20,7 +20,7 @@ But what really shine the most was the new API for the [Promises](https://develo
 
 I promise is an operation that hasn't complete yet, but is expected in the future.
 To work with a promise you will have to pass an executor or function and two callbacks as their arguments.
-```
+``` js
   var promise = new Promise(function(callback1, callback2){
     executor body
   })
@@ -33,7 +33,7 @@ But for the sake of the post I will say is like an ajax call with all the callba
 
 With the previous example I will show a simple way of fetching a random joke from the `Chuck Norris Database`.
 
-```
+``` js
   var promise = new Promise( function(resolve, reject) {
     var client = new XMLHttpRequest();
     client.open('GET', 'http://api.icndb.com/jokes/random')
@@ -70,7 +70,7 @@ So the main idea is to halt the execution until we get an answer from the server
 
 OK down to business.
 
-```
+``` js
 function getData() {
   var intervalId;
   var promise = new Promise(function(resolve, reject){
