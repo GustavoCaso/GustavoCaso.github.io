@@ -6,16 +6,18 @@ comments: true
 categories: [ruby, dry-rb]
 ---
 
+Revised by Piotr Solnica
+
 Lately, I have been playing around and contributing to the great ecosystem of [dry-rb](http://dry-rb.org/),
 first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.
 
-First I will like to thank [Piotr Solnica](https://github.com/solnic), [Andy Holland](https://github.com/AMHOL), [Tim Riley](https://github.com/timriley) and [Nikita Shilnikov](https://github.com/flash-gordon) they have been really helpful and patience with my many questions.
+First I will like to thank [Piotr Solnica](https://github.com/solnic), [Andy Holland](https://github.com/AMHOL), [Tim Riley](https://github.com/timriley) and [Nikita Shilnikov](https://github.com/flash-gordon) they have been really helpful and patient with my many questions.
 
 Yesterday I decided to start playing around with a gem call [dry-web-roda](https://github.com/dry-rb/dry-web-roda) this small framework aim to provide an alternative to building web apps using ruby, with the use of small libraries such as [dry-view](https://github.com/dry-rb/dry-view), [dry-container](https://github.com/dry-rb/dry-container), [dry-transaction](https://github.com/dry-rb/dry-transaction), [roda](https://github.com/jeremyevans/roda), [rom](https://github.com/rom-rb/rom) and many more the help you build clearer, flexible and more maintainable code.
 
 <!-- more -->
 
-The post tries to create a bridge for [Rails](http://rubyonrails.org/) Developers and encourage them to try this new alternatives, that will bring joy and a fresh concepts for building web apps with ruby.
+The post tries to create a bridge for [Rails](http://rubyonrails.org/) Developers and encourage them to try this new alternatives, that will bring joy and fresh concepts for building web apps with ruby.
 
 After installing the gem we can create a sample app by typing `dry-web-roda new github_stalker --arch=flat` this will create the file structure.
 
@@ -43,7 +45,7 @@ After installing the gem we can create a sample app by typing `dry-web-roda new 
         └── layouts
 ```
 
-At first the structure is quite different from what we are use to in a typical Rails app, but I will try my best to explain it.
+At first the structure is quite different from what we are used to in a typical Rails app, but I will try my best to explain it.
 
 First the system folder is where all the configuration lives, we can think of them as our initializers, this will be the entry point of our application. There are many small libraries involve for making everything work, that I can not go into detail in just one post, I will try cover all of them in a series of posts.
 ```
@@ -99,9 +101,9 @@ end
 
 What is a container I'm going to bring the words from the official website `dry-container is a simple, thread-safe container, intended to be one half of the implementation of an IoC container` or how I understand it a container “gives you access to the objects that make up your application”.
 
-Roda is the router is a Routing Tree Web Toolkit I will not go into much detail since I really new to it.
+Roda is the router is a Routing Tree Web Toolkit I will not go into much detail since I'm really new to it.
 
-Following is the `container.rb` and `import.rb` which in my opinion is where all the magic happens, thanks to `dry-conatiner` and `dry-auto_inject`. This holds the configuration for loading the files for our application, more or less like `auto_load_path` of Rails but only using ruby methods and variables `require` and `$LOAD_PATH`.
+Following is the `container.rb` and `import.rb` which in my opinion is where all the magic happens, thanks to `dry-container` and `dry-auto_inject`. This holds the configuration for loading the files for our application, more or less like `auto_load_path` of Rails but only using ruby methods and variables `require` and `$LOAD_PATH`.
 
 ```ruby
 require "dry/web/umbrella"
@@ -160,8 +162,8 @@ module GithubStalker
 end
 ```
 
-Well I think this post is getting to long and I don't want to take more of your time. Thank you for reading it I will keep creating more posts explaining the rest of the structure and libraries involve in `dry-rb`, lastly I really encourage all ruby developers to try the libraries from `dry-rb` they are great and bring a fresh view in the ruby world.
+Well I think this post is getting too long and I don't want to take more of your time. Thank you for reading it I will keep creating more posts explaining the rest of the structure and libraries involve in `dry-rb`, lastly I really encourage all ruby developers to try the libraries from `dry-rb` they are great and bring a fresh view in the ruby world.
 
 All the example were taken from an example app I built using `dry-web-roda` if you want to check the code please follow [repo](https://github.com/GustavoCaso/dry-web-roda-example)
 
-Please any doubt or thought please shared I'll be happy to answer in the comments.
+If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
