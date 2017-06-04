@@ -140,8 +140,8 @@ At first site we see some configuration for name and namespace and some `auto_re
         │   ├── client.rb # will register inside our container under the name github.client
         │   ├── fetch_gists.rb # github.fetch_gists
         │   └── fetch_info.rb # github.fetch_info
-        ├── users
-        └── validate_input.rb # users.validate_input
+        └── users
+            └── validate_input.rb # users.validate_input
 ```
 
 And thanks to `dry-auto_inject` all this files will be accessible. But only if we need them, making really efficient by only including what we need.
