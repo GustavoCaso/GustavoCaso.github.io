@@ -6,20 +6,20 @@ comments: true
 categories: [ruby, dry-rb]
 ---
 
-Revised by Piotr Solnica
+Revised by Piotr Solnica and Andy Holland
 
 Lately, I have been playing around and contributing to the great ecosystem of [dry-rb](http://dry-rb.org/),
 first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.
 
-First I will like to thank [Piotr Solnica](https://github.com/solnic), [Andy Holland](https://github.com/AMHOL), [Tim Riley](https://github.com/timriley) and [Nikita Shilnikov](https://github.com/flash-gordon) they have been really helpful and patient with my many questions.
+First I will like to thank [Piotr Solnica](https://github.com/solnic), [Andy Holland](https://github.com/AMHOL), [Tim Riley](https://github.com/timriley) and [Nikita Shilnikov](https://github.com/flash-gordon) - they have been really helpful and patient with my many questions.
 
-Yesterday I decided to start playing around with a gem call [dry-web-roda](https://github.com/dry-rb/dry-web-roda) this small framework aim to provide an alternative to building web apps using ruby, with the use of small libraries such as [dry-view](https://github.com/dry-rb/dry-view), [dry-container](https://github.com/dry-rb/dry-container), [dry-transaction](https://github.com/dry-rb/dry-transaction), [roda](https://github.com/jeremyevans/roda), [rom](https://github.com/rom-rb/rom) and many more the help you build clearer, flexible and more maintainable code.
+Yesterday I decided to start playing around with a gem call [dry-web-roda](https://github.com/dry-rb/dry-web-roda) this small framework aims to provide an alternative to building web apps using ruby, with the use of small libraries such as [dry-view](https://github.com/dry-rb/dry-view), [dry-container](https://github.com/dry-rb/dry-container), [dry-transaction](https://github.com/dry-rb/dry-transaction), [roda](https://github.com/jeremyevans/roda), [rom](https://github.com/rom-rb/rom) and many more; the help you build clearer, flexible and more maintainable code.
 
 <!-- more -->
 
-The post tries to create a bridge for [Rails](http://rubyonrails.org/) Developers and encourage them to try this new alternatives, that will bring joy and fresh concepts for building web apps with ruby.
+The post tries to create a bridge for [Rails](http://rubyonrails.org/) Developers and encourage them to try these new alternatives, that will bring joy and fresh concepts for building web apps with ruby.
 
-After installing the gem we can create a sample app by typing `dry-web-roda new github_stalker --arch=flat` this will create the file structure.
+After installing the gem we can create a sample app by typing `dry-web-roda new github_stalker --arch=flat`- this will create the file structure.
 
 ```
 ├── bin
@@ -47,7 +47,7 @@ After installing the gem we can create a sample app by typing `dry-web-roda new 
 
 At first the structure is quite different from what we are used to in a typical Rails app, but I will try my best to explain it.
 
-First the system folder is where all the configuration lives, we can think of them as our initializers, this will be the entry point of our application. There are many small libraries involve for making everything work, that I can not go into detail in just one post, I will try cover all of them in a series of posts.
+First, the system folder is where all the configuration lives, we can think of them as our initializers, this will be the entry point of our application. There are many small libraries involved to make everything work, that I can not go into detail in just one post, I will try cover all of them in a series of posts.
 ```
 ├── system
     ├── boot
@@ -65,7 +65,7 @@ First the system folder is where all the configuration lives, we can think of th
         ├── view_context.rb
         └── view_controller.rb
 ```
-But to start with one of the files we can start with `application.rb` this file contains all the configuration regarding `routes`, `container` and plugins to be use with `roda`.
+We will start with `application.rb`, this file contains all the configuration regarding `routes`, `container` and plugins to be use with `roda`.
 
 ```ruby
 require "dry/web/roda/application"
@@ -99,11 +99,11 @@ module GithubStalker
 end
 ```
 
-What is a container I'm going to bring the words from the official website `dry-container is a simple, thread-safe container, intended to be one half of the implementation of an IoC container` or how I understand it a container “gives you access to the objects that make up your application”.
+What is a container? I'm going to bring the words from the official website `dry-container is a simple, thread-safe container, intended to be one half of the implementation of an IoC container` or how I understand it a container “gives you access to the objects that make up your application”.
 
-Roda is the router is a Routing Tree Web Toolkit I will not go into much detail since I'm really new to it.
+Roda (the router) is a Routing Tree Web Toolkit I will not go into much detail since I'm really new to it.
 
-Following is the `container.rb` and `import.rb` which in my opinion is where all the magic happens, thanks to `dry-container` and `dry-auto_inject`. This holds the configuration for loading the files for our application, more or less like `auto_load_path` of Rails but only using ruby methods and variables `require` and `$LOAD_PATH`.
+Following is the `container.rb` and `import.rb`, which in my opinion is where all the magic happens, thanks to `dry-container` and `dry-auto_inject`. This holds the configuration for loading the files for our application, more or less like `auto_load_path` of Rails, but only using ruby methods and variables `require` and `$LOAD_PATH`.
 
 ```ruby
 require "dry/web/umbrella"
@@ -131,7 +131,7 @@ module GithubStalker
 end
 ```
 
-At first site we see some configuration for name and namespace and some `auto_register`, this will register in your container all the files inside our `lib/github_stalker` folder following the convention from the file structure, so for example
+At first sight, we see some configuration for name, namespace and some `auto_register`, this will register all the files inside our `lib/github_stalker` folder  in your container, following the convention from the file structure, so for example
 
 ```
 ├── lib
@@ -144,7 +144,7 @@ At first site we see some configuration for name and namespace and some `auto_re
             └── validate_input.rb # users.validate_input
 ```
 
-And thanks to `dry-auto_inject` all this files will be accessible. But only if we need them, making really efficient by only including what we need.
+And thanks to `dry-auto_inject`, all these files will be lazily loaded as required, making it really efficient.
 
 ```ruby
 require "github_stalker/import"
@@ -162,8 +162,8 @@ module GithubStalker
 end
 ```
 
-Well I think this post is getting too long and I don't want to take more of your time. Thank you for reading it I will keep creating more posts explaining the rest of the structure and libraries involve in `dry-rb`, lastly I really encourage all ruby developers to try the libraries from `dry-rb` they are great and bring a fresh view in the ruby world.
+Well I think this post is getting too long and I don’t want to take more of your time. Thank you for reading it. I will keep creating more posts explaining the rest of the structure and libraries involved in `dry-rb` - they are great and bring a fresh view in the ruby world.
 
-All the example were taken from an example app I built using `dry-web-roda` if you want to check the code please follow [repo](https://github.com/GustavoCaso/dry-web-roda-example)
+All the above example were taken from an example app I built using `dry-web-roda` if you want to check the code please follow this [repo](https://github.com/GustavoCaso/dry-web-roda-example)
 
 If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
