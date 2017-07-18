@@ -22,32 +22,28 @@ In my app I decided to use the `flat` option for simplicity at the beginning, bu
 
 <!-- more -->
 
-Let's start by creating our new application `$ dry-web-roda new til_web --arch=flat` it will generate the file structure.
+Let's start by creating our new application.
 
-I will focus mostly in the persistence part.
+Running the new command `$ dry-web-roda new til_web --arch=flat` - it will generate the file structure.
 
-To start we have to create our new development database, the name is extracted from the name of the project in this case `til_web_development` all the information regarding the `ENV` is located in the `.env` in the root of the project. All of the environment variables are loaded by `Dry::Web::Settings`
+Today will focus mostly in the persistence part.
 
-At the moment we only support `pg` postgres as database storage. I find super easy the [postgres app](https://postgresapp.com/) for installing and everything.
+To start we have to create our new development database; note that the name will be extracted from the name of the project (in this case `til_web_development`). All the information regarding the `ENV` is located in the `.env` in the root of the project.
 
-To create the database we can use some of the commands that postgres app install for us, `$ create_db -h localhost til_web_development` that simple.
+At the moment we only support postgres (gem pg) as database storage. If you don't have it installed I find super easy the [postgres app](https://postgresapp.com/) to lift up the burden of doing it.
 
-Let's continue with our migrations files `dry-web-roda` use [rom-rb](http://rom-rb.org/) as his ORM that allow us to have a clean separation of responsibilities and make an app that remains easy to change.
+To create the database we can use some of the commands that postgres app install for us, `$ create_db -h localhost til_web_development`.
 
-For creating the migrations file we delegate it to rom-rb - `$ bundle exec rake db:create_migration[add_author]`, will create a new file inside our `db/migrate` folder.
+Let's continue by creating some migrations files; `dry-web-roda` use [rom-rb](http://rom-rb.org/) as his ORM that allow us to have a clean separation of responsibilities and make an app that remains easy to change.
 
-Once we open the file:
+We can use the rake task provided to create a new migration file -
+`$ bundle exec rake db:create_migration[add_author]`, will create a new file inside our `db/migrate` folder.
 
-```ruby
-ROM::SQL.migration do
-  change do
-  end
-end
-```
+Rom use [sequel](https://github.com/jeremyevans/sequel) as the database migration engine.
 
- Rom use [sequel](https://github.com/jeremyevans/sequel) as the database migration engine. There is this great documentation about migrations [Sequel documentation](http://sequel.jeremyevans.net/rdoc/files/doc/schema_modification_rdoc.html)
+For any aspect related to migrations, please refer to [Sequel documentation](http://sequel.jeremyevans.net/rdoc/files/doc/schema_modification_rdoc.html)
 
- We continue by creating a table and adding some fields to it.
+We continue by creating a table and adding some fields to it.
 
 ```ruby
  ROM::SQL.migration do
@@ -64,13 +60,13 @@ end
 end
 ```
 
- Once happy with our migration we can run `$ bundle exec rake db:migrate`, it will create our new table.
+Running `$ bundle exec rake db:migrate` will create our new table.
 
- Now we are reading to start looking at the file structure of our project and create some [Relations](http://rom-rb.org/learn/sql/relations/), [Commands](http://rom-rb.org/learn/sql/commands/) and [Repositories](http://rom-rb.org/learn/repositories/quick-start/)
+Now we are going we can start creating some [Relations](http://rom-rb.org/learn/sql/relations/), [Commands](http://rom-rb.org/learn/sql/commands/) and [Repositories](http://rom-rb.org/learn/repositories/quick-start/) all of this concepts belongs to [rom-rb](http://rom-rb.org/)
 
- Inside our `lib/persistence` folder we have `relations` and `commands` folders.
+Inside our `lib/persistence` folder we have `relations` and `commands` folders.
 
- Relations are the interface to a particular collection in our data source, which in SQL terms is either a table or a view. We could think them as our models.
+Relations are the interface to a particular collection in our data source, which in SQL terms is either a table or a view. We could think them as our models.
 
 ```ruby
  module Persistence
@@ -90,9 +86,9 @@ end
 end
 ```
 
- We need to define a [schema](http://rom-rb.org/learn/core/schemas/) and some composable, reusable query methods to return filtered results from our database table `by_id` this methods will be use by our repositories.
+We need to define a [schema](http://rom-rb.org/learn/core/schemas/) and some composable, reusable query methods to return filtered results from our database table. For example `by_id(id)`.
 
- Them we create a new [Command](http://rom-rb.org/learn/advanced/commands/), inside our `commands` folder, they are use to interact with the database `Create`, `Update` and `Delete`.
+Let's continue by creating a new command.
 
 ```ruby
  module Persistence
@@ -106,9 +102,12 @@ end
 end
 ```
 
-And the last step is to create our `Repository` it works as the main interface to interact with our Database, having them been a separate object, they ensure the rest of the app doesn't have any coupling to the implementation details of our data source.
+Commands are use to write to our database, by default ROM comes with `create`, `update` and `delete`, you can create your custom ones [commands guide](http://rom-rb.org/learn/advanced/commands/).
 
-For my project I created the folder `repositories` inside the `til_web`, that would be [auto_register](http://dry-rb.org/gems/dry-system/container/) thanks to `dry-system`. We can see that in our [container.rb](https://github.com/GustavoCaso/til_web/blob/master/system/til_web/container.rb#L9)
+And finally lets create our `Repository`. Repository works as the main interface to interact with our Database.
+
+For my project I created the folder `repositories` inside the `til_web`, that would use [auto_register](http://dry-rb.org/gems/dry-system/container/) from `dry-system` to register them in my container.
+
 
 
 ```ruby
@@ -130,13 +129,13 @@ Our last step is to create some sample data so we can play with it in the `conso
 We open our `sample_data.rb` file.
 
 ```ruby
-# need the application to be booted in order to access their container.
+# need the application to be booted in order to access the container.
 require_relative '../system/boot'
 require 'faker'
 
 
 def create_til(attrs)
-  # this line is use to access the rom container, that is created at the botting process
+  # this line is use to access the rom container, that is created at the booting process
   # of the application.
   # inside the `system/boot/rom.rb`
   TilWeb::Container['persistence.rom'].commands[:tils][:create].call(attrs)
@@ -150,12 +149,13 @@ end
 end
 ```
 
-After running `$ bundle exec rake db:sample_data` we can check that everything has been created by stepping in the `console`, by typing `$ bin/console`
+To populate the database we use `$ bundle exec rake db:sample_data`.
 
-To access the repository we type `TilWeb::Conatiner['repositories.tils']` that will return an instance of `TilWeb::Repositories::Tils` with all its dependencies.
+Now accessing the `console`, by typing `$ bin/console`. Allow us to check that everything has been storage in the database.
 
-And lastly we can check that there are data in the database by writing `TilWeb::Container['repositories.tils'][1]` this is the method that we have defined above in our repository class.
+To access the repository we type `TilWeb::Conatiner['repositories.tils']` that will return an instance of `TilWeb::Repositories::Tils` with all the dependencies that it needs.
 
+And lastly we can check that there are data in the database by writing `TilWeb::Container['repositories.tils'][1]`
 ```
 > TilWeb::Container['repositories.tils'][1]
 => #<ROM::Struct::Til id=1 title="Illo qui laborum dolores." text="Illum laboriosam adipisci incidunt. Ad aliquam ratione non adipisci quia velit. Veritatis eum minus ut quod mollitia sit. Ea tenetur aliquam fugit mollitia. Rerum ratione et dignissimos a et enim necessitatibus. Animi nesciunt qui rerum voluptatem ipsum atque ad.">
@@ -167,7 +167,7 @@ I know some concepts are quite different than what we are use to work with, and 
 
 If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
 
-Also here are some extra resources.
+Also here are some extra resources, regarding rom-rb at it's benefits.
 
 * [A conversational introduction to rom-rb](https://www.icelab.com.au/notes/a-conversational-introduction-to-rom-rb)
 
