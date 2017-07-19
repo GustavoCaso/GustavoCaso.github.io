@@ -6,42 +6,51 @@ comments: true
 categories: [ruby, dry-rb, ORM, rom-rb]
 ---
 
-Following with my previous post [Dry-web-roda part 1](http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/) I decided to create my own small website for keeping track of all the things I learn through the day.
+Following with my previous post, [Dry-web-roda part 1](http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/), I have decided to create my own small website to keep track of all the things I learn throughout the day.
 
-Yes I know another Today I Learned Website 😓 - [til_web](https://github.com/GustavoCaso/til_web).
+Yes, I know, another `Today I Learned Website` 😓 - [til_web](https://github.com/GustavoCaso/til_web), but this time I started with the persistence layer and I wanted to share my experience with you.
 
-This time I started by the persistence layer and I wanted to share with you my experience.
+First of all, we will need [dry-web-roda](https://github.com/dry-rb/dry-web-roda) that will behave as our web application stack. When creating a new project with it, we have two options regarding the architecture point of view of our application: `umbrella` or `flat`.
 
-First of all we will need [dry-web-roda](https://github.com/dry-rb/dry-web-roda) to work as our web application stack,
-when creating a new project with it, we have two options regarding the architecture point of view of our application: `umbrella` or `flat`.
+**Umbrella** means that our functionality will be divided into sub-apps - for example the public site and the admin site.
 
-Umbrella means that our functionality will be divided into sub-apps for example the public site and the admin site.
-Flat is a simpler architecture, with a single module for the entire app.
+**Flat** is a simpler architecture with a single module for the entire app.
 
 In my app I decided to use the `flat` option for simplicity at the beginning, but in the future I plan to move to sub-apps.
 
 <!-- more -->
 
-Let's start by creating our new application.
+Let's start by creating our new application by running the new command:
 
-Running the new command `$ dry-web-roda new til_web --arch=flat` - it will generate the file structure.
+```
+$ dry-web-roda new til_web --arch=flat`
+```
 
-Today will focus mostly in the persistence part.
+which will generate the file structure that we will need.
 
-To start we have to create our new development database; note that the name will be extracted from the name of the project (in this case `til_web_development`). All the information regarding the `ENV` is located in the `.env` in the root of the project.
+Today, we will focus mostly on the persistence layer.
 
-At the moment we only support postgres (gem pg) as database storage. If you don't have it installed I find super easy the [postgres app](https://postgresapp.com/) to lift up the burden of doing it.
+To start we have to create our new development database; note that the name will be extracted from the name of the project (in this case `til_web_development`). All the information regarding the `ENV` is located in the `.env` file in the root of the project.
 
-To create the database we can use some of the commands that postgres app install for us, `$ create_db -h localhost til_web_development`.
+At the moment we only support PostgreSQL (gem pg) as the database storage. If you don't have it installed, I find it really easy to use the [postgres app](https://postgresapp.com/) to reduce the burden.
 
-Let's continue by creating some migrations files; `dry-web-roda` use [rom-rb](http://rom-rb.org/) as his ORM that allow us to have a clean separation of responsibilities and make an app that remains easy to change.
+To create the database we can use some of the commands that the postgres app installed for us:
 
-We can use the rake task provided to create a new migration file -
-`$ bundle exec rake db:create_migration[add_author]`, will create a new file inside our `db/migrate` folder.
+```
+$ create_db -h localhost til_web_development`
+```
 
-Rom use [sequel](https://github.com/jeremyevans/sequel) as the database migration engine.
+Let's continue by creating some migrations files to start setting up the schema of our database. `dry-web-roda` uses [rom-rb](http://rom-rb.org/) as its persistence toolkit, this allows us to have a clean separation of responsibilities and make an app that remains easy to change.
 
-For any aspect related to migrations, please refer to [Sequel documentation](http://sequel.jeremyevans.net/rdoc/files/doc/schema_modification_rdoc.html)
+We can use the rake task provided to create a new migration file:
+
+`$ bundle exec rake db:create_migration[add_author]`
+
+which will create a new file inside our `db/migrate` folder.
+
+Rom uses [sequel](https://github.com/jeremyevans/sequel) for the database migration engine.
+
+For any aspect related to migrations, please refer to the [Sequel documentation](http://sequel.jeremyevans.net/rdoc/files/doc/schema_modification_rdoc.html)
 
 We continue by creating a table and adding some fields to it.
 
@@ -62,11 +71,11 @@ end
 
 Running `$ bundle exec rake db:migrate` will create our new table.
 
-Now we are going we can start creating some [Relations](http://rom-rb.org/learn/sql/relations/), [Commands](http://rom-rb.org/learn/sql/commands/) and [Repositories](http://rom-rb.org/learn/repositories/quick-start/) all of this concepts belongs to [rom-rb](http://rom-rb.org/)
+Now that we have created a database table we can start creating some [Relations](http://rom-rb.org/learn/sql/relations/), [Commands](http://rom-rb.org/learn/sql/commands/) and [Repositories](http://rom-rb.org/learn/repositories/quick-start/) all of this concepts belongs to [rom-rb](http://rom-rb.org/).
 
 Inside our `lib/persistence` folder we have `relations` and `commands` folders.
 
-Relations are the interface to a particular collection in our data source, which in SQL terms is either a table or a view. We could think them as our models.
+Relations are the interface to a particular collection in our data source, which in SQL terms is either a table or a view. We could think of them as our models.
 
 ```ruby
  module Persistence
@@ -86,7 +95,7 @@ Relations are the interface to a particular collection in our data source, which
 end
 ```
 
-We need to define a [schema](http://rom-rb.org/learn/core/schemas/) and some composable, reusable query methods to return filtered results from our database table. For example `by_id(id)`.
+We need to define a [schema](http://rom-rb.org/learn/core/schemas/) and some composable, reusable, query methods to return filtered results from our database table. For example `by_id(id)`.
 
 Let's continue by creating a new command.
 
@@ -102,13 +111,11 @@ Let's continue by creating a new command.
 end
 ```
 
-Commands are use to write to our database, by default ROM comes with `create`, `update` and `delete`, you can create your custom ones [commands guide](http://rom-rb.org/learn/advanced/commands/).
+Commands are used to write to our database. By default ROM comes with `create`, `update` and `delete`, but you can create your custom ones by following the [commands guide](http://rom-rb.org/learn/advanced/commands/).
 
-And finally lets create our `Repository`. Repository works as the main interface to interact with our Database.
+Finally let's create our `Repository`. Repository works as the main interface to interact with our Database.
 
 For my project I created the folder `repositories` inside the `til_web`, that would use [auto_register](http://dry-rb.org/gems/dry-system/container/) from `dry-system` to register them in my container.
-
-
 
 ```ruby
 require 'til_web/repository'
@@ -126,7 +133,7 @@ end
 
 Our last step is to create some sample data so we can play with it in the `console`.
 
-We open our `sample_data.rb` file.
+We open our `sample_data.rb` file and change it to:
 
 ```ruby
 # need the application to be booted in order to access the container.
@@ -151,26 +158,27 @@ end
 
 To populate the database we use `$ bundle exec rake db:sample_data`.
 
-Now accessing the `console`, by typing `$ bin/console`. Allow us to check that everything has been storage in the database.
+Now accessing the `console`, by typing `$ bin/console` allows us to check that everything has been stored in the database.
 
-To access the repository we type `TilWeb::Conatiner['repositories.tils']` that will return an instance of `TilWeb::Repositories::Tils` with all the dependencies that it needs.
+To access the repository we type `TilWeb::Conatiner['repositories.tils']` which will return an instance of `TilWeb::Repositories::Tils` with all the dependencies that it needs.
 
-And lastly we can check that there are data in the database by writing `TilWeb::Container['repositories.tils'][1]`
+Lastly we can check that there is data in the database by writing `TilWeb::Container['repositories.tils'][1]`
+
 ```
 > TilWeb::Container['repositories.tils'][1]
 => #<ROM::Struct::Til id=1 title="Illo qui laborum dolores." text="Illum laboriosam adipisci incidunt. Ad aliquam ratione non adipisci quia velit. Veritatis eum minus ut quod mollitia sit. Ea tenetur aliquam fugit mollitia. Rerum ratione et dignissimos a et enim necessitatibus. Animi nesciunt qui rerum voluptatem ipsum atque ad.">
 ```
 
-At thats it 🎉.
+And thats it 🎉.
 
-I know some concepts are quite different than what we are use to work with, and I could keep talking about them, but the post is getting quite long. Thanks so much for reading.
+I know some concepts are quite different than what we are used to work with, and I could keep talking about them, but this post is getting quite long so I will stop here for now.
 
 If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
 
-Also here are some extra resources, regarding rom-rb at it's benefits.
+Also here are some extra resources regarding rom-rb at it's benefits.
 
 * [A conversational introduction to rom-rb](https://www.icelab.com.au/notes/a-conversational-introduction-to-rom-rb)
 
 * [Conversational rom-rb, part 2: types, associations, and update commands](https://www.icelab.com.au/notes/conversational-rom-rb-part-2-types-associations-and-update-commands)
 
-Once again Thank you for reading.
+Thank you for reading this far!
