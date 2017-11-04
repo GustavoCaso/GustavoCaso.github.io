@@ -6,6 +6,8 @@ comments: true
 categories: [ruby, functional programming]
 ---
 
+Revised by Andy Holland
+
 Lately, there has been a significant change in the industry towards functional programming, new languages have appeared: Elixir, Scala, Elm.
 
 With all this new hype I decided to give a try to some of them, and I have to say that they are really cool, but wether I like it at work I mostly use ruby. Not that I complain or anything but is exciting to be able to play with the new kid on the block.
@@ -188,3 +190,5 @@ end
 No matter what if we introduce the same input it will return the same output.
 
 Ruby allow us to have mutable state, so is up to us to change how we write our function in a way that is pure.
+
+If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
