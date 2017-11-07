@@ -14,7 +14,7 @@ With all this new hype I decided to give a try to some of them, and I have to sa
 
 After some time playing with a new functional programming languages, I have noticed that Ruby has some similarities with them.
 
-I'm not going to say that ruby is a FP language nor that Matz the creator is incorrect and that he knows nothing about his work.
+I'm not going to say that ruby is a FP language nor that Matz the creator is incorrect.
 
 To quote Matz words from an [interview](http://www.linuxdevcenter.com/pub/a/linux/2001/11/29/ruby.html) with O'Reilly.
 > I wanted a scripting language that was more powerful than Perl, and more object-oriented than Python.
@@ -73,7 +73,7 @@ How I like to think about them is as functions that can you stored in variables:
 
 ```ruby
 add = -> (x,y) { x + y }
-multiply = -> (x,y) { x + y }
+multiply = -> (x,y) { x * y }
 ```
 
 One interesting pattern is the policy pattern that allows you to have a function execute the same tasks but depending on the business logic the callbacks for success or failure can be configured:
