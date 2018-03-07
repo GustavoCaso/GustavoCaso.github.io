@@ -12,12 +12,14 @@ Grpc is an Open Source RPC framework developed by Google which uses [protocol bu
 
 So the first thing I did was visit the official site for [Grpc](https://grpc.io) and went straight to the ruby section. What I found is a tutorial that is not up to date with the code from the [repo](https://github.com/grpc/grpc) at Github, and I found a little hard to follow, so I decided to merely extract the tutorial to my repo and explaining the overview of what I learned.
 
+<!-- more -->
+
 Please, I want to make clear that the majority of the code is identical to the one in the grpc repo but I organized and rename a couple of things, so is easier to understand.
 
 The first piece in our puzzle is the definition of our Grpc service, for that we use a file with `proto` extension.
 
-If you never use protocol buffers before do not worry it may sound scary but is pretty simple the idea.
-Inside our proto file, we define the different types that we will use both for the client and the server, you can think of them as objects.
+If you never use protocol buffers before do not worry it may sound scary, but it is a pretty simple idea.
+Inside our proto file, we define the different types that we use both for the client and the server, you can think of them as objects.
 
 ```
 message Coordinate {
@@ -66,7 +68,7 @@ The client sends a stream of messages then the client waits for the server to re
 `rpc RecordRoute(stream Coordinate) returns (RouteSummary) {}`
 
 
-Last way and more complicated one, bidirectional were both sides send a read-write stream, the two stream works independently so clients and servers can read and write in whatever order they like. The order of messages in each stream is preserved.
+Last option and more complicated one, bidirectional were both sides send a read-write stream, the two stream works independently so clients and servers can read and write in whatever order they like. The order of messages in each stream is preserved.
 
 `rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}`
 
@@ -95,11 +97,11 @@ Let's explain what our server does; It has a Hash database of locations where it
 
 - So our server can receive a Coordinate (latitude and longitude) and get a Location back with the information.
 
-- It can receive a Area that is the area define between two coordinates and return a list of location within that region.
+- It can receive an Area that is defined between two coordinates and return a list of location within that region.
 
 - It can receive a stream of coordinates an calculate the route summary between this coordinates.
 
-To create the server we need first to create a `Handler` it has the same contract as we previously defined in our proto file, and we described above, so it will corresponding methods for all the `rpc` calls we have prevously defined
+To create the server we need first to create a `Handler` it has the same contract as we previously defined in our proto file, and we described above, so it has corresponding methods for all the `rpc` calls we have previously defined
 
 Thanks to the generated files we have access to some classes that help to define our `Handler`.
 So we are going to start by creating a class that extends from `RouteGuide::Service` class generated from the [proto](https://github.com/GustavoCaso/grpc_ruby_demo/tree/master/lib/grpc_demo/rpc) file.
@@ -113,7 +115,7 @@ def get_location(coordinates, _call)
 end
 ```
 
-The `DB` is the `Hash` database that we previously mentioned. So if we read the method it is quite clear what is doing, is receiving a coordinate as an argument, is looking inside the `DB` for the name of that coordinate and is returning a new `Location`. Remember that `Location` is something that we generated from the `proto` file
+The `DB` is the `Hash` database that we previously mentioned. So if we read the method it is quite clear what is doing, is receiving a coordinate as an argument, is looking inside the `DB` for the name of that coordinate and is returning a new `Location`. Remember that `Location` is something that we generated from the `proto` file.
 
 Now, let's try with the server stream example.
 The contract said that the server would receive a rectangle and it streams points back to the client.
@@ -143,9 +145,9 @@ call.each_remote_read do |point|
 end
 ```
 
-You can find the full code [here](https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/record_route.rb)
+You can find the full code [here](https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/record_route.rb).
 
-To see all the code for the [Handler](https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/handler.rb)
+Here is all the code for the [Handler](https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/handler.rb) class.
 
 #### Starting the server
 
@@ -166,7 +168,7 @@ When dealing with client code, we need to create what is called a `stub` it has 
 stub = Routeguide::RouteGuide::Stub.new("localhost:50051", :this_channel_is_insecure)
 ```
 
-Let's communicate with the server to get a feature based on a point; we need to send a `Point` to the server.
+Let's communicate with the server to get a feature based on a coordinate; we need to send a `Coordinate` to the server.
 
 ```ruby
 point = Coordinate.new(latitude:  409_146_138, longitude: -746_188_906)
@@ -193,7 +195,7 @@ responses.each do |r|
 end
 ```
 
-Lastly, lets look an example when the client sends a stream of data to the server; it works similarly as the server implementation it should send an `Enumerator` which yield each message to the server.
+Lastly, let's look an example when the client sends a stream of data to the server; it works similarly as the server implementation it should send an `Enumerator` which yield each message to the server.
 
 ```ruby
 class RandomRoute
@@ -231,6 +233,6 @@ With all of this, we just created a Grpc Server and a Client that communicate wi
 
 I have created a [repo](https://github.com/GustavoCaso/grpc_ruby_demo) with all the code so you can have a look.
 
-If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.
+If you have any thoughts or questions, please share, and I will be happy to answer in the comments.
 
 Thank you for reading I know it has been a long journey, but I hope you have learned something new today.
