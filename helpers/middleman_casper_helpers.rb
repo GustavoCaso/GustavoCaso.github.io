@@ -40,6 +40,10 @@ module MiddlemanCasperHelpers
     truncate_words(body, length: words, omission: '')
   end
 
+  def author_bio(bio)
+    markdown.render(bio)
+  end
+
   def blog_author
     OpenStruct.new(config.casper[:author])
   end
@@ -55,9 +59,11 @@ module MiddlemanCasperHelpers
   def is_tag_page?
     current_resource.metadata[:locals]['page_type'] == 'tag'
   end
+
   def tags?(article = current_article)
     article.tags.present?
   end
+
   def tags(article = current_article, separator = ', ')
     capture_haml do
       article.tags.each do |tag|
@@ -86,6 +92,7 @@ module MiddlemanCasperHelpers
     md5 = Digest::MD5.hexdigest(blog_author.gravatar_email.downcase)
     "https://www.gravatar.com/avatar/#{md5}?size=#{size}"
   end
+
   def gravatar?
     blog_author.gravatar_email.present?
   end
@@ -94,9 +101,11 @@ module MiddlemanCasperHelpers
     "https://twitter.com/intent/tweet?text=#{current_article.title}" \
       "&amp;url=#{current_article_url}"
   end
+
   def facebook_url
     "https://www.facebook.com/sharer/sharer.php?u=#{current_article_url}"
   end
+
   def google_plus_url
     "https://plus.google.com/share?url=#{current_article_url}"
   end
@@ -108,11 +117,9 @@ module MiddlemanCasperHelpers
       "#{blog.options.prefix.to_s}/feed.xml"
     end
   end
+
   def home_path
     "#{blog.options.prefix.to_s}/"
-  end
-  def author_path
-    "#{blog.options.prefix.to_s}/author/#{blog_author.name.parameterize}/"
   end
 
   def og_type
@@ -135,4 +142,8 @@ module MiddlemanCasperHelpers
     end
   end
   alias :twitter_title :og_title
+
+  def markdown
+    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, config[:markdown])
+  end
 end

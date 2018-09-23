@@ -1257,17 +1257,6 @@ body.page-template .post-title {
     text-decoration: underline;
 }
 
-/* Drop the share links in the space to the right.
-   Doing it like this means it's easier for the author bio
-   to be flexible at smaller screen sizes while the share
-   links remain at a fixed width the whole time */
-.post-footer .share {
-    position: absolute;
-    top: 3rem;
-    right: 0;
-    width: 140px;
-}
-
 .post-footer .share a {
     font-size: 1.8rem;
     display: inline-block;
