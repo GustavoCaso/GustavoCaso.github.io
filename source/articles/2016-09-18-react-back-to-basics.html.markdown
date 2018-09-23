@@ -2,7 +2,7 @@
 layout: post
 title: "React back to basics"
 date: 2016-09-18 06:57:40 +0200
-tags: [React, Javascript]
+tags: [React, JavaScript]
 ---
 
 This is not going to be another post describing [React](https://facebook.github.io/react/) and what is good or what is bad about it, I'm just learning it, and part of the learning process I decided that I will write a blog post for helping me maintain this new concepts. I will avoid many concepts, like how to create a project for importing all the libraries, I will create another post regarding that topic.
