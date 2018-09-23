@@ -21,30 +21,6 @@
       %section.post-content= yield
 
       %footer.post-footer
-        - if gravatar?
-          %figure.author-image
-            %a.img{href: author_path, style: "background-image: url(#{gravatar})"}
-              %span.hidden #{blog_author.name}'s Picture
-        %section.author
-          %h4
-            %a{href: author_path}= blog_author.name
-
-          %p
-          - if blog_author.bio.present?
-            = blog_author.bio
-          - else
-            Read
-            %a{href: author_path} more posts
-            by this author.
-
-          - if blog_author.location.present? || blog_author.website.present?
-            .author-meta
-              - if blog_author.location.present?
-                %span.author-location.icon-location= blog_author.location
-              - if blog_author.website.present?
-                %span.author-link.icon-link
-                  %a{href: blog_author.website}= blog_author.website
-
         %section.share
           %h4 Share this post
           %a.icon-twitter{href: twitter_url, onclick: "window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"}

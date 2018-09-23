@@ -2,6 +2,14 @@
 # middleman-casper configuration
 ###
 
+bio = <<~EOF
+I'm a software developer with over five years of experience with Ruby and building websites.
+
+I work at [Shopify](https://www.shopify.ca/) as a production engineer, based in Montreal.
+
+I'm passionate to open source software, I'm a core member of [dry-rb](https://dry-rb.org/), and I always keep an eye at exciting projects.
+EOF
+
 config[:casper] = {
   blog: {
     url: 'http://gustavocaso.github.io/',
@@ -13,7 +21,7 @@ config[:casper] = {
   },
   author: {
     name: 'Gustavo Caso',
-    bio: 'Software developer with more than 5 years of experience working with Ruby and Ruby on Rails',
+    bio: bio,
     location: 'Montreal', # Optional
     gravatar_email: 'gustavocaso@gmail.com',
     twitter: '_GustavoCaso'
@@ -21,6 +29,7 @@ config[:casper] = {
   navigation: {
     "Home" => "/",
     "Projects" => "/projects",
+    "About" => "/about",
   }
 }
 
@@ -67,9 +76,6 @@ tags.each do |tagname, articles|
   proxy "/tag/#{tagname.downcase.to_s.parameterize}/feed.xml", '/feed.xml',
     locals: { tagname: tagname, articles: articles[0..5] }, layout: false
 end
-
-proxy "/author/#{config.casper[:author][:name].parameterize}.html",
-  '/author.html', ignore: true
 
 # General configuration
 # Reload the browser automatically whenever files change
