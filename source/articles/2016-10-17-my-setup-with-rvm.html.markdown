@@ -2,7 +2,6 @@
 layout: post
 title: "My Setup with rvm, gemsets and bundler"
 date: 2016-10-17 20:01:03 +0200
-comments: true
 tags: [ruby, workflow, rvm]
 ---
 

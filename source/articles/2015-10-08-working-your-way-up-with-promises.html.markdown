@@ -2,7 +2,6 @@
 layout: post
 title: "Working your way up with promises"
 date: 2015-10-08 23:06:35 +0200
-comments: true
 tags: JavaScript
 ---
 

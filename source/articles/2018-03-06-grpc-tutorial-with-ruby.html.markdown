@@ -2,7 +2,6 @@
 layout: post
 title: "Grpc Tutorial with ruby"
 date: 2018-03-06 11:10:20 +0100
-comments: true
 tags: [ruby, grpc]
 ---
 

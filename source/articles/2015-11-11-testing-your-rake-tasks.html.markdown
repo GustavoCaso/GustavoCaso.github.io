@@ -2,7 +2,6 @@
 layout: post
 title: "Testing your rake tasks"
 date: 2015-11-11 08:37:44 +0100
-comments: true
 tags: [rake, ruby, rspec]
 ---
 

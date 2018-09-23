@@ -2,7 +2,6 @@
 layout: post
 title: "Decorator Pattern"
 date: 2015-02-28 09:55:59 +0100
-comments: true
 tags: [ruby, rails]
 ---
 

@@ -2,7 +2,6 @@
 layout: post
 title: "Dry-web-roda for Rails Developers Part I"
 date: 2017-05-28 20:14:45 +0200
-comments: true
 tags: [ruby, dry-rb]
 ---
 

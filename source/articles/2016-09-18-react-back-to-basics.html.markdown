@@ -2,7 +2,6 @@
 layout: post
 title: "React back to basics"
 date: 2016-09-18 06:57:40 +0200
-comments: true
 tags: [React, Javascript]
 ---
 

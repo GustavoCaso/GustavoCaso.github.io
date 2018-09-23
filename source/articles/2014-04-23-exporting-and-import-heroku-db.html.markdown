@@ -2,7 +2,6 @@
 layout: post
 title: "Exporting and Import Heroku DB"
 date: 2014-04-23 12:21:39 +0200
-comments: true
 tags: [heroku, postgresql]
 ---
 

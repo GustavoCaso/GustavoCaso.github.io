@@ -2,7 +2,6 @@
 layout: post
 title: "Integrate Disqus with Octopress"
 date: 2014-04-14 13:20:23 +0200
-comments: true
 tags: [ruby,octopress]
 ---
 
@@ -31,7 +30,7 @@ After that make sure that you allow comments in your post. Inside `source/_posts
 layout: post
 title: "File rename"
 date: 2014-04-13 18:48:47 +0200
-comments: true
+
 tags: ruby
 ---
 ```

@@ -2,7 +2,6 @@
 layout: post
 title: "Dry-web-roda for Rails Developers Part II (Persistence)"
 date: 2017-07-17 07:38:28 +0200
-comments: true
 tags: [ruby, dry-rb, ORM, rom-rb]
 ---
 

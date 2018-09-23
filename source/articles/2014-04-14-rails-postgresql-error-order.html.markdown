@@ -2,7 +2,6 @@
 layout: post
 title: "Rails Postgresql Error ORDER clause"
 date: 2014-04-14 19:10:13 +0200
-comments: true
 tags: [rails , postgresql]
 ---
 

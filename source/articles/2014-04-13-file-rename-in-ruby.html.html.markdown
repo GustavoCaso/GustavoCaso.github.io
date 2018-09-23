@@ -2,7 +2,6 @@
 layout: post
 title: "File rename in ruby"
 date: 2014-04-13 18:48:47 +0200
-comments: true
 tags: ruby
 ---
 

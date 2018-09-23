@@ -2,7 +2,6 @@
 layout: post
 title: "Set up a simple deployment system"
 date: 2014-07-30 11:04:20 +0200
-comments: true
 tags: [heroku, rails]
 ---
 

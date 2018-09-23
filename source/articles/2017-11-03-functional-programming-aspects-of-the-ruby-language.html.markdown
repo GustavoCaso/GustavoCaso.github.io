@@ -2,7 +2,6 @@
 layout: post
 title: "Functional programming aspects of the Ruby language"
 date: 2017-11-03 08:32:52 +0100
-comments: true
 tags: [ruby, functional programming]
 ---
 

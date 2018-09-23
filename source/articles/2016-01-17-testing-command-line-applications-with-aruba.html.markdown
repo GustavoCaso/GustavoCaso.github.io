@@ -2,7 +2,6 @@
 layout: post
 title: "Testing Comamnd-Line Applications with Aruba"
 date: 2016-01-17 23:08:23 +0100
-comments: true
 tags: [ruby, test]
 ---
 

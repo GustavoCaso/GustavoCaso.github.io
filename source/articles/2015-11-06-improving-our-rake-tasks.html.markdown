@@ -2,7 +2,6 @@
 layout: post
 title: "Improving our rake tasks"
 date: 2015-11-06 14:25:42 +0100
-comments: true
 tags: [ruby, rake]
 ---
 

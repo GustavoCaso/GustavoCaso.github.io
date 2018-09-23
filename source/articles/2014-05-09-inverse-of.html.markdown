@@ -2,7 +2,6 @@
 layout: post
 title: "Inverse_of ActiveRecord::Base"
 date: 2014-05-09 17:15:21 +0200
-comments: true
 tags: [Active Record, rails]
 ---
 

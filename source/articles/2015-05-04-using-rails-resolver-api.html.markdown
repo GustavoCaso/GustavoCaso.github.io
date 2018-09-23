@@ -2,7 +2,6 @@
 layout: post
 title: "Using Rails Resolver Api"
 date: 2015-05-04 23:06:26 +0200
-comments: true
 tags: rails
 ---
 

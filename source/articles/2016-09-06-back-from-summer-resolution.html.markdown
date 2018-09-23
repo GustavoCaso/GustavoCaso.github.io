@@ -2,7 +2,6 @@
 layout: post
 title: "Back from summer resolution"
 date: 2016-09-06 08:11:09 +0200
-comments: true
 tags: lifestyle
 ---
 

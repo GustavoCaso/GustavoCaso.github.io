@@ -2,7 +2,6 @@
 layout: post
 title: "Self-referential Associations"
 date: 2014-07-08 17:12:53 +0200
-comments: true
 tags: rails, ruby, associations
 ---
 

@@ -2,7 +2,6 @@
 layout: post
 title: "Delayed job and Send email with Attachements"
 date: 2014-04-21 20:21:46 +0200
-comments: true
 tags: [rails, ruby, heroku, delayed_job]
 ---
 

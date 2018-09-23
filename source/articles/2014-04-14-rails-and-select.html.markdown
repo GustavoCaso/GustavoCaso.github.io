@@ -2,7 +2,6 @@
 layout: post
 title: "Rails and select"
 date: 2014-04-14 12:10:45 +0200
-comments: true
 tags: [ruby, rails]
 ---
 

@@ -2,7 +2,6 @@
 layout: post
 title: "Enumerator::Lazy"
 date: 2014-07-03 18:47:22 +0200
-comments: true
 tags: ruby
 ---
 
