@@ -3,7 +3,6 @@ layout: post
 title: Migrating millions of Redis keys without downtime
 date: 2019-04-30 01:43 UTC
 tags: [ruby, redis]
-published: false
 ---
 
 Last year in September I joined the Job Patterns team at [Shopify](https://www.shopify.com/).
