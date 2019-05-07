@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: octopress</title>
+  <subtitle>Posts tagged with octopress</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/octopress/feed.xml" rel="self"/>
+  <updated>2014-04-14T07:20:23-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Integrate Disqus with Octopress</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/14/integrate-disqus-with-octopress-html/"/>
+    <id>http://gustavocaso.github.io/2014/04/14/integrate-disqus-with-octopress-html/</id>
+    <published>2014-04-14T07:20:23-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I’m new to &lt;a href="http://octopress.org/" rel="nofollow"&gt;Octopress&lt;/a&gt; platform for Blogging, but so far I think is great and simple.&lt;/p&gt;
+
+&lt;p&gt;Creating my first post I felt so excited, as when you discover a new treasure or a secret path in your favorite game. But everything at the beginning is not going to be smooth.
+My first problem was that my post weren’t displaying the &lt;a href="https://disqus.com/" rel="nofollow"&gt;Disqus&lt;/a&gt; comments, that are a very common system for comments in the blog community.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

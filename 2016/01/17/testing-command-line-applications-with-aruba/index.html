@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Testing Comamnd-Line Applications with Aruba</title>
+<meta content='In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don&amp;rsquo;t know what they...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Testing Comamnd-Line Applications with Aruba' property='og:title'>
+<meta content='In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don&amp;rsquo;t know what they...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/' property='og:url'>
+<meta content='2016-01-17' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Testing Comamnd-Line Applications with Aruba' name='twitter:title'>
+<meta content='In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don&amp;rsquo;t know what they...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Testing Comamnd-Line Applications with Aruba</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2016-01-17'>
+17 January 2016
+</time>
+on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/test/'>test</a>
+</section>
+</header>
+<section class='post-content'><p>In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don&rsquo;t know what they have but using them make feel more like a Hackers or someone that actually know what he is doing.</p>
+
+<p>So I decided to build one, with the help of a gem called <a href="https://github.com/erikhuda/thor" rel="nofollow">Thor</a>, which by the way is a great gem, that help you build your CLI really easy.</p>
+
+<p></p>
+
+<p><a href="http://www.codewars.com/" rel="nofollow">Codewars</a> provided a great service by letting us the programmer improve our coding skills, I decide to build a CLI to interact with it.</p>
+
+<p>Probably I will write a post in future about creating a CLI but for now I want to focus on test.</p>
+
+<p>My project is called <a href="https://github.com/GustavoCaso/codewars_cli" rel="nofollow">Codewars_Cli</a>, any one interested, is open for suggestions and pull requests.</p>
+
+<h3>Testing</h3>
+
+<p>In my day to day I use <a href="https://github.com/rspec" rel="nofollow">Rspec</a> for testing, so the idea of using <a href="https://github.com/cucumber" rel="nofollow">Cucumber</a> really strike as a chance to learn a little more about this testing framework.</p>
+
+<p>Wihch is focus on Behavior Driven Development.</p>
+
+<h3>Aruba</h3>
+
+<p>Aruba is a great extension either for Rspec and Cucumber that makes testing command-lines tools meanigful, easy and fun.
+It makes easy to manipulate the file system and the process envarioment, automatically reset state of file system.</p>
+
+<h3>Configuration</h3>
+
+<p>First inside the <code>features/support</code> folder create a <code>env.rb</code> to load <code>aruba</code> and <code>your_application</code></p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'your_library_under_test'</span>
+<span class="nb">require</span> <span class="s1">'aruba/cucumber'</span>
+</code></pre></div>
+<p>Now we are ready to start testing our application. By default <code>Aruba</code> will create a folder <code>tmp/aruba</code> where will perform its operations, you can change that in the <code>env.rb</code> with some hooks that <code>Aruba</code> provide.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Before</span> <span class="k">do</span>
+  <span class="vi">@dirs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'tmp/my_work'</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>For a list of all the available configuration <a href="http://www.rubydoc.info/github/cucumber/aruba/master/frames" rel="nofollow">README</a></p>
+
+<p>I&rsquo;m going to focus on testing my config commands. Normally this command will involve manipulating a config file store in your <code>HOME</code> folder.</p>
+
+<p>If we don&rsquo;t want our test to actually modify that file, aruba can mock our config file as well.</p>
+
+<p><code>Feature</code> test example from my small project.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Feature</span><span class="p">:</span> <span class="no">Hability</span> <span class="n">to</span> <span class="n">store</span> <span class="n">configuration</span> <span class="n">settings</span>
+  <span class="no">Background</span><span class="p">:</span>
+    <span class="no">Given</span> <span class="n">a</span> <span class="n">mocked</span> <span class="n">home</span> <span class="n">directory</span>
+  <span class="no">Scenario</span><span class="p">:</span> <span class="no">Setup</span> <span class="n">the</span> <span class="n">apikey</span>
+    <span class="no">Given</span> <span class="n">the</span> <span class="n">config</span> <span class="n">file</span> <span class="k">do</span> <span class="n">not</span> <span class="n">exists</span>
+    <span class="no">When</span> <span class="no">I</span> <span class="n">run</span> <span class="sb">`codewars config api_key test_api`</span>
+    <span class="no">Then</span> <span class="n">the</span> <span class="n">output</span> <span class="n">should</span> <span class="n">contain</span> <span class="s2">"Updating config file with api_key: test_api"</span>
+    <span class="no">And</span> <span class="n">the</span> <span class="n">config</span> <span class="n">file</span> <span class="ss">contain:
+      </span><span class="s2">"""
+      :api_key: test_api
+      :language: ''
+      :folder: ''
+      """</span>
+</code></pre></div>
+<p>As you can see is really easy with <code>aruba</code> to achieve that.</p>
+
+<p>Also I have declare some <code>step_definitions</code>:
+&ldquo;`ruby
+Given(/^the config file with:$/) do |string|
+  step &lsquo;a file &rdquo;~/.codewars.rc.yml&quot; with:&rsquo;, string
+end</p>
+
+<p>Given(/^the config file do not exists$/) do
+  step &lsquo;a file &ldquo;~/.codewars.rc.yml&rdquo; does not exist&rsquo;
+end</p>
+
+<p>Then(/^the config file contain:$/) do |string|
+  step &lsquo;the file &ldquo;~/.codewars.rc.yml&rdquo; should contain:&rsquo;, string
+end
+&ldquo;`</p>
+
+<p>To help me test. There are many more methods that <code>aruba</code> bring us like <code>cd</code> into folder, create files, delete them etc&hellip; Here is another great resource about it <a href="http://www.relishapp.com/cucumber/aruba/v/0-11-0/docs/getting-started" rel="nofollow">Getting Started</a></p>
+
+<h3>Stubbing External Services</h3>
+
+<p>In my case my application depends on an external service, so I don&rsquo;t want my test to actually make any real request, that would result in a slower test suite.</p>
+
+<p>I usually use <a href="https://github.com/bblimke/webmock" rel="nofollow">webmock</a> or <a href="https://github.com/vcr/vcr" rel="nofollow">VCR</a> to stub my requests.</p>
+
+<p>Aruba execute the command under test in a new child process, that it makes them slower and complicated to mock components. But there is a way to make the test run in the same process.</p>
+
+<p>First we have to wrap our application, and execute the wrapper instead.</p>
+
+<p>This is my <code>bin</code> file before introducing the wrapper class:
+&rdquo;`ruby
+!/usr/bin/env ruby -U</p>
+
+<p>require &lsquo;codewars_cli&rsquo;</p>
+
+<p>CodewarsCli::Cli.start(ARGV)
+&ldquo;`</p>
+
+<p>After:
+&rdquo;`ruby</p>
+
+<h1>!/usr/bin/env ruby -U</h1>
+
+<p>lib = File.expand<em>path(&lsquo;../../lib&rsquo;, _</em>FILE_<em>)
+$LOAD</em>PATH.unshift(lib) unless $LOAD_PATH.include?(lib)</p>
+
+<p>require &lsquo;codewars_cli/runner&rsquo;
+CodewarsCli::Runner.new(ARGV.dup).execute!
+&ldquo;`</p>
+
+<p><strong>CodewarsCli::Runner</strong> the wrapper class has to respond to <code>execute!</code></p>
+
+<p>Now we have to modify the the <code>env.rb</code> inside our <code>features/support</code> folder.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'codewars_cli/runner'</span>
+<span class="nb">require</span> <span class="s1">'aruba/cucumber'</span>
+<span class="nb">require</span> <span class="s1">'aruba/in_process'</span>
+
+<span class="no">Aruba</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">command_launcher</span> <span class="o">=</span> <span class="ss">:in_process</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">main_class</span> <span class="o">=</span> <span class="no">CodewarsCli</span><span class="o">::</span><span class="no">Runner</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We have added <code>aruba/in_process</code> and pass some configuration to tell <code>aruba</code> to run the test in the same process.</p>
+
+<p>Now to create our wrapper <strong>CodewarsCli::Runner</strong></p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'codewars_cli/cli'</span>
+
+<span class="k">module</span> <span class="nn">CodewarsCli</span>
+  <span class="k">class</span> <span class="nc">Runner</span>
+    <span class="c1"># Allow everything fun to be injected from the outside while defaulting to normal implementations.</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">argv</span><span class="p">,</span> <span class="n">stdin</span> <span class="o">=</span> <span class="no">STDIN</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="no">STDOUT</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="no">STDERR</span><span class="p">,</span> <span class="n">kernel</span> <span class="o">=</span> <span class="no">Kernel</span><span class="p">)</span>
+      <span class="vi">@argv</span><span class="p">,</span> <span class="vi">@stdin</span><span class="p">,</span> <span class="vi">@stdout</span><span class="p">,</span> <span class="vi">@stderr</span><span class="p">,</span> <span class="vi">@kernel</span> <span class="o">=</span> <span class="n">argv</span><span class="p">,</span> <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">kernel</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">execute!</span>
+      <span class="n">exit_code</span> <span class="o">=</span> <span class="k">begin</span>
+        <span class="c1"># Thor accesses these streams directly rather than letting them be injected, so we replace them...</span>
+        <span class="vg">$stderr</span> <span class="o">=</span> <span class="vi">@stderr</span>
+        <span class="vg">$stdin</span> <span class="o">=</span> <span class="vi">@stdin</span>
+        <span class="vg">$stdout</span> <span class="o">=</span> <span class="vi">@stdout</span>
+
+        <span class="c1"># Run our normal Thor app the way we know and love.</span>
+        <span class="no">CodewarsCli</span><span class="o">::</span><span class="no">Cli</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="vi">@argv</span><span class="p">)</span>
+
+        <span class="c1"># Thor::Base#start does not have a return value, assume success if no exception is raised.</span>
+        <span class="mi">0</span>
+      <span class="k">rescue</span> <span class="no">StandardError</span> <span class="o">=&gt;</span> <span class="n">e</span>
+        <span class="c1"># The ruby interpreter would pipe this to STDERR and exit 1 in the case of an unhandled exception</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="nf">backtrace</span>
+        <span class="vi">@stderr</span><span class="p">.</span><span class="nf">puts</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">b</span><span class="p">.</span><span class="nf">shift</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">message</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">e</span><span class="p">.</span><span class="nf">class</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+        <span class="vi">@stderr</span><span class="p">.</span><span class="nf">puts</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="s2">"</span><span class="se">\t</span><span class="s2">from </span><span class="si">#{</span><span class="n">s</span><span class="si">}</span><span class="s2">"</span><span class="p">}.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">))</span>
+        <span class="mi">1</span>
+      <span class="k">rescue</span> <span class="no">SystemExit</span> <span class="o">=&gt;</span> <span class="n">e</span>
+        <span class="n">e</span><span class="p">.</span><span class="nf">status</span>
+      <span class="k">ensure</span>
+        <span class="c1"># TODO: reset your app here, free up resources, etc.</span>
+        <span class="c1"># Examples:</span>
+        <span class="c1"># MyApp.logger.flush</span>
+        <span class="c1"># MyApp.logger.close</span>
+        <span class="c1"># MyApp.logger = nil</span>
+        <span class="c1">#</span>
+        <span class="c1"># MyApp.reset_singleton_instance_variables</span>
+
+        <span class="c1"># ...then we put the streams back.</span>
+        <span class="vg">$stderr</span> <span class="o">=</span> <span class="no">STDERR</span>
+        <span class="vg">$stdin</span> <span class="o">=</span> <span class="no">STDIN</span>
+        <span class="vg">$stdout</span> <span class="o">=</span> <span class="no">STDOUT</span>
+      <span class="k">end</span>
+
+      <span class="c1"># Proxy our exit code back to the injected kernel.</span>
+      <span class="vi">@kernel</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="n">exit_code</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Now we can use <code>VCR</code> to mock our external services.</p>
+
+<p>We can do that with hooks example.</p>
+
+<p>I have created <code>features/support/webmock.rb</code> file where I will store all my hooks.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'webmock/cucumber'</span>
+
+<span class="no">CODEWARS_BASE</span> <span class="o">=</span> <span class="s1">'https://www.codewars.com'</span>
+<span class="no">CODEWARS_API</span> <span class="o">=</span> <span class="s1">'/api/v1'</span>
+
+<span class="no">Before</span><span class="p">(</span><span class="s1">'@stub_user_response'</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">api_key</span> <span class="o">=</span> <span class="s1">'fake_api'</span>
+  <span class="n">stub_get</span><span class="p">(</span><span class="s2">"/users/GustavoCaso"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">with</span><span class="p">(</span>
+      <span class="ss">headers: </span><span class="p">{</span> <span class="no">Authorization</span><span class="p">:</span> <span class="n">api_key</span> <span class="p">}</span>
+    <span class="p">).</span><span class="nf">to_return</span><span class="p">(</span><span class="n">json_response</span> <span class="s1">'user.json'</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">stub_get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+  <span class="n">stub_request</span><span class="p">(</span><span class="ss">:get</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="no">CODEWARS_BASE</span><span class="si">}#{</span><span class="no">CODEWARS_API</span><span class="si">}#{</span><span class="n">url</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">json_response</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="ss">body: </span><span class="n">fixture</span><span class="p">(</span><span class="n">file</span><span class="p">),</span>
+    <span class="ss">status: </span><span class="n">status</span><span class="p">,</span>
+    <span class="ss">headers: </span><span class="p">{</span> <span class="ss">content_type: </span><span class="s1">'application/json; charset=utf-8'</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fixture</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">fixture_path</span><span class="p">,</span><span class="n">file</span><span class="p">))</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fixture_path</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s1">'../../fixtures'</span><span class="p">,</span> <span class="kp">__FILE__</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>And inside the features test we can use this hook.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Feature</span><span class="p">:</span> <span class="no">Display</span> <span class="n">the</span> <span class="n">user</span> <span class="n">information</span> <span class="k">in</span> <span class="n">the</span> <span class="n">terminal</span>
+  <span class="no">Background</span><span class="p">:</span>
+    <span class="no">Given</span> <span class="n">a</span> <span class="n">mocked</span> <span class="n">home</span> <span class="n">directory</span>
+    <span class="no">Given</span> <span class="n">the</span> <span class="n">config</span> <span class="n">file</span> <span class="ss">with:
+      </span><span class="s2">"""
+      :api_key: 'fake_api'
+      :language: ''
+      :folder: ''
+      """</span>
+
+  <span class="vi">@stub_user_response</span>
+  <span class="no">Scenario</span><span class="p">:</span> <span class="no">Passing</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">username</span> <span class="n">prints</span> <span class="n">a</span> <span class="n">correct</span> <span class="n">message</span>
+    <span class="no">When</span> <span class="no">I</span> <span class="n">run</span> <span class="sb">`codewars user GustavoCaso`</span>
+    <span class="no">Then</span> <span class="n">the</span> <span class="n">output</span> <span class="n">should</span> <span class="n">contain</span> <span class="s2">"Displaying information about GustavoCaso"</span>
+</code></pre></div>
+<p>This is all I have learn about <code>Aruba</code> for testing your applications, I think is a great tool, that remove us from the pain of having to create to many <code>step_definitions</code> and let us focus on testing our application. I know there is to much to learn about <code>Aruba</code> and testing in general and if you have any questions or comments about the subject please do not hesitate.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Testing Comamnd-Line Applications with Aruba&amp;amp;url=http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2015/11/11/testing-your-rake-tasks/'>
+<section class='post'>
+<h2>Testing your rake tasks</h2>
+<p>This is the second part of my previous post Improving our rake tasks. In this one we will discuss&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2016/09/06/back-from-summer-resolution/'>
+<section class='post'>
+<h2>Back from summer resolution</h2>
+<p>After a long vacation, I came with a lot of energy and new goals for the new year. So&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

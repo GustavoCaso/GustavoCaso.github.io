@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: grpc</title>
+  <subtitle>Posts tagged with grpc</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/grpc/feed.xml" rel="self"/>
+  <updated>2018-03-06T05:10:20-05:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Grpc Tutorial with ruby</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/"/>
+    <id>http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/</id>
+    <published>2018-03-06T05:10:20-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;So the other day I found an exciting project &lt;a href="http://anycable.io/" rel="nofollow"&gt;Anycable&lt;/a&gt; that allow using custom WebSocket server within your ruby application. I immediately got hooked up, and I started reading about it, and the first thing that I never heard of it was &lt;a href="https://grpc.io" rel="nofollow"&gt;Grpc&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

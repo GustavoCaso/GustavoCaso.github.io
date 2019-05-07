@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: test</title>
+  <subtitle>Posts tagged with test</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/test/feed.xml" rel="self"/>
+  <updated>2016-01-17T17:08:23-05:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Testing Comamnd-Line Applications with Aruba</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/"/>
+    <id>http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/</id>
+    <published>2016-01-17T17:08:23-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don’t know what they have but using them make feel more like a Hackers or someone that actually know what he is doing.&lt;/p&gt;
+
+&lt;p&gt;So I decided to build one, with the help of a gem called &lt;a href="https://github.com/erikhuda/thor" rel="nofollow"&gt;Thor&lt;/a&gt;, which by the way is a great gem, that help you build your CLI really easy.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

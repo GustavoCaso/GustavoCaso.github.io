@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: ORM</title>
+  <subtitle>Posts tagged with ORM</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/orm/feed.xml" rel="self"/>
+  <updated>2017-07-17T01:38:28-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Dry-web-roda for Rails Developers Part II (Persistence)</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/"/>
+    <id>http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/</id>
+    <published>2017-07-17T01:38:28-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Following with my previous post, &lt;a href="http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/" rel="nofollow"&gt;Dry-web-roda part 1&lt;/a&gt;, I have decided to create my own small website to keep track of all the things I learn throughout the day.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

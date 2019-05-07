@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Dry-web-roda for Rails Developers Part II (Persistence)</title>
+<meta content='Following with my previous post, Dry-web-roda part 1, I have decided to create my own small website to keep track of all the things I learn thro...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Dry-web-roda for Rails Developers Part II (Persistence)' property='og:title'>
+<meta content='Following with my previous post, Dry-web-roda part 1, I have decided to create my own small website to keep track of all the things I learn thro...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/' property='og:url'>
+<meta content='2017-07-17' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Dry-web-roda for Rails Developers Part II (Persistence)' name='twitter:title'>
+<meta content='Following with my previous post, Dry-web-roda part 1, I have decided to create my own small website to keep track of all the things I learn thro...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Dry-web-roda for Rails Developers Part II (Persistence)</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2017-07-17'>
+17 July 2017
+</time>
+on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/dry-rb/'>dry-rb</a>, <a href='/tag/orm/'>ORM</a>, <a href='/tag/rom-rb/'>rom-rb</a>
+</section>
+</header>
+<section class='post-content'><p>Following with my previous post, <a href="http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/" rel="nofollow">Dry-web-roda part 1</a>, I have decided to create my own small website to keep track of all the things I learn throughout the day.</p>
+
+<p></p>
+
+<p>Yes, I know, another <code>Today I Learned Website</code> 😓 - <a href="https://github.com/GustavoCaso/til_web" rel="nofollow">til_web</a>, but this time I started with the persistence layer and I wanted to share my experience with you.</p>
+
+<p>First of all, we will need <a href="https://github.com/dry-rb/dry-web-roda" rel="nofollow">dry-web-roda</a> that will behave as our web application stack. When creating a new project with it, we have two options regarding the architecture point of view of our application: <code>umbrella</code> or <code>flat</code>.</p>
+
+<p><strong>Umbrella</strong> means that our functionality will be divided into sub-apps - for example the public site and the admin site.</p>
+
+<p><strong>Flat</strong> is a simpler architecture with a single module for the entire app.</p>
+
+<p>In my app I decided to use the <code>flat</code> option for simplicity at the beginning, but in the future I plan to move to sub-apps.</p>
+
+<p>Let&rsquo;s start by creating our new application by running the new command:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ dry-web-roda new til_web --arch=flat`
+</code></pre></div>
+<p>which will generate the file structure that we will need.</p>
+
+<p>Today, we will focus mostly on the persistence layer.</p>
+
+<p>To start we have to create our new development database; note that the name will be extracted from the name of the project (in this case <code>til_web_development</code>). All the information regarding the <code>ENV</code> is located in the <code>.env</code> file in the root of the project.</p>
+
+<p>At the moment we only support PostgreSQL (gem pg) as the database storage. If you don&rsquo;t have it installed, I find it really easy to use the <a href="https://postgresapp.com/" rel="nofollow">postgres app</a> to reduce the burden.</p>
+
+<p>To create the database we can use some of the commands that the postgres app installed for us:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>$ create_db -h localhost til_web_development`
+</code></pre></div>
+<p>Let&rsquo;s continue by creating some migrations files to start setting up the schema of our database. <code>dry-web-roda</code> uses <a href="http://rom-rb.org/" rel="nofollow">rom-rb</a> as its persistence toolkit, this allows us to have a clean separation of responsibilities and make an app that remains easy to change.</p>
+
+<p>We can use the rake task provided to create a new migration file:</p>
+
+<p><code>$ bundle exec rake db:create_migration[add_author]</code></p>
+
+<p>which will create a new file inside our <code>db/migrate</code> folder.</p>
+
+<p>Rom uses <a href="https://github.com/jeremyevans/sequel" rel="nofollow">sequel</a> for the database migration engine.</p>
+
+<p>For any aspect related to migrations, please refer to the <a href="http://sequel.jeremyevans.net/rdoc/files/doc/schema_modification_rdoc.html" rel="nofollow">Sequel documentation</a></p>
+
+<p>We continue by creating a table and adding some fields to it.</p>
+<div class="highlight"><pre class="highlight ruby"><code> <span class="no">ROM</span><span class="o">::</span><span class="no">SQL</span><span class="p">.</span><span class="nf">migration</span> <span class="k">do</span>
+  <span class="n">change</span> <span class="k">do</span>
+    <span class="n">create_table</span> <span class="ss">:tils</span> <span class="k">do</span>
+      <span class="n">primary_key</span> <span class="ss">:id</span>
+
+      <span class="n">column</span> <span class="ss">:title</span><span class="p">,</span> <span class="no">String</span><span class="p">,</span> <span class="ss">null: </span><span class="kp">false</span>
+      <span class="n">column</span> <span class="ss">:text</span><span class="p">,</span> <span class="s1">'text'</span><span class="p">,</span> <span class="ss">null: </span><span class="kp">false</span>
+      <span class="n">column</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="no">DateTime</span><span class="p">,</span>  <span class="ss">null: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">default: </span><span class="no">Sequel</span><span class="o">::</span><span class="no">CURRENT_TIMESTAMP</span>
+      <span class="n">column</span> <span class="ss">:updated_at</span><span class="p">,</span> <span class="no">DateTime</span><span class="p">,</span> <span class="ss">null: </span><span class="kp">false</span><span class="p">,</span> <span class="ss">default: </span><span class="no">Sequel</span><span class="o">::</span><span class="no">CURRENT_TIMESTAMP</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Running <code>$ bundle exec rake db:migrate</code> will create our new table.</p>
+
+<p>Now that we have created a database table we can start creating some <a href="http://rom-rb.org/learn/sql/relations/" rel="nofollow">Relations</a>, <a href="http://rom-rb.org/learn/sql/commands/" rel="nofollow">Commands</a> and <a href="http://rom-rb.org/learn/repositories/quick-start/" rel="nofollow">Repositories</a> all of this concepts belongs to <a href="http://rom-rb.org/" rel="nofollow">rom-rb</a>.</p>
+
+<p>Inside our <code>lib/persistence</code> folder we have <code>relations</code> and <code>commands</code> folders.</p>
+
+<p>Relations are the interface to a particular collection in our data source, which in SQL terms is either a table or a view. We could think of them as our models.</p>
+<div class="highlight"><pre class="highlight ruby"><code> <span class="k">module</span> <span class="nn">Persistence</span>
+  <span class="k">module</span> <span class="nn">Relations</span>
+    <span class="k">class</span> <span class="nc">Tils</span> <span class="o">&lt;</span> <span class="no">ROM</span><span class="o">::</span><span class="no">Relation</span><span class="p">[</span><span class="ss">:sql</span><span class="p">]</span>
+      <span class="n">schema</span><span class="p">(</span><span class="ss">:tils</span><span class="p">)</span> <span class="k">do</span>
+        <span class="n">attribute</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Types</span><span class="o">::</span><span class="no">Serial</span>
+        <span class="n">attribute</span> <span class="ss">:title</span><span class="p">,</span> <span class="no">Types</span><span class="o">::</span><span class="no">Strict</span><span class="o">::</span><span class="no">String</span>
+        <span class="n">attribute</span> <span class="ss">:text</span><span class="p">,</span> <span class="no">Types</span><span class="o">::</span><span class="no">Strict</span><span class="o">::</span><span class="no">String</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">where</span><span class="p">(</span><span class="ss">id: </span><span class="nb">id</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We need to define a <a href="http://rom-rb.org/learn/core/schemas/" rel="nofollow">schema</a> and some composable, reusable, query methods to return filtered results from our database table. For example <code>by_id(id)</code>.</p>
+
+<p>Let&rsquo;s continue by creating a new command.</p>
+<div class="highlight"><pre class="highlight ruby"><code> <span class="k">module</span> <span class="nn">Persistence</span>
+  <span class="k">module</span> <span class="nn">Commands</span>
+    <span class="k">class</span> <span class="nc">CreateTil</span> <span class="o">&lt;</span> <span class="no">ROM</span><span class="o">::</span><span class="no">Commands</span><span class="o">::</span><span class="no">Create</span><span class="p">[</span><span class="ss">:sql</span><span class="p">]</span>
+      <span class="n">relation</span> <span class="ss">:tils</span>
+      <span class="n">register_as</span> <span class="ss">:create</span>
+      <span class="n">result</span> <span class="ss">:one</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Commands are used to write to our database. By default ROM comes with <code>create</code>, <code>update</code> and <code>delete</code>, but you can create your custom ones by following the <a href="http://rom-rb.org/learn/advanced/commands/" rel="nofollow">commands guide</a>.</p>
+
+<p>Finally let&rsquo;s create our <code>Repository</code>. Repository works as the main interface to interact with our Database.</p>
+
+<p>For my project I created the folder <code>repositories</code> inside the <code>til_web</code>, that would use <a href="http://dry-rb.org/gems/dry-system/container/" rel="nofollow">auto_register</a> from <code>dry-system</code> to register them in my container.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'til_web/repository'</span>
+
+<span class="k">module</span> <span class="nn">TilWeb</span>
+  <span class="k">module</span> <span class="nn">Repositories</span>
+    <span class="k">class</span> <span class="nc">Tils</span> <span class="o">&lt;</span> <span class="no">TilWeb</span><span class="o">::</span><span class="no">Repository</span><span class="p">[</span><span class="ss">:tils</span><span class="p">]</span>
+      <span class="k">def</span> <span class="nf">[]</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">tils</span><span class="p">.</span><span class="nf">by_id</span><span class="p">(</span><span class="nb">id</span><span class="p">).</span><span class="nf">one!</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Our last step is to create some sample data so we can play with it in the <code>console</code>.</p>
+
+<p>We open our <code>sample_data.rb</code> file and change it to:</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="c1"># need the application to be booted in order to access the container.</span>
+<span class="nb">require_relative</span> <span class="s1">'../system/boot'</span>
+<span class="nb">require</span> <span class="s1">'faker'</span>
+
+
+<span class="k">def</span> <span class="nf">create_til</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+  <span class="c1"># this line is use to access the rom container, that is created at the booting process</span>
+  <span class="c1"># of the application.</span>
+  <span class="c1"># inside the `system/boot/rom.rb`</span>
+  <span class="no">TilWeb</span><span class="o">::</span><span class="no">Container</span><span class="p">[</span><span class="s1">'persistence.rom'</span><span class="p">].</span><span class="nf">commands</span><span class="p">[</span><span class="ss">:tils</span><span class="p">][</span><span class="ss">:create</span><span class="p">].</span><span class="nf">call</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="mi">20</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="n">create_til</span><span class="p">(</span>
+    <span class="ss">title: </span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="p">.</span><span class="nf">sentence</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+    <span class="ss">text: </span><span class="no">Faker</span><span class="o">::</span><span class="no">Lorem</span><span class="p">.</span><span class="nf">paragraph</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>To populate the database we use <code>$ bundle exec rake db:sample_data</code>.</p>
+
+<p>Now accessing the <code>console</code>, by typing <code>$ bin/console</code> allows us to check that everything has been stored in the database.</p>
+
+<p>To access the repository we type <code>TilWeb::Conatiner[&#39;repositories.tils&#39;]</code> which will return an instance of <code>TilWeb::Repositories::Tils</code> with all the dependencies that it needs.</p>
+
+<p>Lastly we can check that there is data in the database by writing <code>TilWeb::Container[&#39;repositories.tils&#39;][1]</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>&gt; TilWeb::Container['repositories.tils'][1]
+=&gt; #&lt;ROM::Struct::Til id=1 title="Illo qui laborum dolores." text="Illum laboriosam adipisci incidunt. Ad aliquam ratione non adipisci quia velit. Veritatis eum minus ut quod mollitia sit. Ea tenetur aliquam fugit mollitia. Rerum ratione et dignissimos a et enim necessitatibus. Animi nesciunt qui rerum voluptatem ipsum atque ad."&gt;
+</code></pre></div>
+<p>And thats it 🎉.</p>
+
+<p>I know some concepts are quite different than what we are used to work with, and I could keep talking about them, but this post is getting quite long so I will stop here for now.</p>
+
+<p>If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.</p>
+
+<p>Also here are some extra resources regarding rom-rb at it&rsquo;s benefits.</p>
+
+<ul>
+<li><p><a href="https://www.icelab.com.au/notes/a-conversational-introduction-to-rom-rb" rel="nofollow">A conversational introduction to rom-rb</a></p></li>
+<li><p><a href="https://www.icelab.com.au/notes/conversational-rom-rb-part-2-types-associations-and-update-commands" rel="nofollow">Conversational rom-rb, part 2: types, associations, and update commands</a></p></li>
+</ul>
+
+<p>Thank you for reading this far!</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Dry-web-roda for Rails Developers Part II (Persistence)&amp;amp;url=http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2017/05/28/dry-web-roda-for-rails-developers_part_i/'>
+<section class='post'>
+<h2>Dry-web-roda for Rails Developers Part I</h2>
+<p>Revised by Piotr Solnica and Andy Holland Lately, I have been playing around and contributing to the great ecosystem&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2017/11/03/functional-programming-aspects-of-the-ruby-language/'>
+<section class='post'>
+<h2>Functional programming aspects of the Ruby language</h2>
+<p>Revised by Andy Holland Lately, there has been a significant change in the industry towards functional programming, new languages&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

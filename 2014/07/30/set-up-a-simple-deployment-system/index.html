@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Set up a simple deployment system</title>
+<meta content='Before deploy in production is always recommended to test everything first, probably you have a Test suit for test your application, but you nev...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Set up a simple deployment system' property='og:title'>
+<meta content='Before deploy in production is always recommended to test everything first, probably you have a Test suit for test your application, but you nev...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/' property='og:url'>
+<meta content='2014-07-30' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Set up a simple deployment system' name='twitter:title'>
+<meta content='Before deploy in production is always recommended to test everything first, probably you have a Test suit for test your application, but you nev...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Set up a simple deployment system</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2014-07-30'>
+30 July 2014
+</time>
+on <a href='/tag/heroku/'>heroku</a>, <a href='/tag/rails/'>rails</a>
+</section>
+</header>
+<section class='post-content'><p>Before deploy in production is always recommended to test everything first, probably you have a Test suit for test your application, but you never know want is going to happen when you deploy all changes to production.
+What people usually do is create a staging environment, that copies the production environment.</p>
+
+<p></p>
+
+<p>Basically you deploy first to staging and then test evrything, so after checking everything you may deploy to production with the confidence that everything works perfectly.
+Heroku as I said before is amazing it allow&rsquo;s us to create multiple environments, Heroku provides us with many documentation to create our environments.
+<a href="https://devcenter.heroku.com/articles/multiple-environments" rel="nofollow">Managing Multiple Environments for an App</a> This post show us how to create different environments.
+The problem is if you have an existing App is not very clear how to do it, but I shall help you do it.</p>
+
+<p>From our terminal, we must have <a href="https://toolbelt.heroku.com/" rel="nofollow">Heroku Toolbelt</a> installed, to allow us use the command line.
+Heroku has method call <a href="https://devcenter.heroku.com/articles/fork-app" rel="nofollow">fork</a> that will clone an existing app into another, you don&rsquo;t need to create app the first, heroku will create the app and clone everything into this new app.
+<code>
+$ heroku fork -a your-app-name your-app-name-staging
+$ heroku fork -a your-app-name your-app-name-staging --region eu # there the posibility to pass a region option
+</code>
+Replace <code>your-app-name</code> with the actual name of your app and <code>your-app-name-staging</code> with the name for the staging environment you want.
+This process might take some time.</p>
+
+<p>After that we must add a new remote to git so we can push to it.
+<code>
+$ git add remote staging git@heroku.com:your-app-name-staging.git
+</code>
+Now we can push to staging <code>git push staging master</code></p>
+
+<p>After that you may go a little further you can install a gem <a href="https://github.com/mattpolito/paratrooper" rel="nofollow">Paratrooper</a> that help us with the deployment task.</p>
+
+<p>The basic use of this gem is pretty simple we have to create a rake task inside our <code>lib/task</code> folder call it <code>deploy.rake</code> and place this code.
+&ldquo;`ruby
+require &lsquo;paratrooper&rsquo;</p>
+
+<p>namespace :deploy do
+  desc &quot;deploy to staging&rdquo;
+  task :staging do
+    deployment = Paratropper::Deploy.new(&lsquo;your-app-name-staging&rsquo;, tag: &lsquo;staging&rsquo;)</p>
+<div class="highlight"><pre class="highlight plaintext"><code>deployment.deploy
+</code></pre></div>
+<p>end</p>
+
+<p>desc  &ldquo;deploy to production&rdquo;
+  task :production do
+    deployment = Paratrooper::Deploy.new(&lsquo;your-app-name&rsquo;) do |deploy|
+      deploy.tag = &lsquo;production&rsquo;
+      deploy.match_tag = &lsquo;staging&rsquo;
+    end</p>
+<div class="highlight"><pre class="highlight plaintext"><code>deployment.deploy
+</code></pre></div>
+<p>end
+end
+&ldquo;`</p>
+
+<p>With this file in our app we can call the different rake tasks <code>rake deploy:staging</code> or <code>rake deploy:production</code>.</p>
+
+<p>Inside the production task is <code>deploy.match_tag = &#39;staging&#39;</code>. This signifies that we only will push to production, what has been push to staging, this way we can not skip the staging part.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Set up a simple deployment system&amp;amp;url=http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2014/07/08/self-referential-associations/'>
+<section class='post'>
+<h2>Self-referential Associations</h2>
+<p>When I first heard about this concept I was a little bit confuse. I was reading Learn rails by&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2015/02/28/decorator-pattern/'>
+<section class='post'>
+<h2>Decorator Pattern</h2>
+<p>Last night I was reading some blogs about ruby patterns, for me is sometimes difficult to understand the use&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Using Rails Resolver Api</title>
+<meta content='Implement Rails Variants in Rails 3.1 Yesterday at work we decided that we need to improve our user experience in web mobile. So we decided that...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Using Rails Resolver Api' property='og:title'>
+<meta content='Implement Rails Variants in Rails 3.1 Yesterday at work we decided that we need to improve our user experience in web mobile. So we decided that...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2015/05/04/using-rails-resolver-api/' property='og:url'>
+<meta content='2015-05-04' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Using Rails Resolver Api' name='twitter:title'>
+<meta content='Implement Rails Variants in Rails 3.1 Yesterday at work we decided that we need to improve our user experience in web mobile. So we decided that...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2015/05/04/using-rails-resolver-api/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Using Rails Resolver Api</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2015-05-04'>
+04 May 2015
+</time>
+on <a href='/tag/rails/'>rails</a>
+</section>
+</header>
+<section class='post-content'><h5>Implement Rails Variants in Rails 3.1</h5>
+
+<p>Yesterday at work we decided that we need to improve our user experience in web mobile.
+So we decided that it was time to create a different view for each action. Lately in <a href="http://guides.rubyonrails.org/" rel="nofollow">Rails 4</a> there is this really cool feature called <a href="http://guides.rubyonrails.org/4_1_release_notes.html#action-pack-variants" rel="nofollow">Variants</a>
+really neat one if you ask me.</p>
+
+<p></p>
+
+<p>Basically depending on the variant you set <code>phone || tablet</code> usually from an <code>before_action</code> inside your <code>ApplicationController</code>, rails will be smart enough to render the right layout and the right view,
+only with te condition that you add the variants to the file name <code>show.html+mobile.erb</code>.</p>
+
+<p>Ok so easy as pie. Our problem we have a complex rails 3.2 application with a lot of dependencies, that is quite difficult to upgrade to rails 4.1.</p>
+
+<p>So I decided to implement a simple but effective variation of the variants <code>#to manny variants around :)</code></p>
+
+<p>At first I was quite lost how to implement this the best way possible, well my first approach was to create a simple method <code>render_template</code> that added to every controller action will decided with template to use base on the <code>request.user_agent</code>. Of course that wasn&rsquo;t the best idea but I have to write a lot of respond_to blocks all over te application.</p>
+
+<p>One friend of mine point to right direction Rails Resolvers, also to this great book <a href="https://pragprog.com/book/jvrails2/crafting-rails-4-applications" rel="nofollow">Crafting Rails Appliactions</a>.</p>
+
+<p>So basically there some awesome tutorials for building this plugins to extend rails functionality, and a lot of information about the new Api they have.</p>
+
+<p>It&rsquo;s true that is not easy finding documentation for the internal classes around Rails like <code>ActionView::Resolver</code>.</p>
+
+<p>Ok so armed with my book and my enthusiasm I decided to give it another try.</p>
+
+<p>Basically want I had to do was create a simple class called ´MobileViewResolver´ with just two methods.
+&ldquo;`ruby
+class MobileViewresolver &lt; ::ActionView::FileSystemResolver</p>
+<div class="highlight"><pre class="highlight plaintext"><code>def initialize
+  super('app/views', ":prefix/:action{.:locale,}{.:formats,}{+:variants,}{.:handlers,}")
+end
+
+def find_templates(name, prefix, partial, details)
+  details['variants'] = ['mobile']
+  super(name, prefix, partial, details)
+end
+</code></pre></div>
+<p>end
+&rdquo;`</p>
+
+<p>The initialize method accept two parameters the path where to look for the templates and a pattern, in this case I use the one for rails 4.1 including the variants.
+The <code>find_templates</code> method receives the template name, a prefix (i.e. the controller path), a boolean marking if the template is a partial or not and a hash of details.
+We modify the details hash to include in our case our mobile variant and rails will look for that pattern inside the app/views folder. If no file is found it will fallback to the default ones.
+We only have to include in our controller  this new resolver <code>prepend_view_paths MobileViewResolver.new</code>.
+And that is all.</p>
+
+<p>We manage to add this new feature with just one simple class.</p>
+
+<p>Rails has some awesome API waiting to be use.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Using Rails Resolver Api&amp;amp;url=http://gustavocaso.github.io/2015/05/04/using-rails-resolver-api/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2015/05/04/using-rails-resolver-api/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2015/05/04/using-rails-resolver-api/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2015/02/28/decorator-pattern/'>
+<section class='post'>
+<h2>Decorator Pattern</h2>
+<p>Last night I was reading some blogs about ruby patterns, for me is sometimes difficult to understand the use&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2015/10/08/working-your-way-up-with-promises/'>
+<section class='post'>
+<h2>Working your way up with promises</h2>
+<p>Promises, what ?? I consider myself a ruby developer, not one with long time professional experience, but one with&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

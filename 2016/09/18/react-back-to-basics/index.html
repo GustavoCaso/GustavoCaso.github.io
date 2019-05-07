@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: React back to basics</title>
+<meta content='This is not going to be another post describing React and what is good or what is bad about it, I&amp;rsquo;m just learning it, and part of the lear...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='React back to basics' property='og:title'>
+<meta content='This is not going to be another post describing React and what is good or what is bad about it, I&amp;rsquo;m just learning it, and part of the lear...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2016/09/18/react-back-to-basics/' property='og:url'>
+<meta content='2016-09-18' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='React back to basics' name='twitter:title'>
+<meta content='This is not going to be another post describing React and what is good or what is bad about it, I&amp;rsquo;m just learning it, and part of the lear...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2016/09/18/react-back-to-basics/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>React back to basics</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2016-09-18'>
+18 September 2016
+</time>
+on <a href='/tag/react/'>React</a>, <a href='/tag/javascript/'>JavaScript</a>
+</section>
+</header>
+<section class='post-content'><p>This is not going to be another post describing <a href="https://facebook.github.io/react/" rel="nofollow">React</a> and what is good or what is bad about it, I&rsquo;m just learning it, and part of the learning process I decided that I will write a blog post for helping me maintain this new concepts. I will avoid many concepts, like how to create a project for importing all the libraries, I will create another post regarding that topic.</p>
+
+<p></p>
+
+<h4>Component</h4>
+
+<p>The basic idea behind a component, is that is a reusable piece of code, every component has to have a <code>render</code> function that returns the actual component, in this examples I&rsquo;ll be using <code>JSX</code>, so if you want to check it <a href="https://facebook.github.io/react/docs/jsx-in-depth.html" rel="nofollow">JSX in Depth</a>, this basically lets us write some sort of <code>html</code> inside our JavaScript file, that when compiled it will look more Reactable.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">Nav</span><span class="p">;</span>
+<span class="c1">// Input (JSX):</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Nav</span> <span class="nx">color</span><span class="o">=</span><span class="s2">"blue"</span> <span class="o">/&gt;</span><span class="p">;</span>
+<span class="c1">// Output (JS):</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="nx">Nav</span><span class="p">,</span> <span class="p">{</span><span class="na">color</span><span class="p">:</span><span class="s2">"blue"</span><span class="p">});</span>
+</code></pre></div>
+<p>Back to our <code>Component</code> lets start with a simple one:</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">class</span> <span class="nx">Example</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="k">return</span><span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span> <span class="nx">Hello</span> <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>So this is our initial component, to make use of it, we will have to tell React to render it in the DOM.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Example</span><span class="o">/&gt;</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'app'</span><span class="p">))</span>
+</code></pre></div>
+<p>So now our component has been render inside our <code>&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</code>.</p>
+
+<p>But this isn&rsquo;t really useful, we could achieve the same thing with plain html, wait there is more to it.</p>
+
+<h5>Props</h5>
+
+<p>Every component has it&rsquo;s own props, that can be access from inside the component, and that we can pass it from outside the component, just like arguments to a function. To keep the example clear I will just pass the text that I want to display inside.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Example</span> <span class="nx">text</span><span class="o">=</span><span class="s2">"Hello from the props"</span><span class="o">/&gt;</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'app'</span><span class="p">))</span>
+</code></pre></div>
+<p>To access it&rsquo;s <code>props</code> we can use <code>this.props</code> inside our component.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">class</span> <span class="nx">Example</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="k">return</span><span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">text</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ok let&rsquo;s recap, we have passed the prop <code>text</code> to our component, and to access it we use <code>this.props.text</code>, but what with the <code>{}</code>. To interpolate it&rsquo;s value inside the render function, we need to surrounded our prop with it.</p>
+
+<p>Now the component can have dynamic content display in the page. But what happen if you forget to include the text props in the component, do not worry we have <code>defaultProps</code>.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">class</span> <span class="nx">Example</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+
+<span class="nx">Example</span><span class="p">.</span><span class="nx">defaultProps</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">text</span><span class="p">:</span> <span class="s1">'Using defaults'</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This way React has our back.</p>
+
+<h5>State</h5>
+
+<p>This is another interesting concept, the state is a collection of values manage by our component. Modifying this values will trigger a new render of our component, but I will talk more in-depth about the <code>render life-cycle</code> in the next post.</p>
+
+<p>To setup the states values we have to use the <code>constructor</code> function.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">class</span> <span class="nx">Example</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Componet</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(){</span>
+    <span class="k">super</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="na">text</span><span class="p">:</span> <span class="s1">'this is from the state'</span> <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now we can use the state with <code>this.state.text</code>, but the state without the a way of modifying it is no use, so to do that we have to use <code>this.setState({})</code> this will change the state and trigger a new render of the component with the new state.</p>
+
+<p>To get something out of this we are going to build a component that will show the text of the state, but we will be able to changed when typing inside a input. We will make use of <a href="https://facebook.github.io/react/tips/dom-event-listeners.html" rel="nofollow">DOM Event Listeners in a Component</a>.</p>
+
+<p>So to make this example work, we will have to hook to an event <code>onChange</code> that will trigger a function that will update the state.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">class</span> <span class="nx">Example</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(){</span>
+    <span class="k">super</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">txt</span><span class="p">:</span> <span class="s1">'this is the state txt'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">update</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span><span class="na">txt</span><span class="p">:</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">})</span>
+  <span class="p">}</span>
+  <span class="nx">render</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text"</span>
+          <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">update</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">)}</span> <span class="sr">/</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">txt</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Example</span> <span class="o">/&gt;</span><span class="p">,</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'app'</span><span class="p">));</span>
+</code></pre></div>
+<p>This simple post is getting quite long for just explaining the basic. So will leave here a life example so you can play with.</p>
+
+<p><a class="jsbin-embed" href="http://jsbin.com/jevame/embed?html,js,output">JS Bin on jsbin.com</a><script src="http://static.jsbin.com/js/embed.min.js?3.39.18"></script></p>
+
+<p>In the next post I will get more in the <code>DOM Events</code>, the <code>state</code>, <code>render life-cycle</code> and more concepts that I will be learningthis week.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=React back to basics&amp;amp;url=http://gustavocaso.github.io/2016/09/18/react-back-to-basics/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2016/09/18/react-back-to-basics/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2016/09/18/react-back-to-basics/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2016/09/06/back-from-summer-resolution/'>
+<section class='post'>
+<h2>Back from summer resolution</h2>
+<p>After a long vacation, I came with a lot of energy and new goals for the new year. So&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2016/10/17/my-setup-with-rvm/'>
+<section class='post'>
+<h2>My Setup with rvm, gemsets and bundler</h2>
+<p>I took me some time, to figure out how to correctly setup every project I worked on, not that&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Working your way up with promises</title>
+<meta content='Promises, what ?? I consider myself a ruby developer, not one with long time professional experience, but one with a great attitude and eager to...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Working your way up with promises' property='og:title'>
+<meta content='Promises, what ?? I consider myself a ruby developer, not one with long time professional experience, but one with a great attitude and eager to...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/' property='og:url'>
+<meta content='2015-10-08' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Working your way up with promises' name='twitter:title'>
+<meta content='Promises, what ?? I consider myself a ruby developer, not one with long time professional experience, but one with a great attitude and eager to...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Working your way up with promises</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2015-10-08'>
+08 October 2015
+</time>
+on <a href='/tag/javascript/'>JavaScript</a>
+</section>
+</header>
+<section class='post-content'><h5>Promises, what ??</h5>
+
+<p>I consider myself a ruby developer, not one with long time professional experience, but one with a great attitude and eager to learn new technologies.</p>
+
+<p>Lately I have been working more with <code>JavaScript</code> at the beginning I wasn&rsquo;t really enthusiastic about the idea of working with <code>JavaScript</code> but the project itself really surprise me.</p>
+
+<p></p>
+
+<p>For starters it was built with <a href="https://facebook.github.io/react/" rel="nofollow">React</a> and <a href="http://rackt.github.io/redux/" rel="nofollow">Redux</a> for managing the state of the application.
+It has been a big change to understand how they work and wrapping my head around the concept of <a href="http://rackt.github.io/redux/docs/basics/Reducers.html" rel="nofollow">Reducers</a>, <a href="http://rackt.github.io/redux/docs/basics/Store.html" rel="nofollow">Store</a> and <a href="http://rackt.github.io/redux/docs/basics/Actions.html" rel="nofollow">Actions</a>
+but I could say is awesome working with this new technologies.</p>
+
+<p>But what really shine the most was the new API for the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" rel="nofollow">Promises</a>, for me change the way for working with asynchronous actions.</p>
+
+<p>I promise is an operation that hasn&rsquo;t complete yet, but is expected in the future.
+To work with a promise you will have to pass an executor or function and two callbacks as their arguments.</p>
+<div class="highlight"><pre class="highlight javascript"><code>  <span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">callback1</span><span class="p">,</span> <span class="nx">callback2</span><span class="p">){</span>
+    <span class="nx">executor</span> <span class="nx">body</span>
+  <span class="p">})</span>
+</code></pre></div>
+<p>For better understanding we will call the callbacks <code>resolve</code> and <code>reject</code>, those will be the actions that will take place after the body of the function or <code>executor</code>
+finish.</p>
+
+<p>Promises bring us a few methods than help us interact with them like <code>then</code>, <code>catch</code>, <code>all</code> and a few more, I&rsquo;m not an expert, but I really recommend to have a look into the documentation.
+But for the sake of the post I will say is like an ajax call with all the callback.</p>
+
+<p>With the previous example I will show a simple way of fetching a random joke from the <code>Chuck Norris Database</code>.</p>
+<div class="highlight"><pre class="highlight javascript"><code>  <span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
+    <span class="nx">client</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'http://api.icndb.com/jokes/random'</span><span class="p">)</span>
+
+    <span class="nx">client</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">){</span>
+          <span class="nx">resolve</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">response</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">reject</span><span class="p">(</span><span class="nb">Error</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">statusText</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+    <span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">()</span>
+  <span class="p">});</span>
+
+  <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">statusText</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">statusText</span><span class="p">)</span>
+  <span class="p">})</span>
+</code></pre></div>
+<p>The example is pretty simple we make an asynchronous call to get a random joke and on the <code>onload</code> function if the response is correct
+we execute the resolve callback if not we execute the reject callback.</p>
+
+<p>The <code>then</code> will wait for the get request to finish and then will execute the callback.</p>
+
+<p>There is so much power with this new <code>Promise API</code> you can actually do really impressive things.</p>
+
+<p>One of the things that request on my job was the possibility to fetch some data from the server, but the server was executing a background job, so there is no way of knowing when the job has finished.
+In this scenario we could use <code>Promises</code> to fetch data from the api doing some kind of polling until the server return an answer.</p>
+
+<p>This is example is a little more tricky, but nothing you guys can understand.
+So the main idea is to halt the execution until we get an answer from the server, you could display a spinner a loading message whatever you want.</p>
+
+<p>OK down to business.</p>
+<div class="highlight"><pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">getData</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">intervalId</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">){</span>
+    <span class="kd">function</span> <span class="nx">makeConnection</span><span class="p">(){</span>
+      <span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">()</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">'Get'</span><span class="p">,</span> <span class="s1">'http://fake_endpont.com/pai/1/info.json'</span><span class="p">)</span>
+
+      <span class="nx">client</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span> <span class="o">&amp;&amp;</span> <span class="nx">client</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">message</span> <span class="o">===</span> <span class="s1">'complete'</span><span class="p">){</span>
+          <span class="nx">clearInterval</span><span class="p">(</span><span class="nx">intervalId</span><span class="p">)</span>
+          <span class="nx">resolve</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">response</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+
+    <span class="nx">intervalId</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="nx">makeConnection</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+  <span class="p">});</span>
+
+  <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">displayData</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="nx">getData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">displayData</span><span class="p">)</span>
+
+</code></pre></div>
+<p>Thanks to a colleague at work who help me out I was able to do it and understand it, basically we call a function that returns a promise, which executor will call a function that will fetch the data from the server,
+ and will try to get the data every 10 seconds, when the data is what we want will call the resolve function finishing the promise and clear the interval.</p>
+
+<p>This code <code>getData().then(displayData)</code> will be call, but the <code>resolve</code> function will be executed when the code fulfill the condition.</p>
+
+<p>Is has been a long post, I thanks for reading and any mistake please don&rsquo;t hesitate and comment.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Working your way up with promises&amp;amp;url=http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2015/05/04/using-rails-resolver-api/'>
+<section class='post'>
+<h2>Using Rails Resolver Api</h2>
+<p>Implement Rails Variants in Rails 3.1 Yesterday at work we decided that we need to improve our user experience&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2015/11/06/improving-our-rake-tasks/'>
+<section class='post'>
+<h2>Improving our rake tasks</h2>
+<p>Lately I have been writting some rake tasks, for downloading backups, for accesing API&rsquo;s, or for automating teadious and&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

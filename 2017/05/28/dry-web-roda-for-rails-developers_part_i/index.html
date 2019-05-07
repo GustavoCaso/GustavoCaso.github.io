@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Dry-web-roda for Rails Developers Part I</title>
+<meta content='Revised by Piotr Solnica and Andy Holland Lately, I have been playing around and contributing to the great ecosystem of dry-rb, first of all, I ...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Dry-web-roda for Rails Developers Part I' property='og:title'>
+<meta content='Revised by Piotr Solnica and Andy Holland Lately, I have been playing around and contributing to the great ecosystem of dry-rb, first of all, I ...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/' property='og:url'>
+<meta content='2017-05-28' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Dry-web-roda for Rails Developers Part I' name='twitter:title'>
+<meta content='Revised by Piotr Solnica and Andy Holland Lately, I have been playing around and contributing to the great ecosystem of dry-rb, first of all, I ...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Dry-web-roda for Rails Developers Part I</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2017-05-28'>
+28 May 2017
+</time>
+on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/dry-rb/'>dry-rb</a>
+</section>
+</header>
+<section class='post-content'><p><strong>Revised by Piotr Solnica and Andy Holland</strong></p>
+
+<p>Lately, I have been playing around and contributing to the great ecosystem of <a href="http://dry-rb.org/" rel="nofollow">dry-rb</a>,
+first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.</p>
+
+<p></p>
+
+<p>First I will like to thank <a href="https://github.com/solnic" rel="nofollow">Piotr Solnica</a>, <a href="https://github.com/AMHOL" rel="nofollow">Andy Holland</a>, <a href="https://github.com/timriley" rel="nofollow">Tim Riley</a> and <a href="https://github.com/flash-gordon" rel="nofollow">Nikita Shilnikov</a> - they have been really helpful and patient with my many questions.</p>
+
+<p>Yesterday I decided to start playing around with a gem call <a href="https://github.com/dry-rb/dry-web-roda" rel="nofollow">dry-web-roda</a> this small framework aims to provide an alternative to building web apps using ruby, with the use of small libraries such as <a href="https://github.com/dry-rb/dry-view" rel="nofollow">dry-view</a>, <a href="https://github.com/dry-rb/dry-container" rel="nofollow">dry-container</a>, <a href="https://github.com/dry-rb/dry-transaction" rel="nofollow">dry-transaction</a>, <a href="https://github.com/jeremyevans/roda" rel="nofollow">roda</a>, <a href="https://github.com/rom-rb/rom" rel="nofollow">rom</a> and many more; the help you build clearer, flexible and more maintainable code.</p>
+
+<p>The post tries to create a bridge for <a href="http://rubyonrails.org/" rel="nofollow">Rails</a> Developers and encourage them to try these new alternatives, that will bring joy and fresh concepts for building web apps with ruby.</p>
+
+<p>After installing the gem we can create a sample app by typing <code>dry-web-roda new github_stalker --arch=flat</code>- this will create the file structure.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>├── bin
+├── config
+├── db
+├── lib
+│   ├── github_stalker
+│   │   └── views
+│   └── persistence
+│       ├── commands
+│       └── relations
+├── log
+├── spec
+│   └── support
+│       └── db
+├── system
+│   ├── boot
+│   └── github_stalker
+├── transactions
+└── web
+    ├── routes
+    └── templates
+        └── layouts
+</code></pre></div>
+<p>At first the structure is quite different from what we are used to in a typical Rails app, but I will try my best to explain it.</p>
+
+<p>First, the system folder is where all the configuration lives, we can think of them as our initializers, this will be the entry point of our application. There are many small libraries involved to make everything work, that I can not go into detail in just one post, I will try cover all of them in a series of posts.
+<code>
+├── system
+    ├── boot
+    │   ├── monitor.rb
+    │   ├── rom.rb
+    │   └── view.rb
+    ├── boot.rb
+    └── github_stalker
+        ├── application.rb
+        ├── container.rb
+        ├── import.rb
+        ├── repository.rb
+        ├── settings.rb
+        ├── transactions.rb
+        ├── view_context.rb
+        └── view_controller.rb
+</code>
+We will start with <code>application.rb</code>, this file contains all the configuration regarding <code>routes</code>, <code>container</code> and plugins to be use with <code>roda</code>.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"dry/web/roda/application"</span>
+<span class="nb">require_relative</span> <span class="s2">"container"</span>
+
+<span class="k">module</span> <span class="nn">GithubStalker</span>
+  <span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Dry</span><span class="o">::</span><span class="no">Web</span><span class="o">::</span><span class="no">Roda</span><span class="o">::</span><span class="no">Application</span>
+    <span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">container</span> <span class="o">=</span> <span class="no">Container</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">routes</span> <span class="o">=</span> <span class="s2">"web/routes"</span><span class="p">.</span><span class="nf">freeze</span>
+    <span class="k">end</span>
+
+    <span class="n">opts</span><span class="p">[</span><span class="ss">:root</span><span class="p">]</span> <span class="o">=</span> <span class="no">Pathname</span><span class="p">(</span><span class="kp">__FILE__</span><span class="p">).</span><span class="nf">join</span><span class="p">(</span><span class="s2">"../.."</span><span class="p">).</span><span class="nf">realpath</span><span class="p">.</span><span class="nf">dirname</span>
+
+    <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">key: </span><span class="s2">"github_stalker.session"</span><span class="p">,</span> <span class="ss">secret: </span><span class="no">GithubStalker</span><span class="o">::</span><span class="no">Container</span><span class="p">.</span><span class="nf">settings</span><span class="p">.</span><span class="nf">session_secret</span>
+
+    <span class="n">plugin</span> <span class="ss">:csrf</span><span class="p">,</span> <span class="ss">raise: </span><span class="kp">true</span>
+    <span class="n">plugin</span> <span class="ss">:flash</span>
+    <span class="n">plugin</span> <span class="ss">:dry_view</span>
+
+    <span class="n">route</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
+      <span class="n">r</span><span class="p">.</span><span class="nf">multi_route</span>
+
+      <span class="n">r</span><span class="p">.</span><span class="nf">root</span> <span class="k">do</span>
+        <span class="n">r</span><span class="p">.</span><span class="nf">view</span> <span class="s2">"welcome"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="n">load_routes!</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>What is a container? I&rsquo;m going to bring the words from the official website <code>dry-container is a simple, thread-safe container, intended to be one half of the implementation of an IoC container</code> or how I understand it a container “gives you access to the objects that make up your application”.</p>
+
+<p>Roda (the router) is a Routing Tree Web Toolkit I will not go into much detail since I&rsquo;m really new to it.</p>
+
+<p>Following is the <code>container.rb</code> and <code>import.rb</code>, which in my opinion is where all the magic happens, thanks to <code>dry-container</code> and <code>dry-auto_inject</code>. This holds the configuration for loading the files for our application, more or less like <code>auto_load_path</code> of Rails, but only using ruby methods and variables <code>require</code> and <code>$LOAD_PATH</code>.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"dry/web/umbrella"</span>
+<span class="nb">require_relative</span> <span class="s2">"settings"</span>
+
+<span class="k">module</span> <span class="nn">GithubStalker</span>
+  <span class="k">class</span> <span class="nc">Container</span> <span class="o">&lt;</span> <span class="no">Dry</span><span class="o">::</span><span class="no">Web</span><span class="o">::</span><span class="no">Umbrella</span>
+    <span class="n">configure</span> <span class="k">do</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="ss">:github_stalker</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">default_namespace</span> <span class="o">=</span> <span class="s2">"github_stalker"</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">settings_loader</span> <span class="o">=</span> <span class="no">GithubStalker</span><span class="o">::</span><span class="no">Settings</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">listeners</span> <span class="o">=</span> <span class="kp">true</span>
+
+      <span class="n">config</span><span class="p">.</span><span class="nf">auto_register</span> <span class="o">=</span> <span class="sx">%w[
+        lib/github_stalker
+      ]</span>
+    <span class="k">end</span>
+
+    <span class="n">load_paths!</span> <span class="s2">"lib"</span><span class="p">,</span> <span class="s2">"system"</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">settings</span>
+      <span class="n">config</span><span class="p">.</span><span class="nf">settings</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>At first sight, we see some configuration for name, namespace and some <code>auto_register</code>, this will register all the files inside our <code>lib/github_stalker</code> folder  in your container, following the convention from the file structure, so for example</p>
+<div class="highlight"><pre class="highlight plaintext"><code>├── lib
+    ├── github_stalker
+        ├── github
+        │   ├── client.rb # will register inside our container under the name github.client
+        │   ├── fetch_gists.rb # github.fetch_gists
+        │   └── fetch_info.rb # github.fetch_info
+        └── users
+            └── validate_input.rb # users.validate_input
+</code></pre></div>
+<p>And thanks to <code>dry-auto_inject</code>, all these files will be lazily loaded as required, making it really efficient.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"github_stalker/import"</span>
+
+<span class="k">module</span> <span class="nn">GithubStalker</span>
+  <span class="k">module</span> <span class="nn">Github</span>
+    <span class="k">class</span> <span class="nc">FetchGists</span>
+      <span class="kp">include</span> <span class="no">GithubStalker</span><span class="o">::</span><span class="no">Import</span><span class="p">[</span><span class="s1">'github.client'</span><span class="p">]</span> <span class="c1"># at the instance level we will have access to `client`</span>
+
+      <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+        <span class="n">client</span><span class="p">.</span><span class="nf">gists</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Well I think this post is getting too long and I don’t want to take more of your time. Thank you for reading it. I will keep creating more posts explaining the rest of the structure and libraries involved in <code>dry-rb</code> - they are great and bring a fresh view in the ruby world.</p>
+
+<p>All the above example were taken from an example app I built using <code>dry-web-roda</code> if you want to check the code please follow this <a href="https://github.com/GustavoCaso/dry-web-roda-example" rel="nofollow">repo</a></p>
+
+<p>If you have any thoughts or questions, please share and I’ll be happy to answer in the comments.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Dry-web-roda for Rails Developers Part I&amp;amp;url=http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2016/10/17/my-setup-with-rvm/'>
+<section class='post'>
+<h2>My Setup with rvm, gemsets and bundler</h2>
+<p>I took me some time, to figure out how to correctly setup every project I worked on, not that&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/'>
+<section class='post'>
+<h2>Dry-web-roda for Rails Developers Part II (Persistence)</h2>
+<p>Following with my previous post, Dry-web-roda part 1, I have decided to create my own small website to keep&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

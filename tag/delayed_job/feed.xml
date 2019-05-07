@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: delayed_job</title>
+  <subtitle>Posts tagged with delayed_job</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/delayed_job/feed.xml" rel="self"/>
+  <updated>2014-04-21T14:21:46-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Delayed job and Send email with Attachements</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/"/>
+    <id>http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/</id>
+    <published>2014-04-21T14:21:46-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Sending emails with rails and Heroku (Updated 2014-04-24)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Rails makes extremly easy to send emails, I’m not going to explain how to do it, there are pretty good tutorials around the internet,
+this one is really well explain: &lt;a href="http://edgeguides.rubyonrails.org/action_mailer_basics.html" rel="nofollow"&gt;Action Mailer Basics&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

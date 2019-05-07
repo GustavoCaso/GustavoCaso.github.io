@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Enumerator::Lazy</title>
+<meta content='Recently reading the some posts about ruby I found myself with this interesting method call lazy. This method will help us when looping over som...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Enumerator::Lazy' property='og:title'>
+<meta content='Recently reading the some posts about ruby I found myself with this interesting method call lazy. This method will help us when looping over som...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2014/07/03/enumerator-lazy/' property='og:url'>
+<meta content='2014-07-03' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Enumerator::Lazy' name='twitter:title'>
+<meta content='Recently reading the some posts about ruby I found myself with this interesting method call lazy. This method will help us when looping over som...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2014/07/03/enumerator-lazy/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Enumerator::Lazy</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2014-07-03'>
+03 July 2014
+</time>
+on <a href='/tag/ruby/'>ruby</a>
+</section>
+</header>
+<section class='post-content'><p>Recently reading the some posts about ruby I found myself with this interesting method call <code>lazy</code>.
+This method will help us when looping over some objects: Array, Hashes, Files &hellip;&hellip;. If you want to loop though an array that is huge, an we only want to select the first 20 element that evaluate our criteria, this is the kind of job for our <code>lazy</code> method.</p>
+
+<p></p>
+
+<h1>Without Lazy</h1>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">arr</span> <span class="o">=</span>  <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">1000</span><span class="p">).</span><span class="nf">to_a</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">arr</span><span class="p">.</span><span class="nf">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+  <span class="n">selected</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="nf">odd?</span>
+  <span class="k">break</span> <span class="k">if</span> <span class="n">selected</span><span class="p">.</span><span class="nf">size</span> <span class="o">&gt;</span> <span class="mi">20</span>
+<span class="k">end</span>
+<span class="nb">p</span> <span class="n">selected</span>
+</code></pre></div>
+<p>This looks familiar but we may use the lazy method.</p>
+
+<h1>With Lazy method</h1>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">arr</span> <span class="o">=</span>  <span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">1000</span><span class="p">).</span><span class="nf">to_a</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="n">arr</span><span class="p">.</span><span class="nf">lazy</span><span class="p">.</span><span class="nf">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+  <span class="n">x</span> <span class="k">if</span> <span class="n">x</span><span class="p">.</span><span class="nf">odd?</span>
+<span class="k">end</span><span class="p">.</span><span class="nf">take</span><span class="p">(</span><span class="mi">20</span><span class="p">).</span><span class="nf">force</span>
+<span class="nb">p</span> <span class="n">selected</span>
+</code></pre></div>
+<p>This way the syntax is more clear and is better in performance.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Enumerator::Lazy&amp;amp;url=http://gustavocaso.github.io/2014/07/03/enumerator-lazy/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2014/07/03/enumerator-lazy/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2014/07/03/enumerator-lazy/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2014/05/09/inverse-of/'>
+<section class='post'>
+<h2>Inverse_of ActiveRecord::Base</h2>
+<p>While reading the documentation of ActiveRecord::Associations, there are many useful methods, that I didn´t know about it. But one&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2014/07/08/self-referential-associations/'>
+<section class='post'>
+<h2>Self-referential Associations</h2>
+<p>When I first heard about this concept I was a little bit confuse. I was reading Learn rails by&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

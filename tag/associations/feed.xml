@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: associations</title>
+  <subtitle>Posts tagged with associations</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/associations/feed.xml" rel="self"/>
+  <updated>2014-07-08T11:12:53-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Self-referential Associations</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/07/08/self-referential-associations/"/>
+    <id>http://gustavocaso.github.io/2014/07/08/self-referential-associations/</id>
+    <published>2014-07-08T11:12:53-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;When I first heard about this concept I was a little bit confuse. I was reading &lt;a href="http://www.railstutorial.org/" rel="nofollow"&gt;Learn rails by Example&lt;/a&gt; by Michael Hart&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

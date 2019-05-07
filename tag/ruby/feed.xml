@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: ruby</title>
+  <subtitle>Posts tagged with ruby</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/ruby/feed.xml" rel="self"/>
+  <updated>2017-07-17T01:38:28-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Dry-web-roda for Rails Developers Part II (Persistence)</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/"/>
+    <id>http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/</id>
+    <published>2017-07-17T01:38:28-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Following with my previous post, &lt;a href="http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/" rel="nofollow"&gt;Dry-web-roda part 1&lt;/a&gt;, I have decided to create my own small website to keep track of all the things I learn throughout the day.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Testing Comamnd-Line Applications with Aruba</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/"/>
+    <id>http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/</id>
+    <published>2016-01-17T17:08:23-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;In the last couple of weeks I have been working, with a little project of my own. I always love Command Line Tools, I don’t know what they have but using them make feel more like a Hackers or someone that actually know what he is doing.&lt;/p&gt;
+
+&lt;p&gt;So I decided to build one, with the help of a gem called &lt;a href="https://github.com/erikhuda/thor" rel="nofollow"&gt;Thor&lt;/a&gt;, which by the way is a great gem, that help you build your CLI really easy.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Decorator Pattern</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2015/02/28/decorator-pattern/"/>
+    <id>http://gustavocaso.github.io/2015/02/28/decorator-pattern/</id>
+    <published>2015-02-28T03:55:59-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Last night I was reading some blogs about ruby patterns, for me is sometimes difficult to understand the use of this kind of patterns, mostly because in my
+work we just throw thousand of lines of code, and deal with a lot of legacy code from other person who contribute to our projects. I currently work for comparason website in Spain &lt;a href="https://www.kelisto.es" rel="nofollow"&gt;Kelisto&lt;/a&gt;
+Lately there is one projects that is architecture is strongly inheritance, so there are many classes that inherited from a parent class.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Enumerator::Lazy</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/07/03/enumerator-lazy/"/>
+    <id>http://gustavocaso.github.io/2014/07/03/enumerator-lazy/</id>
+    <published>2014-07-03T12:47:22-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Recently reading the some posts about ruby I found myself with this interesting method call &lt;code&gt;lazy&lt;/code&gt;.
+This method will help us when looping over some objects: Array, Hashes, Files ……. If you want to loop though an array that is huge, an we only want to select the first 20 element that evaluate our criteria, this is the kind of job for our &lt;code&gt;lazy&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>File rename in ruby</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/"/>
+    <id>http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/</id>
+    <published>2014-04-13T12:48:47-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;While doing some exercise of the book &lt;a href="https://pine.fm/LearnToProgram/" rel="nofollow"&gt;Learn to Program of Chris Pine&lt;/a&gt;, trying to rename some files
+as part of some exercise, that was renaming a bunch of picture from a folder, I noticed a strange functionality.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>My Setup with rvm, gemsets and bundler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/"/>
+    <id>http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/</id>
+    <published>2016-10-17T14:01:03-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

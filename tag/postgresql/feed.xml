@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: postgresql</title>
+  <subtitle>Posts tagged with postgresql</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/postgresql/feed.xml" rel="self"/>
+  <updated>2014-04-14T13:10:13-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Rails Postgresql Error ORDER clause</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/14/rails-postgresql-error-order/"/>
+    <id>http://gustavocaso.github.io/2014/04/14/rails-postgresql-error-order/</id>
+    <published>2014-04-14T13:10:13-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Postgresql ORDER clause or be used in a aggregate function&lt;/p&gt;
+
+&lt;p&gt;While working in a rails project recently, I step on an error that say: &lt;code&gt;PG::Error: ERROR:  column "number" must appear in the GROUP BY clause or be used in an aggregate function&lt;/code&gt;,
+I didn’t have any idea how to solve it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Exporting and Import Heroku DB</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/"/>
+    <id>http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/</id>
+    <published>2014-04-23T06:21:39-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Recently I was playing around with my local database in my rails project, eventually I screw up, I had to delete all the data.
+I use &lt;code&gt;rake db:reset&lt;/code&gt;and &lt;code&gt;rake db:create&lt;/code&gt; but how I was going to get all the data again, manually ? No way.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

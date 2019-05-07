@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: functional programming</title>
+  <subtitle>Posts tagged with functional programming</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/functional-programming/feed.xml" rel="self"/>
+  <updated>2017-11-03T03:32:52-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Functional programming aspects of the Ruby language</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/"/>
+    <id>http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/</id>
+    <published>2017-11-03T03:32:52-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Revised by Andy Holland&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Lately, there has been a significant change in the industry towards functional programming, new languages have appeared: Elixir, Scala, Elm.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

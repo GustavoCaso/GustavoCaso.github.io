@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: Active Record</title>
+  <subtitle>Posts tagged with Active Record</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/active-record/feed.xml" rel="self"/>
+  <updated>2014-05-09T11:15:21-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Inverse_of ActiveRecord::Base</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/05/09/inverse-of/"/>
+    <id>http://gustavocaso.github.io/2014/05/09/inverse-of/</id>
+    <published>2014-05-09T11:15:21-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;While reading the documentation of &lt;a href="http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html" rel="nofollow"&gt;ActiveRecord::Associations&lt;/a&gt;, there are many useful methods, that I didn´t know about it.
+But one came to me as quite useful, &lt;code&gt;inverse_of&lt;/code&gt;. This method allow us to work with associations that haven`t been save yet, so it will work with the memory.
+This will optimise our object loading.&lt;/p&gt;
+
+&lt;p&gt;I will so you with some example.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;Class&lt;/span&gt; &lt;span class="no"&gt;Post&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:comments&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inverse_of&lt;/span&gt; &lt;span class="ss"&gt;:post&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="no"&gt;Class&lt;/span&gt; &lt;span class="no"&gt;Comment&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:post&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inverse_of&lt;/span&gt; &lt;span class="ss"&gt;:comments&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

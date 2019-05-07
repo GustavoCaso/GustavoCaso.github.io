@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: JavaScript</title>
+  <subtitle>Posts tagged with JavaScript</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/javascript/feed.xml" rel="self"/>
+  <updated>2015-10-08T17:06:35-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Working your way up with promises</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/"/>
+    <id>http://gustavocaso.github.io/2015/10/08/working-your-way-up-with-promises/</id>
+    <published>2015-10-08T17:06:35-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;h5&gt;Promises, what ??&lt;/h5&gt;
+
+&lt;p&gt;I consider myself a ruby developer, not one with long time professional experience, but one with a great attitude and eager to learn new technologies.&lt;/p&gt;
+
+&lt;p&gt;Lately I have been working more with &lt;code&gt;JavaScript&lt;/code&gt; at the beginning I wasn’t really enthusiastic about the idea of working with &lt;code&gt;JavaScript&lt;/code&gt; but the project itself really surprise me.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>React back to basics</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/09/18/react-back-to-basics/"/>
+    <id>http://gustavocaso.github.io/2016/09/18/react-back-to-basics/</id>
+    <published>2016-09-18T00:57:40-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;This is not going to be another post describing &lt;a href="https://facebook.github.io/react/" rel="nofollow"&gt;React&lt;/a&gt; and what is good or what is bad about it, I’m just learning it, and part of the learning process I decided that I will write a blog post for helping me maintain this new concepts. I will avoid many concepts, like how to create a project for importing all the libraries, I will create another post regarding that topic.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

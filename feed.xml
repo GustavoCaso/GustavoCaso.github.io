@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso</title>
+  <subtitle>Software Developer</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/feed.xml" rel="self"/>
+  <updated>2018-09-22T20:00:00-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Summer Resolutions 2018</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/"/>
+    <id>http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/</id>
+    <published>2018-09-22T20:00:00-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;It has been a while since I blog 😥&lt;/p&gt;
+
+&lt;p&gt;A lot has happened in the last six months.&lt;/p&gt;
+
+&lt;p&gt;I started working for an English company based in London as a remote developer; I always wanted to work with a complete distributed team. The experience was great it gave...&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Grpc Tutorial with ruby</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/"/>
+    <id>http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/</id>
+    <published>2018-03-06T05:10:20-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;So the other day I found an exciting project &lt;a href="http://anycable.io/" rel="nofollow"&gt;Anycable&lt;/a&gt; that allow using custom WebSocket server within your ruby application. I immediately got hooked up, and I started reading about it, and the first thing that I never heard of it was &lt;a href="https://grpc.io" rel="nofollow"&gt;Grpc&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Functional programming aspects of the Ruby language</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/"/>
+    <id>http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/</id>
+    <published>2017-11-03T03:32:52-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Revised by Andy Holland&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Lately, there has been a significant change in the industry towards functional programming, new languages have appeared: Elixir, Scala, Elm.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Dry-web-roda for Rails Developers Part II (Persistence)</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/"/>
+    <id>http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/</id>
+    <published>2017-07-17T01:38:28-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Following with my previous post, &lt;a href="http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/" rel="nofollow"&gt;Dry-web-roda part 1&lt;/a&gt;, I have decided to create my own small website to keep track of all the things I learn throughout the day.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Dry-web-roda for Rails Developers Part I</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/"/>
+    <id>http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/</id>
+    <published>2017-05-28T14:14:45-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Revised by Piotr Solnica and Andy Holland&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Lately, I have been playing around and contributing to the great ecosystem of &lt;a href="http://dry-rb.org/" rel="nofollow"&gt;dry-rb&lt;/a&gt;,
+first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>My Setup with rvm, gemsets and bundler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/"/>
+    <id>http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/</id>
+    <published>2016-10-17T14:01:03-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: My Setup with rvm, gemsets and bundler</title>
+<meta content='I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a ...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='My Setup with rvm, gemsets and bundler' property='og:title'>
+<meta content='I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a ...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/' property='og:url'>
+<meta content='2016-10-17' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='My Setup with rvm, gemsets and bundler' name='twitter:title'>
+<meta content='I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a ...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>My Setup with rvm, gemsets and bundler</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2016-10-17'>
+17 October 2016
+</time>
+on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/workflow/'>workflow</a>, <a href='/tag/rvm/'>rvm</a>
+</section>
+</header>
+<section class='post-content'><p>I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.</p>
+
+<p></p>
+
+<h3>RVM</h3>
+
+<p>So <a href="https://rvm.io/" rel="nofollow">RVM</a> or Ruby Version Manager, allow to install different ruby version on the same machine without them collision it.</p>
+
+<p>When RVM installs a new version of ruby it will create a new folder inside the <code>~/.rvm/gems</code> folder with the name of the ruby version, that way when installing different ruby version each of them will have their own folder, each folder containing the next structure
+<code>bash
+drwxr-xr-x  11 ………  staff  374 Sep 13 23:10 .
+drwxr-xr-x  13 ………  staff  442 Oct 17 15:37 ..
+drwxr-xr-x   5 ………  staff  170 Sep 13 23:10 bin
+drwxr-xr-x   2 ………  staff   68 Sep 13 23:10 build_info
+drwxr-xr-x   4 ………  staff  136 Sep 13 23:10 cache
+drwxr-xr-x   2 ………  staff   68 Sep 13 23:10 doc
+-rw-r--r--   1 ………  staff  468 Jul 30 17:45 environment
+drwxr-xr-x   2 ………  staff   68 Sep 13 23:10 extensions
+drwxr-xr-x   4 ………  staff  136 Sep 13 23:10 gems
+drwxr-xr-x   4 ………  staff  136 Sep 13 23:10 specifications
+drwxr-xr-x  13 ………  staff  442 Sep 13 23:10 wrappers
+</code>
+When using that version of ruby, all the gems installed via <code>gem install ...</code> will be installed in the <code>gems</code> folder, that way we can have different version of the same gem in the different ruby version, in our computer.</p>
+
+<p>RVM allow to specify which ruby version are we using when <code>cd</code> inside a project, with a special file <code>.ruby-version</code>. This file will have the ruby version, you can create it manually or tell rvm to do it for you with this command
+<code>rvm --create --ruby-version ruby-2.3.3</code> this will create the <code>.ruby-version</code> file.</p>
+
+<h4> Gemsets</h4>
+
+<p>When having the same ruby version for multiple projects, could create some conflicts, because we have a different version of <code>nokogiri</code> in both projects, to avoid conflict error, we have to use <code>bundle exec ...</code> to use the version specify by the <code>Gemfile</code>.</p>
+
+<p>We can avoid this tedious extra typing by creating a different gemset for each project, and within each gemset all the gems that the project need. So every time we create a new <code>gemset</code> a new folder is added to <code>~/.rvm/gems/#{ruby-version}@#{gemset}</code> so with this we completely avoid conflicts.</p>
+
+<p>Another good thing is when finishing working on the project, we can delete all the gems from that project just by deleting the gemset completely by typing <code>rvm gemset delete #{gemset}</code></p>
+
+<p>As well as the ruby version, RVM can automatically use a gemset by specifying with the file <code>.ruby-gemset</code></p>
+
+<h2>Workflow</h2>
+
+<p>When I start on a new project, I create a ruby-version and a ruby-gemset file, and install all the gems I need for that project.</p>
+
+<p>There is a great command that will create both files for us, let&rsquo;s imagine the ruby version is 2.3.3 and the project is called test<em>rvm, so I would like to create a gemset for this project, just by typing `rvm use &ndash;create ruby-2.3.3@test</em>rvm`</p>
+
+<p>Another cool thing is that for every ruby version RVM automatically created a global gemset, which all gemsets for that ruby version will share, so before creating a new gemset for that ruby version I make sure that I have installed <code>bundler</code>.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>rvm use global
+gem install bundler
+</code></pre></div>
+<p>This way I don&rsquo;t have to install in every gemset.</p>
+
+<p>So this is my normal workflow, any idea of how to improve it, or if I&rsquo;m doing something wrong. Please just let me know.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=My Setup with rvm, gemsets and bundler&amp;amp;url=http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2016/09/18/react-back-to-basics/'>
+<section class='post'>
+<h2>React back to basics</h2>
+<p>This is not going to be another post describing React and what is good or what is bad about&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2017/05/28/dry-web-roda-for-rails-developers_part_i/'>
+<section class='post'>
+<h2>Dry-web-roda for Rails Developers Part I</h2>
+<p>Revised by Piotr Solnica and Andy Holland Lately, I have been playing around and contributing to the great ecosystem&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

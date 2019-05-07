@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Grpc Tutorial with ruby</title>
+<meta content='So the other day I found an exciting project Anycable that allow using custom WebSocket server within your ruby application. I immediately got h...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Grpc Tutorial with ruby' property='og:title'>
+<meta content='So the other day I found an exciting project Anycable that allow using custom WebSocket server within your ruby application. I immediately got h...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/' property='og:url'>
+<meta content='2018-03-06' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Grpc Tutorial with ruby' name='twitter:title'>
+<meta content='So the other day I found an exciting project Anycable that allow using custom WebSocket server within your ruby application. I immediately got h...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Grpc Tutorial with ruby</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2018-03-06'>
+06 March 2018
+</time>
+on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/grpc/'>grpc</a>
+</section>
+</header>
+<section class='post-content'><p>So the other day I found an exciting project <a href="http://anycable.io/" rel="nofollow">Anycable</a> that allow using custom WebSocket server within your ruby application. I immediately got hooked up, and I started reading about it, and the first thing that I never heard of it was <a href="https://grpc.io" rel="nofollow">Grpc</a>.</p>
+
+<p></p>
+
+<p>Grpc is an Open Source RPC framework developed by Google which uses <a href="https://developers.google.com/protocol-buffers/docs/overview" rel="nofollow">protocol buffers</a>. RPC (remote procedure call) the idea is that we can call a method on a server as we were calling a local object.</p>
+
+<p>So the first thing I did was visit the official site for <a href="https://grpc.io" rel="nofollow">Grpc</a> and went straight to the ruby section. What I found is a tutorial that is not up to date with the code from the <a href="https://github.com/grpc/grpc" rel="nofollow">repo</a> at Github, and I found a little hard to follow, so I decided to merely extract the tutorial to my repo and explaining the overview of what I learned.</p>
+
+<p>Please, I want to make clear that the majority of the code is identical to the one in the grpc repo but I organized and rename a couple of things, so is easier to understand.</p>
+
+<p>The first piece in our puzzle is the definition of our Grpc service, for that we use a file with <code>proto</code> extension.</p>
+
+<p>If you never use protocol buffers before do not worry it may sound scary, but it is a pretty simple idea.
+Inside our proto file, we define the different types that we use both for the client and the server, you can think of them as objects.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>message Coordinate {
+  int32 latitude = 1;
+  int32 longitude = 2;
+}
+</code></pre></div>
+<p>You can even use already defined types inside other types.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>message Area {
+  Coordinate lo = 1;
+  Coordinate hi = 2;
+}
+</code></pre></div>
+<p>There are are many more features in <a href="https://developers.google.com/protocol-buffers/docs/proto3" rel="nofollow">protocol buffers</a>, but I am not going cover them here.</p>
+
+<p>Now that we have our basic types defined we are going to create our service; you can think of it as our API on our server.</p>
+
+<p>We need to define a service and declare the different methods that the clients can call.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>service RouteGuide { # this will the name of our service
+}
+</code></pre></div>
+<p>Inside our service, we define the different <code>rpc</code> calls.</p>
+
+<p>There are 4 ways a client can communicate with the server:</p>
+
+<p>The client sends a request, and the server sends a response, this is the simplest one.</p>
+
+<p><code>rpc GetLocation(Coordinate) returns (Location) {}</code></p>
+
+<p>The client sends a request, and the server sends a stream of messages back, then the client reads them.</p>
+
+<p><code>rpc ListLocations(Area) returns (stream Location) {}</code></p>
+
+<p>The client sends a stream of messages then the client waits for the server to read them all and send a response.</p>
+
+<p><code>rpc RecordRoute(stream Coordinate) returns (RouteSummary) {}</code></p>
+
+<p>Last option and more complicated one, bidirectional were both sides send a read-write stream, the two stream works independently so clients and servers can read and write in whatever order they like. The order of messages in each stream is preserved.</p>
+
+<p><code>rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}</code></p>
+
+<p>That is all that we need to know. Here is the complete <a href="https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/protos/route_guide.proto" rel="nofollow">file</a></p>
+
+<p>Now we are going to start working on the Ruby implementation of the server and the client.</p>
+
+<p>We need these dependencies to read our <code>proto</code> file and transform into something our ruby code could understand</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">gem</span> <span class="n">install</span> <span class="s2">"grpc"</span>
+<span class="n">gem</span> <span class="n">install</span> <span class="s2">"grpc-tools"</span>
+</code></pre></div>
+<p>Thanks to <code>grpc-tools</code> we can use a command to transform our <code>proto</code> file into a <code>ruby</code> file.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>bundle exec grpc_tools_ruby_protoc
+</code></pre></div>
+<p>That creates <a href="https://github.com/GustavoCaso/grpc_ruby_demo/tree/master/lib/grpc_demo/rpc" rel="nofollow">files</a> with all the objects that we need to work.</p>
+
+<h3>Creating the server</h3>
+
+<p>Let&rsquo;s explain what our server does; It has a Hash database of locations where it stores the latitude and longitude as keys, and the value is the name of that location.</p>
+
+<ul>
+<li><p>So our server can receive a Coordinate (latitude and longitude) and get a Location back with the information.</p></li>
+<li><p>It can receive an Area that is defined between two coordinates and return a list of location within that region.</p></li>
+<li><p>It can receive a stream of coordinates an calculate the route summary between this coordinates.</p></li>
+</ul>
+
+<p>To create the server we need first to create a <code>Handler</code> it has the same contract as we previously defined in our proto file, and we described above, so it has corresponding methods for all the <code>rpc</code> calls we have previously defined</p>
+
+<p>Thanks to the generated files we have access to some classes that help to define our <code>Handler</code>.
+So we are going to start by creating a class that extends from <code>RouteGuide::Service</code> class generated from the <a href="https://github.com/GustavoCaso/grpc_ruby_demo/tree/master/lib/grpc_demo/rpc" rel="nofollow">proto</a> file.</p>
+
+<p>Let&rsquo;s implement the <code>GetLocation</code> contract.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">get_location</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">_call</span><span class="p">)</span>
+  <span class="nb">name</span> <span class="o">=</span> <span class="no">DB</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="ss">longitude: </span><span class="n">coordinates</span><span class="p">.</span><span class="nf">longitude</span><span class="p">,</span> <span class="ss">latitude: </span><span class="n">coordinates</span><span class="p">.</span><span class="nf">latitude</span><span class="p">)</span> <span class="o">||</span> <span class="s1">''</span>
+  <span class="no">Location</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">coordinates: </span><span class="n">coordinates</span><span class="p">,</span> <span class="ss">name: </span><span class="nb">name</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>The <code>DB</code> is the <code>Hash</code> database that we previously mentioned. So if we read the method it is quite clear what is doing, is receiving a coordinate as an argument, is looking inside the <code>DB</code> for the name of that coordinate and is returning a new <code>Location</code>. Remember that <code>Location</code> is something that we generated from the <code>proto</code> file.</p>
+
+<p>Now, let&rsquo;s try with the server stream example.
+The contract said that the server would receive a rectangle and it streams points back to the client.
+To achieve this, we need to return an <a href="https://ruby-doc.org//core-2.2.0/Enumerator.html" rel="nofollow">Enumerator</a> that yields our points to the client</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">list_locations</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">_call</span><span class="p">)</span>
+  <span class="no">Locations</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">area</span><span class="p">).</span><span class="nf">each</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>The logic for yielding points is encapsulated inside the <code>Locations</code> you can see the full code <a href="https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/locations.rb" rel="nofollow">here</a></p>
+
+<p>Let&rsquo;s see the example when the client sends a stream of points to the server. When the server receives a stream, it gets an <a href="https://ruby-doc.org//core-2.2.0/Enumerator.html" rel="nofollow">Enumerator</a> where it reads all the data.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">def</span> <span class="nf">record_route</span><span class="p">(</span><span class="n">call</span><span class="p">)</span>
+  <span class="no">RecordRoute</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">call</span><span class="p">).</span><span class="nf">call</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>On the <code>call</code> object from the arguments, we can use the method <code>each_remote_yield</code> that yield each message sent from the client.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">call</span><span class="p">.</span><span class="nf">each_remote_read</span> <span class="k">do</span> <span class="o">|</span><span class="n">point</span><span class="o">|</span>
+  <span class="c1"># logic inside</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>You can find the full code <a href="https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/record_route.rb" rel="nofollow">here</a>.</p>
+
+<p>Here is all the code for the <a href="https://github.com/GustavoCaso/grpc_ruby_demo/blob/master/lib/grpc_demo/server/handler.rb" rel="nofollow">Handler</a> class.</p>
+
+<h4>Starting the server</h4>
+
+<p>That is the painless part once we have all the logic for the Handler, we just need to create a new instance of <code>GRPC::RpcServer</code>, and we have our server running waiting for clients to send data to it.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">server</span> <span class="o">=</span> <span class="no">GRPC</span><span class="o">::</span><span class="no">RpcServer</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">server</span><span class="p">.</span><span class="nf">add_http2_port</span><span class="p">(</span><span class="s2">"0.0.0.0:50051"</span><span class="p">,</span> <span class="ss">:this_port_is_insecure</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="nf">handle</span><span class="p">(</span><span class="no">Handler</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+<span class="n">server</span><span class="p">.</span><span class="nf">run_till_terminated</span>
+</code></pre></div>
+<h3>Creating the client</h3>
+
+<p>When dealing with client code, we need to create what is called a <code>stub</code> it has all the method that we have defined in our service <code>route_guide</code> such as <code>get_location</code>, <code>list_locations</code>, <code>record_route</code>, basically is the way we communicate with the server.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">stub</span> <span class="o">=</span> <span class="no">Routeguide</span><span class="o">::</span><span class="no">RouteGuide</span><span class="o">::</span><span class="no">Stub</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"localhost:50051"</span><span class="p">,</span> <span class="ss">:this_channel_is_insecure</span><span class="p">)</span>
+</code></pre></div>
+<p>Let&rsquo;s communicate with the server to get a feature based on a coordinate; we need to send a <code>Coordinate</code> to the server.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">point</span> <span class="o">=</span> <span class="no">Coordinate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">latitude:  </span><span class="mi">409_146_138</span><span class="p">,</span> <span class="ss">longitude: </span><span class="o">-</span><span class="mi">746_188_906</span><span class="p">)</span>
+</code></pre></div>
+<p>With that, we can call <code>get_location</code> passing the coordinate and expect to have a response from the server.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">response</span> <span class="o">=</span> <span class="n">stub</span><span class="p">.</span><span class="nf">get_location</span><span class="p">(</span><span class="n">coordinate</span><span class="p">)</span>
+<span class="n">response</span><span class="p">.</span><span class="nf">name</span> <span class="c1"># =&gt; 'Berkshire Valley Management Area Trail, Jefferson, NJ, USA'</span>
+<span class="n">response</span><span class="p">.</span><span class="nf">coordinates</span> <span class="c1"># =&gt; &lt;Routeguide::Coordinate: latitude: 409146138, longitude: -746188906&gt;</span>
+</code></pre></div>
+<p>Let&rsquo;s look at an example where the server returns as a stream of data. The server returns an <code>Enumerator</code>, and we can loop over it reading the multiple responses, it feels like executing a <code>method</code> from a local object.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="n">rectangle</span> <span class="o">=</span> <span class="no">Area</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">lo: </span><span class="no">Coordinate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">latitude: </span><span class="mi">400_000_000</span><span class="p">,</span> <span class="ss">longitude: </span><span class="o">-</span><span class="mi">750_000_000</span><span class="p">),</span>
+  <span class="ss">hi: </span><span class="no">Coordinate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">latitude: </span><span class="mi">420_000_000</span><span class="p">,</span> <span class="ss">longitude: </span><span class="o">-</span><span class="mi">730_000_000</span><span class="p">))</span>
+
+<span class="n">responses</span> <span class="o">=</span> <span class="n">stub</span><span class="p">.</span><span class="nf">list_locations</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+<span class="n">responses</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"- found '</span><span class="si">#{</span><span class="n">r</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="s2">' at </span><span class="si">#{</span><span class="n">r</span><span class="p">.</span><span class="nf">coordinates</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Lastly, let&rsquo;s look an example when the client sends a stream of data to the server; it works similarly as the server implementation it should send an <code>Enumerator</code> which yield each message to the server.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">RandomRoute</span>
+  <span class="nb">attr_reader</span> <span class="ss">:size</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="vi">@size</span> <span class="o">=</span> <span class="n">size</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">each</span>
+    <span class="k">return</span> <span class="n">enum_for</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">unless</span> <span class="nb">block_given?</span>
+    <span class="n">size</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+      <span class="n">feature</span> <span class="o">=</span> <span class="no">DB</span><span class="p">.</span><span class="nf">rand</span>
+      <span class="n">point</span> <span class="o">=</span> <span class="n">create_point</span><span class="p">(</span><span class="n">feature</span><span class="p">[</span><span class="ss">:location</span><span class="p">])</span>
+      <span class="k">yield</span> <span class="n">point</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">create_point</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+    <span class="no">Routeguide</span><span class="o">::</span><span class="no">Coordinate</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Hash</span><span class="p">[</span><span class="n">location</span><span class="p">.</span><span class="nf">each_pair</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span> <span class="p">[</span><span class="n">k</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">,</span> <span class="n">v</span><span class="p">]</span> <span class="p">}])</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">points_on_route</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># arbitrary</span>
+<span class="n">request</span> <span class="o">=</span> <span class="no">RandomRoute</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">points_on_route</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">stub</span><span class="p">.</span><span class="nf">record_route</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="nf">each</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="s2">"summary: </span><span class="si">#{</span><span class="n">response</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>Our class <code>RandomRoute</code> encapsulate the logic for creating an <code>Enumerator</code> using the Kernel method <code>enum_for</code> there is an excellent <a href="https://blog.arkency.com/2014/01/ruby-to-enum-for-enumerator/" rel="nofollow">article</a> that explain it more in depth.</p>
+
+<p>With all of this, we just created a Grpc Server and a Client that communicate with each other.</p>
+
+<p>I have created a <a href="https://github.com/GustavoCaso/grpc_ruby_demo" rel="nofollow">repo</a> with all the code so you can have a look.</p>
+
+<p>If you have any thoughts or questions, please share, and I will be happy to answer in the comments.</p>
+
+<p>Thank you for reading I know it has been a long journey, but I hope you have learned something new today.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Grpc Tutorial with ruby&amp;amp;url=http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2017/11/03/functional-programming-aspects-of-the-ruby-language/'>
+<section class='post'>
+<h2>Functional programming aspects of the Ruby language</h2>
+<p>Revised by Andy Holland Lately, there has been a significant change in the industry towards functional programming, new languages&hellip;</p>
+</section>
+</a>
+<a class='no-cover prev read-next-story' href='/2018/09/23/summer-resolutions_2018/'>
+<section class='post'>
+<h2>Summer Resolutions 2018</h2>
+<p>It has been a while since I blog 😥 A lot has happened in the last six months. I&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

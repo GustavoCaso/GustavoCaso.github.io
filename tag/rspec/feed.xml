@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: rspec</title>
+  <subtitle>Posts tagged with rspec</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/rspec/feed.xml" rel="self"/>
+  <updated>2015-11-11T02:37:44-05:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Testing your rake tasks</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2015/11/11/testing-your-rake-tasks/"/>
+    <id>http://gustavocaso.github.io/2015/11/11/testing-your-rake-tasks/</id>
+    <published>2015-11-11T02:37:44-05:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;This is the second part of my previous post &lt;a href="http://gustavocaso.github.io/2015/11/improving-our-rake-tasks/" rel="nofollow"&gt;Improving our rake tasks&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this one we will discuss a way for testing our &lt;code&gt;rake&lt;/code&gt; task, the example will be very straight forward.
+We will invoke the &lt;code&gt;rake&lt;/code&gt; task and expect that some class &lt;code&gt;receive&lt;/code&gt; the correct arguments.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

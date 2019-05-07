@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: lifestyle</title>
+  <subtitle>Posts tagged with lifestyle</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/lifestyle/feed.xml" rel="self"/>
+  <updated>2016-09-06T02:11:09-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Back from summer resolution</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/09/06/back-from-summer-resolution/"/>
+    <id>http://gustavocaso.github.io/2016/09/06/back-from-summer-resolution/</id>
+    <published>2016-09-06T02:11:09-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;After a long vacation, I came with a lot of energy and new goals for the new year.&lt;/p&gt;
+
+&lt;p&gt;So I decided that I’m going to start making things right, been a developer is not always easy, you have to continuosly update your knowledge and keep practicing even...&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Summer Resolutions 2018</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/"/>
+    <id>http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/</id>
+    <published>2018-09-22T20:00:00-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;It has been a while since I blog 😥&lt;/p&gt;
+
+&lt;p&gt;A lot has happened in the last six months.&lt;/p&gt;
+
+&lt;p&gt;I started working for an English company based in London as a remote developer; I always wanted to work with a complete distributed team. The experience was great it gave...&lt;/p&gt;</summary>
+  </entry>
+</feed>

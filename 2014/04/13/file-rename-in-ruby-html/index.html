@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: File rename in ruby</title>
+<meta content='While doing some exercise of the book Learn to Program of Chris Pine, trying to rename some files as part of some exercise, that was renaming a ...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='File rename in ruby' property='og:title'>
+<meta content='While doing some exercise of the book Learn to Program of Chris Pine, trying to rename some files as part of some exercise, that was renaming a ...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/' property='og:url'>
+<meta content='2014-04-13' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='File rename in ruby' name='twitter:title'>
+<meta content='While doing some exercise of the book Learn to Program of Chris Pine, trying to rename some files as part of some exercise, that was renaming a ...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>File rename in ruby</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2014-04-13'>
+13 April 2014
+</time>
+on <a href='/tag/ruby/'>ruby</a>
+</section>
+</header>
+<section class='post-content'><p>While doing some exercise of the book <a href="https://pine.fm/LearnToProgram/" rel="nofollow">Learn to Program of Chris Pine</a>, trying to rename some files
+as part of some exercise, that was renaming a bunch of picture from a folder, I noticed a strange functionality.</p>
+
+<p></p>
+
+<p>Using the method <code>File.rename(old_name, new_name)</code> and after running my program it seems that the file haven&rsquo;t been rename instead it has been deleted, but that&rsquo;s not what happen.
+What ruby was doing is renaming and moving the file to my printing working directory.
+What really solve it was giving an absolute path to the method.</p>
+
+<p><code>File.rename(old_name, &quot;/Users/gus/Desktop/myImages/new_name&quot;)</code></p>
+
+<p>And I thought that was some tedious work, I look up in <a href="http://www.ruby-doc.org/" rel="nofollow">Ruby doc </a> and found that <code>ruby</code> is smart enough to provide with a method.
+<code>File.join(Dir.pwd, &quot;new_name&quot;)</code> this method will concatenate every string we pass it, providing the path to our file.</p>
+
+<p>This is my final code for the exercise.</p>
+<div class="highlight"><pre class="highlight ruby"><code><span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span>  <span class="s2">"../../Desktop/Images"</span>
+<span class="n">pictures</span> <span class="o">=</span> <span class="no">Dir</span><span class="p">[</span><span class="s1">'*.{jpg,jpeg}'</span><span class="p">]</span>
+
+<span class="n">pictures</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">picture</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">"The </span><span class="si">#{</span><span class="n">picture</span><span class="si">}</span><span class="s2"> is inside the folder what do you want to do: 1) rename, 2) delete, 3) nothing"</span>
+  <span class="n">answer</span> <span class="o">=</span> <span class="nb">gets</span><span class="p">.</span><span class="nf">chomp</span><span class="p">.</span><span class="nf">to_i</span>
+  <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="nb">puts</span> <span class="s2">"So you want to rename it. Good what you want to rename it"</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="nb">gets</span><span class="p">.</span><span class="nf">chomp</span>
+    <span class="no">File</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">picture</span><span class="p">,</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">Dir</span><span class="p">.</span><span class="nf">pwd</span><span class="p">,</span> <span class="n">answer</span><span class="p">))</span>
+    <span class="nb">puts</span> <span class="s2">"The picture now it is </span><span class="si">#{</span><span class="n">answer</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">elsif</span> <span class="n">answer</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="nb">puts</span> <span class="s2">"You want to delete it"</span>
+    <span class="no">File</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+    <span class="k">unless</span> <span class="no">File</span><span class="p">.</span><span class="nf">exists?</span><span class="p">(</span><span class="n">picture</span><span class="p">)</span>
+      <span class="nb">puts</span> <span class="s2">"The file has been delete it"</span>
+    <span class="k">end</span>
+  <span class="k">else</span>
+    <span class="nb">puts</span> <span class="s2">"so you want to do nothing to the file"</span>
+    <span class="nb">puts</span> <span class="s2">"Done !!!!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="s2">"Thanks for handeling our images"</span>
+</code></pre></div></section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=File rename in ruby&amp;amp;url=http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover prev read-next-story' href='/2014/04/14/rails-and-select/'>
+<section class='post'>
+<h2>Rails and select</h2>
+<p>In a rails project I&rsquo;m working on I was trying to select from the database some sales with some&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: rvm</title>
+  <subtitle>Posts tagged with rvm</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/rvm/feed.xml" rel="self"/>
+  <updated>2016-10-17T14:01:03-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>My Setup with rvm, gemsets and bundler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/"/>
+    <id>http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/</id>
+    <published>2016-10-17T14:01:03-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: heroku</title>
+  <subtitle>Posts tagged with heroku</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/heroku/feed.xml" rel="self"/>
+  <updated>2014-04-23T06:21:39-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Exporting and Import Heroku DB</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/"/>
+    <id>http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/</id>
+    <published>2014-04-23T06:21:39-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Recently I was playing around with my local database in my rails project, eventually I screw up, I had to delete all the data.
+I use &lt;code&gt;rake db:reset&lt;/code&gt;and &lt;code&gt;rake db:create&lt;/code&gt; but how I was going to get all the data again, manually ? No way.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Set up a simple deployment system</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/"/>
+    <id>http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/</id>
+    <published>2014-07-30T05:04:20-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Before deploy in production is always recommended to test everything first, probably you have a Test suit for test your application, but you never know want is going to happen when you deploy all changes to production.
+What people usually do is create a staging environment, that copies the production environment.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+  <entry>
+    <title>Delayed job and Send email with Attachements</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/"/>
+    <id>http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/</id>
+    <published>2014-04-21T14:21:46-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;&lt;strong&gt;Sending emails with rails and Heroku (Updated 2014-04-24)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Rails makes extremly easy to send emails, I’m not going to explain how to do it, there are pretty good tutorials around the internet,
+this one is really well explain: &lt;a href="http://edgeguides.rubyonrails.org/action_mailer_basics.html" rel="nofollow"&gt;Action Mailer Basics&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>

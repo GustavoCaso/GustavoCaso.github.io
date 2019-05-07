@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: React</title>
+  <subtitle>Posts tagged with React</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/react/feed.xml" rel="self"/>
+  <updated>2016-09-18T00:57:40-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>React back to basics</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2016/09/18/react-back-to-basics/"/>
+    <id>http://gustavocaso.github.io/2016/09/18/react-back-to-basics/</id>
+    <published>2016-09-18T00:57:40-04:00</published>
+    <updated>2019-05-06T22:23:25-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;This is not going to be another post describing &lt;a href="https://facebook.github.io/react/" rel="nofollow"&gt;React&lt;/a&gt; and what is good or what is bad about it, I’m just learning it, and part of the learning process I decided that I will write a blog post for helping me maintain this new concepts. I will avoid many concepts, like how to create a project for importing all the libraries, I will create another post regarding that topic.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</summary>
+  </entry>
+</feed>
