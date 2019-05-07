@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: redis</title>
+  <subtitle>Posts tagged with redis</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/redis/feed.xml" rel="self"/>
+  <updated>2019-04-29T21:43:00-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Migrating millions of Redis keys without downtime</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/"/>
+    <id>http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/</id>
+    <published>2019-04-29T21:43:00-04:00</published>
+    <updated>2019-05-06T22:24:33-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Last year in September I joined the Job Patterns team at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.&lt;/p&gt;
+
+&lt;p&gt;Since I joined...&lt;/p&gt;</summary>
+  </entry>
+</feed>

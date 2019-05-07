@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://gustavocaso.github.io/about/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -97,6 +97,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/index.html</loc>
+    <lastmod>2019-05-06T22:24:33-04:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>http://gustavocaso.github.io/2014/07/08/self-referential-associations/index.html</loc>
     <lastmod>2019-05-06T22:23:25-04:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -152,193 +158,211 @@
   </url>
   <url>
     <loc>http://gustavocaso.github.io/projects/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>http://gustavocaso.github.io/tag/lifestyle/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/ruby/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://gustavocaso.github.io/tag/redis/index.html</loc>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://gustavocaso.github.io/tag/lifestyle/index.html</loc>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/grpc/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/functional-programming/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/dry-rb/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/orm/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rom-rb/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/workflow/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rvm/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/react/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/javascript/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/test/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rake/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rspec/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rails/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/heroku/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/associations/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/active-record/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/postgresql/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/delayed_job/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/octopress/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/about/page/2/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/about/page/3/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/about/page/4/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://gustavocaso.github.io/about/page/5/index.html</loc>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/page/2/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/page/3/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/page/4/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://gustavocaso.github.io/page/5/index.html</loc>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/ruby/page/2/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/ruby/page/3/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>http://gustavocaso.github.io/tag/rails/page/2/index.html</loc>
-    <lastmod>2019-05-06T22:23:34-04:00</lastmod>
+    <lastmod>2019-05-06T22:25:22-04:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

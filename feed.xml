@@ -5,10 +5,25 @@
   <id>http://gustavocaso.github.io/</id>
   <link href="http://gustavocaso.github.io/"/>
   <link href="http://gustavocaso.github.io/feed.xml" rel="self"/>
-  <updated>2018-09-22T20:00:00-04:00</updated>
+  <updated>2019-04-29T21:43:00-04:00</updated>
   <author>
     <name>Gustavo Caso</name>
   </author>
+  <entry>
+    <title>Migrating millions of Redis keys without downtime</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/"/>
+    <id>http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/</id>
+    <published>2019-04-29T21:43:00-04:00</published>
+    <updated>2019-05-06T22:24:33-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Last year in September I joined the Job Patterns team at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.&lt;/p&gt;
+
+&lt;p&gt;Since I joined...&lt;/p&gt;</summary>
+  </entry>
   <entry>
     <title>Summer Resolutions 2018</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/"/>
@@ -78,19 +93,6 @@
 
 &lt;p&gt;Lately, I have been playing around and contributing to the great ecosystem of &lt;a href="http://dry-rb.org/" rel="nofollow"&gt;dry-rb&lt;/a&gt;,
 first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</summary>
-  </entry>
-  <entry>
-    <title>My Setup with rvm, gemsets and bundler</title>
-    <link rel="alternate" href="http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/"/>
-    <id>http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/</id>
-    <published>2016-10-17T14:01:03-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
-    <author>
-      <name>Gustavo Caso</name>
-    </author>
-    <summary type="html">&lt;p&gt;I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>
