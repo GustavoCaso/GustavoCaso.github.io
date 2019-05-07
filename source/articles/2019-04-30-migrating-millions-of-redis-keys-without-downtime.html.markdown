@@ -11,17 +11,17 @@ The mission of the team is to provide a stable platform so that developers can w
 
 Since I joined, I have been gathering context around the various components that create the unique Shopify ecosystem.
 
-To provide some context, Shopify is a [massive monolith Ruby on Rails](https://stackshare.io/shopify/e-commerce-at-scale-inside-shopifys-tech-stack) application and the background job architecture consists of [ActiveJob](https://edgeguides.rubyonrails.org/active_job_basics.html), [Resque](https://github.com/resque/resque), and [Redis](https://redis.io/). Besides the functionality that those libraries provide by default, we have created many additional modules that allow developers to define custom behaviour for their jobs: Locking, LockQueue, Concurrency, Retry, Status and many more.
+To provide some context, Shopify is a [massive Ruby on Rails monolith](https://stackshare.io/shopify/e-commerce-at-scale-inside-shopifys-tech-stack) application and the background job architecture consists of [ActiveJob](https://edgeguides.rubyonrails.org/active_job_basics.html), [Resque](https://github.com/resque/resque), and [Redis](https://redis.io/). Besides the functionality that those libraries provide by default, we have created many additional modules that allow developers to define custom behaviour for their jobs: `Locking`, `LockQueue`, `Concurrency`, `Retry`, `Status`, and many more.
 
-At Shopify, we have many Redis instances; Each instance stores information that belongs to different part of the platform.
+At Shopify, we have many Redis instances; Each instance stores information that belongs to different parts of the platform.
 
 This post is going to focus on how we managed to migrate millions of keys from one of our Redis instances to another without downtime or incidents.
 
-The module we'll be discussing here is the `Locking` module. Developers use this module to prevent multiple jobs of the same class with the same arguments to be executed by multiple processes at the same time, it provides the same functionality as [unique jobs](https://github.com/mhenrixon/sidekiq-unique-jobs) for sidekiq
+The module we'll be discussing here is the `Locking` module. Developers use this module to prevent multiple jobs of the same class with the same arguments to be executed by multiple processes at the same time. It provides the same functionality as [unique jobs](https://github.com/mhenrixon/sidekiq-unique-jobs) for Sidekiq.
 
 Before enqueuing the job, it checks for the existence of the lock key. If the lock key does not exist, we acquire it until the job is done and finally release it. If the lock key does exist at the time of enqueueing it means that another job already exists, so we do not enqueue the new job.
 
-## Improving the performance
+## Improving performance
 
 At the current growth rate of Shopify, we are looking into multiple ways to optimize the background jobs infrastructure for performance.
 
@@ -29,18 +29,18 @@ To reduce load from a single Redis for jobs queues, we plan on deploying more Re
 
 A blocker for this idea is that we would need to know at all times where the unique locks are stored 🤔.
 
-We decided on the solution to move lock keys from the Redis instance holding the queue information to a separate Redis instance. That way, we know at all times where the lock keys are stored unlike job queues that could be spanned across  multiple Redis instances in the future.
+We decided on the solution to move lock keys from the Redis instance holding the queue information to a separate Redis instance. That way, we know at all times where the lock keys are stored unlike job queues that could span across multiple Redis instances in the future.
 
 
 We process hundreds of thousands of jobs per minute, and those jobs are time-sensitive, so stopping the system, migrating the keys and deploying the changes is not a possible solution for us. We, therefore, had to perform the migration without a maintenance window or downtime.
 
 How did we manage to achieve this?
 
-We devised a 3 step plan that would allow us to do it. All steps required code changes in the application, so the full migration took roughly 2 weeks.
+We devised a 3-step plan that would allow us to do it. All steps required code changes in the application, so the full migration took roughly 2 weeks.
 
 ## Implementation
 
-Let's introduce our Locking module, this is going to be a simplified version of the one currently maintained at Shopify:
+Let's introduce our `Locking` module. The following is going to be a simplified version of the one currently maintained at Shopify:
 
 ```ruby
 class Locking
@@ -80,7 +80,7 @@ class Locking
 end
 ```
 
-In the following steps, we will refer to the Redis instance holding the queue information as the jobs-redis (the source of the migration), and the Redis instance holding the locks information as the locks-redis (the destination of the migration).
+In the following steps, we will refer to the Redis instance holding the queue information as the `jobs` Redis (the source of the migration), and the Redis instance holding the locks information as the `locks` Redis (the destination of the migration).
 
 
 **First Step:**
@@ -108,7 +108,7 @@ end
 
 **Second Step:**
 
-We are going to start `acquiring` the lock key on the locks Redis. The `release` method tries to release the lock from the locks Redis instance first, and if not successful, it will try releasing the lock from the resque Redis instance. The `locked?` method stays the same as in the first step.
+We are going to start `acquiring` the lock key on the `locks` Redis. The `release` method tries to release the lock from the `locks` Redis instance first, and if not successful, it will try releasing the lock from the Resque Redis instance. The `locked?` method stays the same as in the first step.
 
 ```ruby
 def acquire
@@ -141,11 +141,11 @@ def redises
 end
 ```
 
-__Note:__ After deploying this change, we monitored the platform for a couple of days to make sure everything was working as expected (meaning, lock keys are acquired and released without any issue).
+__Note:__ After deploying this change, we monitored the platform for a couple of days to make sure everything was working as expected (meaning, lock keys were being acquired and released without any issue).
 
 **Last Step:**
 
-We change all the code to make sure that the only redis instance involved with the Locking module is the locks redis. All acquiring, releasing and checking actions of the keys have migrated over.
+We change all the code to make sure that the only Redis instance involved with the `Locking` module is the `locks` Redis. All acquiring, releasing and checking actions of the keys have now been migrated over.
 
 
 ```ruby
@@ -158,9 +158,9 @@ end
 
 With these steps, we were able to migrate the lock keys successfully without impacting the platform 🎉 🎉.
 
-Before starting the migration we asked ourselves questions like: Would the locks redis be able to handle the load? Is the locks redis a single point of failure?
+Before starting the migration we asked ourselves questions like: Would the `locks` Redis be able to handle the load? Is the `locks` Redis a single point of failure?
 
-The changes weren’t as straightforward as described above. There were other components involved, many tests to modify and some infrastructure changes to be done in other for this to happen but those are out of the scope of the post.
+The changes weren’t as straightforward as described above. There were other components involved, many tests to modify and some infrastructure changes to be done in other areas for this to happen but those are out of the scope of the post.
 
 Of course, there is no simple, one-size-fits-all solution, but I wanted to share our approach with everyone, and hopefully, if you encounter a similar situation this could be of use.
 
