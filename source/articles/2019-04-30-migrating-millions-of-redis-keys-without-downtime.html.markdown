@@ -159,9 +159,9 @@ end
 
 With these steps, we were able to migrate the lock keys successfully without impacting the platform 🎉 🎉.
 
-Of course, the changes weren’t as straightforward as described above. There were other components involved, many tests to modify and some infrastructure changes to be done in other for this to happen but those are out of the scope of the post.
+Before starting the migration we asked ourselves questions like: Would the locks redis be able to handle the load? Is the locks redis a single point of failure?
 
-After the migration we encountered new challenges: Would the locks redis be able to handle the load? Is the locks redis a single point of failure?
+The changes weren’t as straightforward as described above. There were other components involved, many tests to modify and some infrastructure changes to be done in other for this to happen but those are out of the scope of the post.
 
 Of course, there is no simple, one-size-fits-all solution, but I wanted to share our approach with everyone, and hopefully, if you encounter a similar situation this could be of use.
 
