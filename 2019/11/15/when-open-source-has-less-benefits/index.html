@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: When open source has less benefits</title>
+<meta content='Here at Shopify, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for ...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='When open source has less benefits' property='og:title'>
+<meta content='Here at Shopify, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for ...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/' property='og:url'>
+<meta content='2019-11-15' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='When open source has less benefits' name='twitter:title'>
+<meta content='Here at Shopify, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for ...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>When open source has less benefits</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2019-11-15'>
+15 November 2019
+</time>
+on <a href='/tag/ruby/'>ruby</a>
+</section>
+</header>
+<section class='post-content'><p>Here at <a href="https://www.shopify.com/" rel="nofollow">Shopify</a>, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.</p>
+
+<p>Let&rsquo;s start with some context about Background Jobs, especially in the context of ruby applications.
+When talking about jobs, we refer to those units of work that are important for the application to function but would take too long to be processed within the lifetime of a web request. The usual way of dealing with those units is to offload them to the background, aka &ldquo;background jobs&rdquo;, and for a different process to pick those jobs and execute them.</p>
+
+<p>In Ruby land, there are many popular options for dealing with jobs. The most commonly used one is <a href="https://sidekiq.org/" rel="nofollow">Sidekiq</a> and we have others like <a href="https://github.com/resque/resque" rel="nofollow">Resque</a>, <a href="https://github.com/tobi/delayed_job" rel="nofollow">Delayed job</a>, <a href="https://github.com/brandonhilkert/sucker_punch" rel="nofollow">Sucker punch</a>&hellip;</p>
+
+<p>This post is not going to focus on how those libraries work or what are their differences, but rather why at Shopify, we decided to build our internal library for dealing with jobs.</p>
+
+<p>To provide a little more context, at Shopify, in the beginning, we were using Delayed job, which was created by Tobias Lütke, current CEO of Shopify. The backend used to store jobs was <a href="https://www.mysql.com/" rel="nofollow">MySQL</a>, and at some point, MySQL wasn&rsquo;t able to keep with the amount of writes jobs were creating. Later <a href="https://github.blog/2009-11-03-introducing-resque/" rel="nofollow">Github released Resque in November of 2009</a>, which uses <a href="https://redis.io/" rel="nofollow">Redis</a> as the backend to store jobs. At that time, it was the only option that could support the requirements of Shopify. Since then, we have added functionality on top of Resque with external gems like <a href="https://github.com/resque/resque-scheduler" rel="nofollow">resque-scheduler</a> or <a href="https://github.com/nevans/resque-pool" rel="nofollow">resque-pool</a>.</p>
+
+<p>Of course, the requirements of the application always change, and the library that you are using might not evolve the way that would satisfy your new needs.</p>
+
+<p>Throughout the years of Shopify, the complexity of our monolith kept increasing as our needs kept evolving. As a result, we introduced sharding and new sophisticated job primitives. For many years, <code>resque</code> and the other gems helped to solve these problems, but those libraries could no longer provide all the functionality that Shopify needed. We had to regularly hack or patch the library so we could keep providing the functionality that was required.</p>
+
+<p>You can imagine that for the maintainers of this system, this was not ideal. We were working with at least three <code>resque-*</code> gems and dozens of custom modules that provided extra functionality. This situation was the cause of frustration, production errors, and a complex enough system that it was difficult to grasp in one&rsquo;s head. Most critically, adding new features was laborious and error-prone.</p>
+
+<p>At the beginning of this year, my team decided that we were going to aggregate all resque code and all the custom functionality that we have built over the years and place everything under one library.</p>
+
+<p>After four months of work, we are currently running all jobs from the monolith with our library, and we have ported all previous patches into our library at the time this post is published.</p>
+
+<p>This decision has allowed the team to work on major refactors to the internals of the job infrastructure and adapt to new requirements that appeared throughout the year.</p>
+
+<p>Thanks to that decision, adding those new features was smooth, and the team confidence on the code base has increased substantially, more importantly, we are in a much better place to keep improving the job infrastructure.</p>
+
+<p>Here at Shopify, we value open-source projects, and we contribute to them as much as we can. But even though that is the mentality at Shopify, there are occasions were owning all of the code has more benefits in the long term.</p>
+
+<p>The conclusion that I wanted to leave here is that if you or your team find yourselves often working around library functionality, finding hacky ways to extend it or change the core functionality of those libraries, sometimes it&rsquo;s better to rethink the approach and question what you need from those libraries. If you need only 20% and end up hacking the rest of 80%, you might get benefits from owning all of the code.</p>
+
+<p>If you have any thoughts or questions, please share them, and I will be happy to answer in the comments.</p>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=When open source has less benefits&amp;amp;url=http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2019/04/30/migrating-millions-of-redis-keys-without-downtime/'>
+<section class='post'>
+<h2>Migrating millions of Redis keys without downtime</h2>
+<p>Last year in September I joined the Job Patterns team at Shopify. The mission of the team is to&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2019
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -5,10 +5,23 @@
   <id>http://gustavocaso.github.io/</id>
   <link href="http://gustavocaso.github.io/"/>
   <link href="http://gustavocaso.github.io/feed.xml" rel="self"/>
-  <updated>2019-04-29T21:43:00-04:00</updated>
+  <updated>2019-11-15T17:42:00-05:00</updated>
   <author>
     <name>Gustavo Caso</name>
   </author>
+  <entry>
+    <title>When open source has less benefits</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/"/>
+    <id>http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/</id>
+    <published>2019-11-15T17:42:00-05:00</published>
+    <updated>2019-11-17T10:02:18-05:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Here at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.&lt;/p&gt;
+
+&lt;p&gt;Let’s start...&lt;/p&gt;</summary>
+  </entry>
   <entry>
     <title>Migrating millions of Redis keys without downtime</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/"/>
@@ -77,22 +90,6 @@
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;Following with my previous post, &lt;a href="http://gustavocaso.github.io/2017/05/dry-web-roda-for-rails-developers_part_i/" rel="nofollow"&gt;Dry-web-roda part 1&lt;/a&gt;, I have decided to create my own small website to keep track of all the things I learn throughout the day.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</summary>
-  </entry>
-  <entry>
-    <title>Dry-web-roda for Rails Developers Part I</title>
-    <link rel="alternate" href="http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/"/>
-    <id>http://gustavocaso.github.io/2017/05/28/dry-web-roda-for-rails-developers_part_i/</id>
-    <published>2017-05-28T14:14:45-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
-    <author>
-      <name>Gustavo Caso</name>
-    </author>
-    <summary type="html">&lt;p&gt;&lt;strong&gt;Revised by Piotr Solnica and Andy Holland&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Lately, I have been playing around and contributing to the great ecosystem of &lt;a href="http://dry-rb.org/" rel="nofollow"&gt;dry-rb&lt;/a&gt;,
-first of all, I have to say the community is absolutely fantastic, super supportive and eager to welcome many new contributors.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>

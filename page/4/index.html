@@ -69,6 +69,26 @@
 </div>
 <article class='post'>
 <header class='post-header'>
+<h2 class='post-title'><a href="/2014/07/03/enumerator-lazy/">Enumerator::Lazy</a></h2>
+</header>
+<section class='post-excerpt'>
+<p>
+<p>Recently reading the some posts about ruby I found myself with this interesting method call <code>lazy</code>.
+This method will help us when looping over some objects: Array, Hashes, Files ……. If you want to loop though an array that is huge, an we only want to select the first 20 element that evaluate our criteria, this is the kind of job for our <code>lazy</code> method.</p>
+
+<p></p>
+<a href="/2014/07/03/enumerator-lazy/" class="read-more">&raquo;</a>
+</p>
+</section>
+<footer class='post-meta'>
+<a href='/tag/ruby/'>ruby</a>
+<time class='post-date' datetime='2014-07-03'>
+03 July 2014
+</time>
+</footer>
+</article>
+<article class='post'>
+<header class='post-header'>
 <h2 class='post-title'><a href="/2014/05/09/inverse-of/">Inverse_of ActiveRecord::Base</a></h2>
 </header>
 <section class='post-excerpt'>
@@ -178,35 +198,6 @@ My first problem was that my post weren’t displaying the <a href="https://disq
 </section>
 <footer class='post-meta'>
 <a href='/tag/ruby/'>ruby</a>, <a href='/tag/octopress/'>octopress</a>
-<time class='post-date' datetime='2014-04-14'>
-14 April 2014
-</time>
-</footer>
-</article>
-<article class='post'>
-<header class='post-header'>
-<h2 class='post-title'><a href="/2014/04/14/rails-and-select/">Rails and select</a></h2>
-</header>
-<section class='post-excerpt'>
-<p>
-<p>In a rails project I’m working on I was trying to select from the database some sales with some conditions.</p>
-
-<p>To start the <code>Sale</code> model has multiples associations .</p>
-<div class="highlight"><pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Sale</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="n">belongs_to</span> <span class="ss">:voucher</span>
-  <span class="n">belongs_to</span> <span class="ss">:client</span>
-  <span class="n">has_many</span> <span class="ss">:line_items</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
-  <span class="n">has_many</span> <span class="ss">:bills</span>
-<span class="k">end</span>
-</code></pre></div>
-<p>So the goal of this select was to obtain all the <code>Sales</code> where the <code>LineItems</code> has express_checkout set it to true.</p>
-
-<p></p>
-<a href="/2014/04/14/rails-and-select/" class="read-more">&raquo;</a>
-</p>
-</section>
-<footer class='post-meta'>
-<a href='/tag/ruby/'>ruby</a>, <a href='/tag/rails/'>rails</a>
 <time class='post-date' datetime='2014-04-14'>
 14 April 2014
 </time>

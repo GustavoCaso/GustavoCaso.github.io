@@ -23,6 +23,19 @@
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>
   <entry>
+    <title>When open source has less benefits</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/"/>
+    <id>http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/</id>
+    <published>2019-11-15T17:42:00-05:00</published>
+    <updated>2019-11-17T10:02:18-05:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;Here at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.&lt;/p&gt;
+
+&lt;p&gt;Letâ€™s start...&lt;/p&gt;</summary>
+  </entry>
+  <entry>
     <title>Testing Comamnd-Line Applications with Aruba</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/"/>
     <id>http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/</id>
@@ -77,19 +90,6 @@ This method will help us when looping over some objects: Array, Hashes, Files â€
     </author>
     <summary type="html">&lt;p&gt;While doing some exercise of the book &lt;a href="https://pine.fm/LearnToProgram/" rel="nofollow"&gt;Learn to Program of Chris Pine&lt;/a&gt;, trying to rename some files
 as part of some exercise, that was renaming a bunch of picture from a folder, I noticed a strange functionality.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</summary>
-  </entry>
-  <entry>
-    <title>My Setup with rvm, gemsets and bundler</title>
-    <link rel="alternate" href="http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/"/>
-    <id>http://gustavocaso.github.io/2016/10/17/my-setup-with-rvm/</id>
-    <published>2016-10-17T14:01:03-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
-    <author>
-      <name>Gustavo Caso</name>
-    </author>
-    <summary type="html">&lt;p&gt;I took me some time, to figure out how to correctly setup every project I worked on, not that I work in tons of projects, but now that I have a better understanding of how to setup, it makes more sense to me, at least.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>
