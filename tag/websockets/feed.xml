@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: WebSockets</title>
+  <subtitle>Posts tagged with WebSockets</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/websockets/feed.xml" rel="self"/>
+  <updated>2020-03-14T06:00:00-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Building a CLI chat app with go and WebSockets</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/"/>
+    <id>http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/</id>
+    <published>2020-03-14T06:00:00-04:00</published>
+    <updated>2020-03-14T14:06:18-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holidays.&lt;/p&gt;
+
+&lt;p&gt;During Christmas, I wanted to learn more about the &lt;a href="https://en.m.wikipedia.org/wiki/WebSocket" rel="nofollow"&gt;WebSockets&lt;/a&gt; protocol.
+For that, I thought a simple...&lt;/p&gt;</summary>
+  </entry>
+</feed>

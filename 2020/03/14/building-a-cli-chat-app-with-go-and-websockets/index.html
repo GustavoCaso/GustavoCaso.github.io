@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gustavo Caso: Building a CLI chat app with go and WebSockets</title>
+<meta content='With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holi...' name='description'>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1.0' name='viewport'>
+<meta content='IE=edge' http-equiv='X-UA-Compatible'>
+<meta content='True' name='HandheldFriendly'>
+<meta content='Gustavo Caso' property='og:site_name'>
+<meta content='article' property='og:type'>
+<meta content='Building a CLI chat app with go and WebSockets' property='og:title'>
+<meta content='With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holi...' property='og:description'>
+<meta content='http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/' property='og:url'>
+<meta content='2020-03-14' property='article:published_time'>
+<meta content='summary' name='twitter:card'>
+<meta content='_GustavoCaso' name='twitter:site'>
+<meta content='Building a CLI chat app with go and WebSockets' name='twitter:title'>
+<meta content='With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holi...' name='twitter:description'>
+<meta content='http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/' name='twitter:url'>
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+<link href="/images/favicon.ico" rel="icon" type="image/ico" />
+<link href='//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link href="/stylesheets/application.css" rel="stylesheet" />
+</head>
+<body class='post-template nav-closed'>
+<div class='nav'>
+<h3 class='nav-title'>Menu</h3>
+<a class='nav-close' href='#'>
+<span class='hidden'>Close</span>
+</a>
+<ul>
+<li class='nav-home'>
+<a href='/'>Home</a>
+</li>
+<li class='nav-projects'>
+<a href='/projects'>Projects</a>
+</li>
+<li class='nav-about'>
+<a href='/about'>About</a>
+</li>
+</ul>
+<a class='subscribe-button icon-feed' href='/feed.xml'>Subscribe</a>
+</div>
+<span class='nav-cover'></span>
+
+<div class='site-wrapper'>
+<header class='main-header no-cover post-head'>
+<nav class='main-nav clearfix'>
+<a class='menu-button icon-menu' href='#'>
+<span class='word'>Menu</span>
+</a>
+</nav>
+</header>
+<main class='content' role='main'>
+<article class='post'>
+<header class='post-header'>
+<h1 class='post-title'>Building a CLI chat app with go and WebSockets</h1>
+<section class='post-meta'>
+<time class='post-date' datetime='2020-03-14'>
+14 March 2020
+</time>
+on <a href='/tag/go/'>go</a>, <a href='/tag/websockets/'>WebSockets</a>
+</section>
+</header>
+<section class='post-content'><p>With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holidays.</p>
+
+<p>During Christmas, I wanted to learn more about the <a href="https://en.m.wikipedia.org/wiki/WebSocket" rel="nofollow">WebSockets</a> protocol.
+For that, I thought a simple chat app would be a good exercise.</p>
+
+<p>I went on the internet and searched for tutorials on how to build a chat app using WebSockets and <a href="https://golang.org/" rel="nofollow">Go</a>, but I could not find any tutorial that showed a more realistic example. The majority of the samples were echo servers.</p>
+
+<p>I wanted some examples that involved some user interaction.</p>
+
+<p>I wanted to build something that resembles more a real chat like <a href="https://slack.com/" rel="nofollow">Slack</a>, <a href="https://www.whatsapp.com/" rel="nofollow">WhatsApp</a>, <a href="https://telegram.org/" rel="nofollow">Telegram</a>, etc.. There are many examples out there.</p>
+
+<p>Full disclosure I&rsquo;m not a professional Go developer, but I&rsquo;m slowly learning for personal projects, and work.</p>
+
+<p>Ok, let&rsquo;s start!!</p>
+
+<p>First, we need to decide which WebSocket library to use, Go provides a WebSocket library, but the <a href="https://godoc.org/golang.org/x/net/websocket" rel="nofollow">Go team advises</a> to use other solutions built by the community. You can even see a message when you want to read the doc for the library in GoDoc.</p>
+
+<p>I decided to use <a href="https://github.com/nhooyr/websocket" rel="nofollow">websocket</a> because it was the most recent of all and had support for context and rate-limiting.</p>
+
+<p>Once we move away from deciding on the WebSocket library, we need a way to route request to our server, Go provides a fantastic <a href="https://godoc.org/net/http" rel="nofollow">http</a> package for doing that. Still, often I find myself reaching for <a href="https://github.com/julienschmidt/httprouter" rel="nofollow">another solution from the community to build the routes</a>. Not for any technical reason, but it was the first library I used to create a web app some time ago, and I&rsquo;m sticking with what I know and have worked for me.</p>
+
+<p>Before we continue, I want to make clear that this post is not going to discuss goroutines synchronization, there is fantastic documentation on the <a href="https://golang.org/pkg/sync" rel="nofollow">sync package</a> and tones of resources out there. So far, simplicity, I&rsquo;m going to remove those bits from the code examples.</p>
+
+<p>Fantastic, we are ready to start building the CLI chat app.</p>
+
+<p>So I want to divide the code between <code>server</code> and <code>client</code>.</p>
+
+<p>The server handles new WebSocket connections, listen to messages on those socket connections and broadcast messages to the right users. Also, it takes care of adding and removing users to different chat rooms.</p>
+
+<p>The client connects to the server, listens to messages that are sent to it and print them. It also allows the users to submit new messages to the server.</p>
+
+<p>Those are going to be our two Go packages.</p>
+
+<h3>Let&rsquo;s start with the server:</h3>
+
+<p>The server must provide an endpoint that clients can connect using the WebSocket protocol, for that we are going to use the <a href="https://godoc.org/net/http#Server" rel="nofollow">Http.Server</a> abstraction that the Http package provides.</p>
+
+<p>The handler is going to have a single route <code>/chat/:chat_room/:user_name</code>.</p>
+
+<p>We have four abstractions: <code>Hub</code>, <code>Chat</code>, <code>Message</code> and <code>User</code>.</p>
+
+<p>The <code>Hub</code> will hold a list of chats. You can think of the hub as a workspace in Slack; each workspace has different chat rooms.</p>
+
+<p>When a user opens a WebSocket connection to <code>/chat/general/gustavo</code>, we are going to check if the chat <code>general</code> exists. If not, we will create it, store in the <code>Hub</code> and add gustavo to the list of users of that chat.
+If the chat room exists, we will check if the user already is there and if not create a new user or return an error message if the user already exists.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">h</span><span class="x"> </span><span class="o">*</span><span class="n">hub</span><span class="p">)</span><span class="x"> </span><span class="n">chatRoom</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">,</span><span class="x"> </span><span class="n">ps</span><span class="x"> </span><span class="n">httprouter</span><span class="o">.</span><span class="n">Params</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="n">chatRoom</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ps</span><span class="o">.</span><span class="n">ByName</span><span class="p">(</span><span class="s">"chat_room"</span><span class="p">)</span><span class="x">
+  </span><span class="n">userName</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ps</span><span class="o">.</span><span class="n">ByName</span><span class="p">(</span><span class="s">"user_name"</span><span class="p">)</span><span class="x">
+  </span><span class="n">c</span><span class="p">,</span><span class="x"> </span><span class="n">ok</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">h</span><span class="o">.</span><span class="n">rooms</span><span class="p">[</span><span class="n">chatRoom</span><span class="p">]</span><span class="x">
+  </span><span class="k">if</span><span class="x"> </span><span class="o">!</span><span class="n">ok</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">c</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">h</span><span class="o">.</span><span class="n">addChat</span><span class="p">(</span><span class="n">chatRoom</span><span class="p">)</span><span class="x">
+    </span><span class="n">user</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">newUser</span><span class="p">(</span><span class="n">userName</span><span class="p">,</span><span class="x"> </span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">log</span><span class="o">.</span><span class="n">WithError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="s">"Error creating user to new chat"</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">c</span><span class="o">.</span><span class="n">addUser</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="x">
+    </span><span class="n">c</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="x">
+  </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">hasUser</span><span class="p">(</span><span class="n">userName</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">log</span><span class="o">.</span><span class="n">WithFields</span><span class="p">(</span><span class="n">log</span><span class="o">.</span><span class="n">Fields</span><span class="p">{</span><span class="x">
+        </span><span class="s">"chat"</span><span class="o">:</span><span class="x">     </span><span class="n">chatRoom</span><span class="p">,</span><span class="x">
+        </span><span class="s">"username"</span><span class="o">:</span><span class="x"> </span><span class="n">userName</span><span class="p">,</span><span class="x">
+      </span><span class="p">})</span><span class="o">.</span><span class="n">Info</span><span class="p">(</span><span class="s">"User already exists in chat room"</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">user</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">newUser</span><span class="p">(</span><span class="n">userName</span><span class="p">,</span><span class="x"> </span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="p">)</span><span class="x">
+      </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">WithError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="s">"Error creating user for chat"</span><span class="p">)</span><span class="x">
+      </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">c</span><span class="o">.</span><span class="n">addUser</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="x">
+      </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>The chat holds a list of users connected to that chat.
+The most important thing that the chat does is acting as a coordinator between the multiple goroutines that will work to make listening, broadcasting and managing users possible.</p>
+
+<p>Before we continue, we need to know what a user is. The user holds the name and the WebSocket connection for that particular user.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">type</span><span class="x"> </span><span class="n">user</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="n">name</span><span class="x">      </span><span class="kt">string</span><span class="x">
+  </span><span class="n">conn</span><span class="x">      </span><span class="o">*</span><span class="n">websocket</span><span class="o">.</span><span class="n">Conn</span><span class="x">
+  </span><span class="n">listening</span><span class="x"> </span><span class="kt">bool</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>The user connection is an important detail because the chat uses those connections both for listening to messages and broadcasting messages to the right client.</p>
+
+<p>Now that we know how the user and chat works let&rsquo;s dive into how we can listen, broadcast and keep the users updated for each chat.</p>
+
+<p>Once we create a chat room, we are going to call the <code>run</code> function, which will start three different goroutines.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">chat</span><span class="p">)</span><span class="x"> </span><span class="n">run</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span><span class="x">
+  </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">broadcast</span><span class="p">()</span><span class="x">
+  </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">keepUserListUpdated</span><span class="p">()</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>The <code>listen</code> goroutine, loops over all the users on the chat and creates another goroutine to listen to incoming messages. After receiving the message, we send it to the internal messages channel.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">chat</span><span class="p">)</span><span class="x"> </span><span class="n">listen</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">users</span><span class="p">)</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="k">for</span><span class="x"> </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">user</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">users</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="o">!</span><span class="n">user</span><span class="o">.</span><span class="n">listening</span><span class="x"> </span><span class="p">{</span><span class="x">
+          </span><span class="n">user</span><span class="o">.</span><span class="n">listening</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="no">true</span><span class="x">
+          </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">listenToUser</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+      </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">chat</span><span class="p">)</span><span class="x"> </span><span class="n">listenToUser</span><span class="p">(</span><span class="n">user</span><span class="x"> </span><span class="o">*</span><span class="n">user</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">msg</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">user</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">Read</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">messages</span><span class="x"> </span><span class="o">&lt;-</span><span class="x"> </span><span class="n">message</span><span class="p">{</span><span class="x">
+        </span><span class="n">bytes</span><span class="o">:</span><span class="x">  </span><span class="n">msg</span><span class="p">,</span><span class="x">
+        </span><span class="n">author</span><span class="o">:</span><span class="x"> </span><span class="n">user</span><span class="p">,</span><span class="x">
+      </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">dropUsers</span><span class="x"> </span><span class="o">&lt;-</span><span class="x"> </span><span class="n">user</span><span class="x">
+      </span><span class="k">break</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>It is essential to mention that if we get an error while listening to a message from a user, we are going to send a message to the <code>dropUsers</code> channel. We are going to use this channel on the <code>keepUserListUpdated</code> function.</p>
+
+<p>Why do we need a separate goroutine per user? Great question. The act of listening for a message in the WebSocket connection is <a href="https://github.com/nhooyr/websocket/blob/c62c0dcc9318d1ad612613d433ec90d7c34378dc/ws_js.go#L99-L116" rel="nofollow">a blocking action.</a> So when iterating over the users, it will stop and wait for the first user to send a message, once the user has sent a message it will iterate to the next user and repeat the process.</p>
+
+<p>If we do not create a different goroutine, we will listen to the messages in the order the users have connected to the chat. But we want to have a real-time experience when sending and receiving messages on our CLI chat app.</p>
+
+<p>The <code>broadcast</code> goroutine listens on the <code>messages</code> channel, and every time we get a new message, we are going to send it to all the users except to the author of the message.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">chat</span><span class="p">)</span><span class="x"> </span><span class="n">broadcast</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+</span><span class="n">loop</span><span class="o">:</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">select</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="n">message</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">messages</span><span class="o">:</span><span class="x">
+      </span><span class="n">usersToSend</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">userToSend</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">author</span><span class="p">)</span><span class="x">
+      </span><span class="n">bytes</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">message</span><span class="o">.</span><span class="nb">print</span><span class="p">()</span><span class="x">
+      </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">for</span><span class="x"> </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">user</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">range</span><span class="x"> </span><span class="n">usersToSend</span><span class="x"> </span><span class="p">{</span><span class="x">
+          </span><span class="n">user</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span><span class="x"> </span><span class="n">websocket</span><span class="o">.</span><span class="n">MessageText</span><span class="p">,</span><span class="x"> </span><span class="n">bytes</span><span class="p">)</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">c</span><span class="o">.</span><span class="n">messagesRead</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">append</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">messagesRead</span><span class="p">,</span><span class="x"> </span><span class="n">message</span><span class="p">)</span><span class="x">
+      </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">WithError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">Warn</span><span class="p">(</span><span class="s">"Error building the message"</span><span class="p">)</span><span class="x">
+      </span><span class="p">}</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span><span class="x">
+      </span><span class="k">break</span><span class="x"> </span><span class="n">loop</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>Finally, our last goroutine is the <code>keepUserListUpdated</code>, which takes care of adding and removing users on each chat.
+We remove users from the chat every time there is an error reading from the WebSocket connection. You can check <code>listenToUser</code> above to see the logic that handles those cases.</p>
+
+<p>Remember that previously we mentioned that when there is an error listening to users, we send a message to the <code>dropUsers</code> channel?</p>
+
+<p>The <code>keepUserListUpdated</code> function listens to that channel, and every time a new message comes, it deletes the user from the list of active users in the chat.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">chat</span><span class="p">)</span><span class="x"> </span><span class="n">keepUserListUpdated</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+</span><span class="n">loop</span><span class="o">:</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">select</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="n">user</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">addedUsers</span><span class="o">:</span><span class="x">
+      </span><span class="n">users</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">users</span><span class="x">
+      </span><span class="n">users</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="nb">append</span><span class="p">(</span><span class="n">users</span><span class="p">,</span><span class="x"> </span><span class="n">user</span><span class="p">)</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">users</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">users</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">broadcastMessage</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%s joined %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">)))</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="n">user</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">dropUsers</span><span class="o">:</span><span class="x">
+      </span><span class="n">users</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">deleteUser</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">users</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">users</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span><span class="x">
+      </span><span class="k">break</span><span class="x"> </span><span class="n">loop</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span></code></pre></div>
+<p>This function also takes care of adding users to the chat in a similar way, with the addition of broadcasting to all users that a new user joined the chat.</p>
+
+<p>And that is all there is to the server package.</p>
+
+<h3>Let&rsquo;s dive into the client-side of the CLI app.</h3>
+
+<p>The client functionality is to connect to the server, listen for new messages, print them and allow the users to send new messages to the server.</p>
+
+<p>In our example, the client store the name of the user, a WebSocket connection to the server and a channel which we will use to send messages.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">type</span><span class="x"> </span><span class="n">client</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="n">userName</span><span class="x"> </span><span class="kt">string</span><span class="x">
+  </span><span class="n">conn</span><span class="x">     </span><span class="o">*</span><span class="n">websocket</span><span class="o">.</span><span class="n">Conn</span><span class="x">
+  </span><span class="n">ctx</span><span class="x">      </span><span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="x">
+  </span><span class="n">message</span><span class="x">  </span><span class="k">chan</span><span class="x"> </span><span class="kt">string</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>When using the CLI as a client, we need to pass the chat room and the user who is connecting to it.</p>
+
+<p><code>go run client/main.go --user_name=gustavo --chat_room=general</code></p>
+
+<p>Executing that line will open a new connection to the server using the WebSocket protocol. <code>ws://localhost:8080/chat/general/gustavo</code>, notice that we haven&rsquo;t used <code>http</code> or <code>http</code> on the URL but rather <code>ws</code>.</p>
+
+<p>All this logic is taking care of by the WebSocket library we are using.</p>
+
+<p>Once the client has initialized, we are going to call the <code>run</code> method, which will start two new goroutines: <code>listen</code> and <code>getInput</code>.</p>
+
+<p>The listen goroutine is very similar to the one on the server, but we do not have to loop over the different users since here we only have one user listening for messages.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">client</span><span class="p">)</span><span class="x"> </span><span class="n">listen</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">reader</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">log</span><span class="o">.</span><span class="n">WithError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">Warn</span><span class="p">(</span><span class="s">"Error receiving message"</span><span class="p">)</span><span class="x">
+      </span><span class="k">break</span><span class="x">
+    </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">io</span><span class="o">.</span><span class="n">Copy</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">Stdout</span><span class="p">,</span><span class="x"> </span><span class="n">reader</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>What is that <code>io.Copy(os.Stdout, reader)</code> doing? It gets the message from the WebSocket and copies to the terminal <a href="https://www.howtogeek.com/435903/what-are-stdin-stdout-and-stderr-on-linux/" rel="nofollow">stdout.</a> Go provides the <a href="https://medium.com/@xeodou/understanding-golang-reader-writer-2c855eae0a94" rel="nofollow">Reader and Writer</a> abstractions that help us manipulate data between entities that implement the reader and writer <a href="https://gobyexample.com/interfaces" rel="nofollow">interface.</a></p>
+
+<p>The <code>getInput</code> function is a simple <a href="https://gobyexample.com/for" rel="nofollow"><code>for</code></a> loop that will listen for the user input coming from the terminal <a href="https://www.howtogeek.com/435903/what-are-stdin-stdout-and-stderr-on-linux/" rel="nofollow">stdin.</a>
+Once we have a message from the user, we are going to send that message to the <code>message</code> channel of the client.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">client</span><span class="p">)</span><span class="x"> </span><span class="n">getInput</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">in</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bufio</span><span class="o">.</span><span class="n">NewReader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">Stdin</span><span class="p">)</span><span class="x">
+    </span><span class="n">result</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">in</span><span class="o">.</span><span class="n">ReadString</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">log</span><span class="o">.</span><span class="n">WithError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="k">if</span><span class="x"> </span><span class="n">result</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="s">""</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">message</span><span class="x"> </span><span class="o">&lt;-</span><span class="x"> </span><span class="n">result</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>It makes sure that it is not empty since the user could use the return key, but haven&rsquo;t type anything, and we do not want to send blank messages to the server, that will get broadcast to all the users of the chat.</p>
+
+<p>Finally, we have another <code>for</code> loop and <a href="https://gobyexample.com/select" rel="nofollow"><code>select</code></a> listening for messages on the <code>message</code> channel and every time we get a new message, we are going to write to the server.</p>
+<div class="highlight"><pre class="highlight go"><code><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">client</span><span class="p">)</span><span class="x"> </span><span class="n">run</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+  </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span><span class="x">
+  </span><span class="k">go</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">getInput</span><span class="p">()</span><span class="x">
+</span><span class="n">loop</span><span class="o">:</span><span class="x">
+  </span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">select</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="n">text</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">message</span><span class="o">:</span><span class="x">
+      </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span><span class="x"> </span><span class="n">websocket</span><span class="o">.</span><span class="n">MessageText</span><span class="p">,</span><span class="x"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="x">
+      </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">break</span><span class="x"> </span><span class="n">loop</span><span class="x">
+      </span><span class="p">}</span><span class="x">
+    </span><span class="k">case</span><span class="x"> </span><span class="o">&lt;-</span><span class="n">c</span><span class="o">.</span><span class="n">ctx</span><span class="o">.</span><span class="n">Done</span><span class="p">()</span><span class="o">:</span><span class="x">
+      </span><span class="k">break</span><span class="x"> </span><span class="n">loop</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+  </span><span class="p">}</span><span class="x">
+  </span><span class="n">c</span><span class="o">.</span><span class="nb">close</span><span class="p">()</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div>
+<p>And this is all that you need to create a CLI chat app with go and WebSockets.
+I hope you enjoyed reading as much as I enjoyed writing the app and the article.
+If you have any questions, please use the comments below, and I will answer them.</p>
+
+<p>You can find all the code <a href="https://github.com/GustavoCaso/go-chat-websockets" rel="nofollow">here</a></p>
+
+<p>One last thing, I know the functionality is far from complete, but I haven&rsquo;t got the time to work more on it if you are curious and want to improve the app here a list of things you could work on:</p>
+
+<ul>
+<li>Broadcast all previous messages, when a new user connects to the chat.</li>
+<li>Handle connection retry both on the server and the client.</li>
+</ul>
+</section>
+<footer class='post-footer'>
+<section class='share'>
+<h4>Share this post</h4>
+<a class='icon-twitter' href='https://twitter.com/intent/tweet?text=Building a CLI chat app with go and WebSockets&amp;amp;url=http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/' onclick='window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;'>
+<span class='hidden'>Twitter</span>
+</a>
+<a class='icon-facebook' href='https://www.facebook.com/sharer/sharer.php?u=http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/' onclick='window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;'>
+<span class='hidden'>Facebook</span>
+</a>
+<a class='icon-google-plus' href='https://plus.google.com/share?url=http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/' onclick='window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;'>
+<span class='hidden'>Google+</span>
+</a>
+</section>
+</footer>
+<div id='disqus_thread'></div>
+<script type='text/javascript'>
+//<![CDATA[
+                  var disqus_shortname = 'gustavocasogithubio';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href='http://disqus.com/?ref_noscript'>comments powered by Disqus.</a></noscript>
+<a href='http://disqus.com' class='dsq-brlink'>comments powered by <span class='logo-disqus'>Disqus</span></a>
+
+<script type="text/javascript">
+//<![CDATA[
+    var disqus_shortname = 'gustavocasogithubio';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+//]]>
+</script>
+
+</article>
+</main>
+<aside class='read-next'>
+<a class='no-cover read-next-story' href='/2019/11/15/when-open-source-has-less-benefits/'>
+<section class='post'>
+<h2>When open source has less benefits</h2>
+<p>Here at Shopify, I work as a Production Engineer on the Jobs team. Our mission is to maintain and&hellip;</p>
+</section>
+</a>
+</aside>
+
+<footer class='site-footer clearfix'>
+<section class='copyright'>
+<a href='/'>Gustavo Caso</a>
+&copy;
+2020
+</section>
+<section class='poweredby'>
+Casper theme powered by
+<a href='https://ghost.org'>Ghost</a>
+</section>
+</footer>
+</div>
+<script src="/javascripts/application.js"></script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50019036-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
