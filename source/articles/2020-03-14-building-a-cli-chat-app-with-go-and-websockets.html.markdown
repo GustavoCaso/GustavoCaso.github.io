@@ -9,6 +9,7 @@ tags: [go, WebSockets]
 With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holidays.
 
 During Christmas, I wanted to learn more about the [WebSockets](https://en.m.wikipedia.org/wiki/WebSocket) protocol.
+READMORE
 For that, I thought a simple chat app would be a good exercise.
 
 I went on the internet and searched for tutorials on how to build a chat app using WebSockets and [Go](https://golang.org/), but I could not find any tutorial that showed a more realistic example. The majority of the samples were echo servers.
