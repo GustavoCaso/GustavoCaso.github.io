@@ -67,6 +67,8 @@ on <a href='/tag/ruby/'>ruby</a>, <a href='/tag/redis/'>redis</a>
 
 <p>The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.</p>
 
+<p></p>
+
 <p>Since I joined, I have been gathering context around the various components that create the unique Shopify ecosystem.</p>
 
 <p>To provide some context, Shopify is a <a href="https://stackshare.io/shopify/e-commerce-at-scale-inside-shopifys-tech-stack" rel="nofollow">massive Ruby on Rails monolith</a> application and the background job architecture consists of <a href="https://edgeguides.rubyonrails.org/active_job_basics.html" rel="nofollow">ActiveJob</a>, <a href="https://github.com/resque/resque" rel="nofollow">Resque</a>, and <a href="https://redis.io/" rel="nofollow">Redis</a>. Besides the functionality that those libraries provide by default, we have created many additional modules that allow developers to define custom behaviour for their jobs: <code>Locking</code>, <code>LockQueue</code>, <code>Concurrency</code>, <code>Retry</code>, <code>Status</code>, and many more.</p>

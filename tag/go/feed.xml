@@ -14,13 +14,13 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/"/>
     <id>http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/</id>
     <published>2020-03-14T06:00:00-04:00</published>
-    <updated>2020-03-14T14:06:18-04:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holidays.&lt;/p&gt;
 
 &lt;p&gt;During Christmas, I wanted to learn more about the &lt;a href="https://en.m.wikipedia.org/wiki/WebSocket" rel="nofollow"&gt;WebSockets&lt;/a&gt; protocol.
-For that, I thought a simple...&lt;/p&gt;</summary>
+&lt;/p&gt;</summary>
   </entry>
 </feed>

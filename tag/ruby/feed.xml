@@ -5,16 +5,31 @@
   <id>http://gustavocaso.github.io/</id>
   <link href="http://gustavocaso.github.io/"/>
   <link href="http://gustavocaso.github.io/tag/ruby/feed.xml" rel="self"/>
-  <updated>2017-07-17T01:38:28-04:00</updated>
+  <updated>2020-09-19T14:39:00-04:00</updated>
   <author>
     <name>Gustavo Caso</name>
   </author>
+  <entry>
+    <title>Writing a Ractor Base Job Scheduler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/"/>
+    <id>http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/</id>
+    <published>2020-09-19T14:39:00-04:00</published>
+    <updated>2020-09-19T16:12:30-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I was reading a fantastic &lt;a href="https://kirshatrov.com/2020/09/08/ruby-ractor-web-server/" rel="nofollow"&gt;article&lt;/a&gt; from my colleague Kir, and I could help myself to feel nerd snipped by:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For those curious to try Ractor, I’d suggest to try implementing other things that benefit from parallel execution, for instance a background...&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+  </entry>
   <entry>
     <title>Dry-web-roda for Rails Developers Part II (Persistence)</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/"/>
     <id>http://gustavocaso.github.io/2017/07/17/dry-web-roda-for-rails-developers-part_ii-persistence/</id>
     <published>2017-07-17T01:38:28-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -27,20 +42,20 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/"/>
     <id>http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/</id>
     <published>2019-11-15T17:42:00-05:00</published>
-    <updated>2019-11-17T10:02:18-05:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;Here at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.&lt;/p&gt;
 
-&lt;p&gt;Let’s start...&lt;/p&gt;</summary>
+&lt;p&gt;&lt;/p&gt;</summary>
   </entry>
   <entry>
     <title>Testing Comamnd-Line Applications with Aruba</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/"/>
     <id>http://gustavocaso.github.io/2016/01/17/testing-command-line-applications-with-aruba/</id>
     <published>2016-01-17T17:08:23-05:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -55,7 +70,7 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2015/02/28/decorator-pattern/"/>
     <id>http://gustavocaso.github.io/2015/02/28/decorator-pattern/</id>
     <published>2015-02-28T03:55:59-05:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -70,26 +85,12 @@ Lately there is one projects that is architecture is strongly inheritance, so th
     <link rel="alternate" href="http://gustavocaso.github.io/2014/07/03/enumerator-lazy/"/>
     <id>http://gustavocaso.github.io/2014/07/03/enumerator-lazy/</id>
     <published>2014-07-03T12:47:22-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;Recently reading the some posts about ruby I found myself with this interesting method call &lt;code&gt;lazy&lt;/code&gt;.
 This method will help us when looping over some objects: Array, Hashes, Files ……. If you want to loop though an array that is huge, an we only want to select the first 20 element that evaluate our criteria, this is the kind of job for our &lt;code&gt;lazy&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</summary>
-  </entry>
-  <entry>
-    <title>File rename in ruby</title>
-    <link rel="alternate" href="http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/"/>
-    <id>http://gustavocaso.github.io/2014/04/13/file-rename-in-ruby-html/</id>
-    <published>2014-04-13T12:48:47-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
-    <author>
-      <name>Gustavo Caso</name>
-    </author>
-    <summary type="html">&lt;p&gt;While doing some exercise of the book &lt;a href="https://pine.fm/LearnToProgram/" rel="nofollow"&gt;Learn to Program of Chris Pine&lt;/a&gt;, trying to rename some files
-as part of some exercise, that was renaming a bunch of picture from a folder, I noticed a strange functionality.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>

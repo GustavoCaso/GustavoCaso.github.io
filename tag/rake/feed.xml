@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2015/11/11/testing-your-rake-tasks/"/>
     <id>http://gustavocaso.github.io/2015/11/11/testing-your-rake-tasks/</id>
     <published>2015-11-11T02:37:44-05:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -30,7 +30,7 @@ We will invoke the &lt;code&gt;rake&lt;/code&gt; task and expect that some class
     <link rel="alternate" href="http://gustavocaso.github.io/2015/11/06/improving-our-rake-tasks/"/>
     <id>http://gustavocaso.github.io/2015/11/06/improving-our-rake-tasks/</id>
     <published>2015-11-06T08:25:42-05:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>

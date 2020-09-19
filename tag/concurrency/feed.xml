@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Gustavo Caso: concurrency</title>
+  <subtitle>Posts tagged with concurrency</subtitle>
+  <id>http://gustavocaso.github.io/</id>
+  <link href="http://gustavocaso.github.io/"/>
+  <link href="http://gustavocaso.github.io/tag/concurrency/feed.xml" rel="self"/>
+  <updated>2020-09-19T14:39:00-04:00</updated>
+  <author>
+    <name>Gustavo Caso</name>
+  </author>
+  <entry>
+    <title>Writing a Ractor Base Job Scheduler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/"/>
+    <id>http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/</id>
+    <published>2020-09-19T14:39:00-04:00</published>
+    <updated>2020-09-19T16:12:30-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I was reading a fantastic &lt;a href="https://kirshatrov.com/2020/09/08/ruby-ractor-web-server/" rel="nofollow"&gt;article&lt;/a&gt; from my colleague Kir, and I could help myself to feel nerd snipped by:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For those curious to try Ractor, I’d suggest to try implementing other things that benefit from parallel execution, for instance a background...&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+  </entry>
+</feed>

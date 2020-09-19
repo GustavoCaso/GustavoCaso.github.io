@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/"/>
     <id>http://gustavocaso.github.io/2014/04/23/exporting-and-import-heroku-db/</id>
     <published>2014-04-23T06:21:39-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -28,7 +28,7 @@ I use &lt;code&gt;rake db:reset&lt;/code&gt;and &lt;code&gt;rake db:create&lt;/c
     <link rel="alternate" href="http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/"/>
     <id>http://gustavocaso.github.io/2014/07/30/set-up-a-simple-deployment-system/</id>
     <published>2014-07-30T05:04:20-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -42,7 +42,7 @@ What people usually do is create a staging environment, that copies the producti
     <link rel="alternate" href="http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/"/>
     <id>http://gustavocaso.github.io/2014/04/21/delayed-job-and-send-email/</id>
     <published>2014-04-21T14:21:46-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>

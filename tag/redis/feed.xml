@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/"/>
     <id>http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/</id>
     <published>2019-04-29T21:43:00-04:00</published>
-    <updated>2019-05-19T22:09:34-04:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -22,6 +22,6 @@
 
 &lt;p&gt;The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.&lt;/p&gt;
 
-&lt;p&gt;Since I joined...&lt;/p&gt;</summary>
+&lt;p&gt;&lt;/p&gt;</summary>
   </entry>
 </feed>

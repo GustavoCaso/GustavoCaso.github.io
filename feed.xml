@@ -5,43 +5,58 @@
   <id>http://gustavocaso.github.io/</id>
   <link href="http://gustavocaso.github.io/"/>
   <link href="http://gustavocaso.github.io/feed.xml" rel="self"/>
-  <updated>2020-03-14T06:00:00-04:00</updated>
+  <updated>2020-09-19T14:39:00-04:00</updated>
   <author>
     <name>Gustavo Caso</name>
   </author>
+  <entry>
+    <title>Writing a Ractor Base Job Scheduler</title>
+    <link rel="alternate" href="http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/"/>
+    <id>http://gustavocaso.github.io/2020/09/19/writing-a-ractor-base-job-scheduler/</id>
+    <published>2020-09-19T14:39:00-04:00</published>
+    <updated>2020-09-19T16:12:30-04:00</updated>
+    <author>
+      <name>Gustavo Caso</name>
+    </author>
+    <summary type="html">&lt;p&gt;I was reading a fantastic &lt;a href="https://kirshatrov.com/2020/09/08/ruby-ractor-web-server/" rel="nofollow"&gt;article&lt;/a&gt; from my colleague Kir, and I could help myself to feel nerd snipped by:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For those curious to try Ractor, I’d suggest to try implementing other things that benefit from parallel execution, for instance a background...&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+  </entry>
   <entry>
     <title>Building a CLI chat app with go and WebSockets</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/"/>
     <id>http://gustavocaso.github.io/2020/03/14/building-a-cli-chat-app-with-go-and-websockets/</id>
     <published>2020-03-14T06:00:00-04:00</published>
-    <updated>2020-03-14T14:06:18-04:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;With the current global situation and the need to stay home, I decided to finish writing this post that I started during the last Christmas holidays.&lt;/p&gt;
 
 &lt;p&gt;During Christmas, I wanted to learn more about the &lt;a href="https://en.m.wikipedia.org/wiki/WebSocket" rel="nofollow"&gt;WebSockets&lt;/a&gt; protocol.
-For that, I thought a simple...&lt;/p&gt;</summary>
+&lt;/p&gt;</summary>
   </entry>
   <entry>
     <title>When open source has less benefits</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/"/>
     <id>http://gustavocaso.github.io/2019/11/15/when-open-source-has-less-benefits/</id>
     <published>2019-11-15T17:42:00-05:00</published>
-    <updated>2019-11-17T10:02:18-05:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;Here at &lt;a href="https://www.shopify.com/" rel="nofollow"&gt;Shopify&lt;/a&gt;, I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.&lt;/p&gt;
 
-&lt;p&gt;Let’s start...&lt;/p&gt;</summary>
+&lt;p&gt;&lt;/p&gt;</summary>
   </entry>
   <entry>
     <title>Migrating millions of Redis keys without downtime</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/"/>
     <id>http://gustavocaso.github.io/2019/04/30/migrating-millions-of-redis-keys-without-downtime/</id>
     <published>2019-04-29T21:43:00-04:00</published>
-    <updated>2019-05-19T22:09:34-04:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -49,14 +64,14 @@ For that, I thought a simple...&lt;/p&gt;</summary>
 
 &lt;p&gt;The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.&lt;/p&gt;
 
-&lt;p&gt;Since I joined...&lt;/p&gt;</summary>
+&lt;p&gt;&lt;/p&gt;</summary>
   </entry>
   <entry>
     <title>Summer Resolutions 2018</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/"/>
     <id>http://gustavocaso.github.io/2018/09/23/summer-resolutions_2018/</id>
     <published>2018-09-22T20:00:00-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T16:12:30-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
@@ -64,33 +79,18 @@ For that, I thought a simple...&lt;/p&gt;</summary>
 
 &lt;p&gt;A lot has happened in the last six months.&lt;/p&gt;
 
-&lt;p&gt;I started working for an English company based in London as a remote developer; I always wanted to work with a complete distributed team. The experience was great it gave...&lt;/p&gt;</summary>
+&lt;p&gt;&lt;/p&gt;</summary>
   </entry>
   <entry>
     <title>Grpc Tutorial with ruby</title>
     <link rel="alternate" href="http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/"/>
     <id>http://gustavocaso.github.io/2018/03/06/grpc-tutorial-with-ruby/</id>
     <published>2018-03-06T05:10:20-05:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
+    <updated>2020-09-19T12:57:10-04:00</updated>
     <author>
       <name>Gustavo Caso</name>
     </author>
     <summary type="html">&lt;p&gt;So the other day I found an exciting project &lt;a href="http://anycable.io/" rel="nofollow"&gt;Anycable&lt;/a&gt; that allow using custom WebSocket server within your ruby application. I immediately got hooked up, and I started reading about it, and the first thing that I never heard of it was &lt;a href="https://grpc.io" rel="nofollow"&gt;Grpc&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</summary>
-  </entry>
-  <entry>
-    <title>Functional programming aspects of the Ruby language</title>
-    <link rel="alternate" href="http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/"/>
-    <id>http://gustavocaso.github.io/2017/11/03/functional-programming-aspects-of-the-ruby-language/</id>
-    <published>2017-11-03T03:32:52-04:00</published>
-    <updated>2019-05-06T22:23:25-04:00</updated>
-    <author>
-      <name>Gustavo Caso</name>
-    </author>
-    <summary type="html">&lt;p&gt;&lt;strong&gt;Revised by Andy Holland&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Lately, there has been a significant change in the industry towards functional programming, new languages have appeared: Elixir, Scala, Elm.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</summary>
   </entry>
