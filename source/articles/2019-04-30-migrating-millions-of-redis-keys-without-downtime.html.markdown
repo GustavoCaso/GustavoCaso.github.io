@@ -9,6 +9,8 @@ Last year in September I joined the Job Patterns team at [Shopify](https://www.s
 
 The mission of the team is to provide a stable platform so that developers can write their background jobs to power one of the biggest e-commerce platforms in the world.
 
+READMORE
+
 Since I joined, I have been gathering context around the various components that create the unique Shopify ecosystem.
 
 To provide some context, Shopify is a [massive Ruby on Rails monolith](https://stackshare.io/shopify/e-commerce-at-scale-inside-shopifys-tech-stack) application and the background job architecture consists of [ActiveJob](https://edgeguides.rubyonrails.org/active_job_basics.html), [Resque](https://github.com/resque/resque), and [Redis](https://redis.io/). Besides the functionality that those libraries provide by default, we have created many additional modules that allow developers to define custom behaviour for their jobs: `Locking`, `LockQueue`, `Concurrency`, `Retry`, `Status`, and many more.

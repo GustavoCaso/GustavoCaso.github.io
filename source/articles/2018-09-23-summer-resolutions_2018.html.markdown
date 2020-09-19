@@ -9,6 +9,8 @@ It has been a while since I blog 😥
 
 A lot has happened in the last six months.
 
+READMORE
+
 I started working for an English company based in London as a remote developer; I always wanted to work with a complete distributed team. The experience was great it gave me the flexibility I was looking for, and I never felt lonely or running a solo mission against the code.
 
 Is true that some things could have been improved, like the communication channels or how often we would hang out, but hey nothing is perfect.

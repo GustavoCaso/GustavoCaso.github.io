@@ -7,6 +7,8 @@ tags: [ruby]
 
 Here at [Shopify](https://www.shopify.com/), I work as a Production Engineer on the Jobs team. Our mission is to maintain and improve the background job infrastructure for Shopify Core, which happens to be one of the largest Ruby on Rails applications in the World.
 
+READMORE
+
 Let's start with some context about Background Jobs, especially in the context of ruby applications.
 When talking about jobs, we refer to those units of work that are important for the application to function but would take too long to be processed within the lifetime of a web request. The usual way of dealing with those units is to offload them to the background, aka "background jobs", and for a different process to pick those jobs and execute them.
 
