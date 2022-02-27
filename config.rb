@@ -5,16 +5,16 @@
 bio = <<~EOF
 I'm a software developer with over five years of experience with Ruby and building websites.
 
-I work at [Shopify](https://www.shopify.ca/) as a production engineer, based in Montreal.
+I work at [Shopify](https://www.shopify.ca/) as a production engineer, based in Madrid.
 
 I'm passionate to open source software, I'm a core member of [dry-rb](https://dry-rb.org/), and I always keep an eye at exciting projects.
 EOF
 
 config[:casper] = {
   blog: {
-    url: 'http://gustavocaso.github.io/',
+    url: 'http://gustavocaso.dev/',
     name: 'Gustavo Caso',
-    description: 'Software Developer',
+    description: 'Software Engineer',
     date_format: '%d %B %Y',
     navigation: true,
     logo: nil
@@ -22,13 +22,12 @@ config[:casper] = {
   author: {
     name: 'Gustavo Caso',
     bio: bio,
-    location: 'Montreal', # Optional
+    location: 'Madrid', # Optional
     gravatar_email: 'gustavocaso@gmail.com',
     twitter: '_GustavoCaso'
   },
   navigation: {
     "Home" => "/",
-    "Projects" => "/projects",
     "About" => "/about",
   }
 }
