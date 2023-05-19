@@ -19,14 +19,14 @@ dateFormat = "2 January 2006"
 
   I'm based in Madrid 🇪🇦
 
-  I mostly write about ruby or stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
+  I mostly write about ruby and stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
   """
   bio = """
   I'm a software engineer currently working @ [Datadog](https://www.datadoghq.com/) bringing [security](https://www.datadoghq.com/product/application-security-management/) awareness.
 
   I'm based in Madrid 🇪🇦
 
-  I mostly write about ruby or stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
+  I mostly write about ruby and stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
   """
   links = [
     { email = "mailto:gustavocaso@gmail.com" },
