@@ -26,7 +26,7 @@ dateFormat = "2 January 2006"
 
   I'm based in Madrid 🇪🇦
 
-  I mostly write about ruby or stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
+  I mostly write about ruby and stuff I find interesting. When I'm not at home you will find me 🧗⛰️🍻
   """
   links = [
     { email = "mailto:gustavocaso@gmail.com" },
