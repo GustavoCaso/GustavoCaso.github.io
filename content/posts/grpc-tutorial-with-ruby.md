@@ -1,7 +1,7 @@
 +++
 title = 'Grpc Tutorial with ruby'
 date = 2018-03-06
-tags = ["ruby", " grpc"]
+tags = ["ruby", "grpc"]
 +++
 
 So the other day I found an exciting project [Anycable](http://anycable.io/) that allow using custom WebSocket server within your ruby application. I immediately got hooked up, and I started reading about it, and the first thing that I never heard of it was [Grpc](https://grpc.io).

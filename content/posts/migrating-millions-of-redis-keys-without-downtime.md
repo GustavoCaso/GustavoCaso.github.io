@@ -1,7 +1,7 @@
 +++
 title = 'Migrating millions of Redis keys without downtime'
 date = 2019-04-30
-tags = ["ruby", " redis"]
+tags = ["ruby", "redis"]
 +++
 
 Last year in September I joined the Job Patterns team at [Shopify](https://www.shopify.com/).

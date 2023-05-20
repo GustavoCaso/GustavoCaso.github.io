@@ -1,7 +1,7 @@
 +++
 title = 'Writing a Ractor Base Job Scheduler'
 date = 2020-09-19
-tags = ["ruby", " concurrency"]
+tags = ["ruby", "concurrency"]
 +++
 
 I was reading a fantastic [article](https://kirshatrov.com/2020/09/08/ruby-ractor-web-server/) from my colleague Kir, and I could help myself to feel nerd snipped by:
