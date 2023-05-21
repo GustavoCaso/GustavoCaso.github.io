@@ -1,12 +1,12 @@
 +++
 title = 'Rails and select'
 date = 2014-04-14
-tags = ["ruby", " rails"]
+tags = ["ruby", "rails"]
 +++
 
-In a rails project I'm working on I was trying to select from the database some sales with some conditions.
+In a rails project I'm working on, I was trying to select from the database some sales with some conditions.
 
-To start the `Sale` model has multiples associations .
+Here is the `Sale` model:
 
 ```ruby
 class Sale < ActiveRecord::Base
@@ -17,13 +17,9 @@ class Sale < ActiveRecord::Base
 end
 ```
 
-So the goal of this select was to obtain all the `Sales` where the `LineItems` has express_checkout set it to true.
+So the goal of the task was to obtain all the `Sales` where the `LineItems` has `express_checkout` set it to true.
 
-
-
-I thought it was easy, in the `Sales controller` I will get all the sales `Sales.all` do a select `Sales.all.select` that's the easy part, inside the block is were
-I got lost, because I have access to sale not the line_items associated to it, I started trying to fetch the line_items and perform another
-select inside.
+I thought it was easy. This is my initial code:
 
 ```ruby
 Sales.all.select do |sale|
@@ -32,20 +28,27 @@ Sales.all.select do |sale|
   end
 end
 ```
-So I see this code and thought that must be right, but I keep getting all the `Sales`.
 
-A friend of mine told to extract a method for this kinf of task in the `Sales`model, so I gave it a try, and created a new method call express_checkout?.
-This method did basically the same but instead I store the result of the select in a variable and then check if there where any object inside that variable.
-That approach worked.
+So I saw this code and thought that must be right, but I kept getting all the `Sales`.
 
-So my thoughts were inside the select always will return an array with the elemnts that passed from the condition, but I didn't know we have to store them in a variable and then check it.
-
-The final code:
+A friend told me to extract a method for this kind of check into the `Sales' model, so I tried it and created a new method called `express_checkout?`.
 
 ```ruby
-def express_production?
+def express_checkout?
   l = line_items.select{|line_item| line_item.express_checkout == true}
   l.any?
 end
 ```
 
+This method did the same, but instead, I stored the result of the select result in a variable and then checked if there were any objects inside that variable.
+That approach worked.
+
+So I thought `select` always returns an array with the elements that passed from the condition, but I didn't know we have to store them in a variable and then check it.
+
+The final code:
+
+```ruby
+Sales.all.select do |sale|
+  sale.express_checkout?
+end
+```

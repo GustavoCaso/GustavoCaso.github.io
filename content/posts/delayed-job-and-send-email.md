@@ -1,22 +1,19 @@
 +++
-title = 'Delayed job and Send email with Attachements'
+title = 'Delayed job, Heroku and sending an email with attachments'
 date = 2014-04-21
-tags = ["rails", " ruby", " heroku", " delayed_job"]
+tags = ["rails", "ruby", "heroku", "delayed_job"]
 +++
 
-**Sending emails with rails and Heroku (Updated 2014-04-24)**
-
-Rails makes extremly easy to send emails, I'm not going to explain how to do it, there are pretty good tutorials around the internet,
-this one is really well explain: [Action Mailer Basics](http://edgeguides.rubyonrails.org/action_mailer_basics.html).
+Rails make it extremely easy to send emails. I'm not going to explain how to do it; there are pretty good tutorials around the internet,
+this one is well explained: [Action Mailer Basics](http://edgeguides.rubyonrails.org/action_mailer_basics.html).
 
 
+It is common to delay the task in our rails applications. That way, the app doesn't wait for emails to be sent to users. Many good gems help us,
+I usually use [delayed_job](https://github.com/collectiveidea/delayed_job). This gems makes it easy, we have to prepend
+`delay` in our process ` Mailer.delay.sendMail(args)`.
 
-It is common to delay the task in our rails applications, that way the app doesn't stop. There are many good gems that help us,
-I usually use is [delayed_job](https://github.com/collectiveidea/delayed_job). This gems makes it really easy, we just have to prepend
-`delay` in our process `Mailer.delay.sendMail(args)`.
 
-
-In my actual project some of the mails we send, has attachments files, usually for that type of task it is common to create a temp file that store the information,
+Some of the emails we send in my current project have attached files. Usually, for that type of task, it is common to create a temp file that stores the information,
 and send it as arguments to mailer action.
 
 
@@ -39,41 +36,40 @@ temp_file.unlink
 Inside our Mailer class code could be like this:
 ```ruby
 class Mailer < ActionMailer::Base
-
   def send_mail(file)
     attachments['filename.csv'] = File.read(file.path)
     mail(to: foo@bar.com, subject: 'Welcome to My Awesome Site')
   end
-
 end
 ```
 
-Thats one way of doing it, but [Heroku](https://www.heroku.com) do not allow us to write file in the system, do to the file system they have.
-There multiple solutions to this problem, basically we can store the file in one of the store service like [S3](http://aws.amazon.com/).
-To use the S3 service we must add a gem to our Gemfile `gem 'aws-sdk'`
+That's one way of doing it, but [Heroku](https://www.heroku.com) do not allow us to write a file in the system due to the file system they have.
+There are multiple solutions to this problem. We will explore using [S3](http://aws.amazon.com/) to store the file and reference in the email.
 
-Once the file is uploaded to the S3 it will be posible to download it and attach it to the email.
+Once the file is uploaded to the S3, it can be downloaded and attached to the email.
 
 So how we could do this:
 
-Lets create the file and write what ever we want, in my case I created some helper method to create the file and store it in [S3](http://aws.amazon.com/).
-Inside `app/controller/helpers`.
+The gem `aws-sdk` can help to interact with the S3 service.
+
+Let's create the file and write whatever we want; I made some helper methods to generate and store a file in S3.
 
 ```ruby
+# app/controller/helpers.rb
 # We must write this to use the S3 store file
 require 'aws-sdk'
 
-class create_file
+def create_file
 # This way the file will be created and close when the block is finish
   file = File.open("#{Rails.root}/tmp/filename.txt", "w+") do |f|
-          f.write ("Hello")
-          f.write ("\n")
-          f.write ("World")
-        end
+    f.write ("Hello")
+    f.write ("\n")
+    f.write ("World")
+  end
   file
 end
 
-class store_S3(file)
+def store_S3(file)
 # We create a connection with amazon S3
   AWS.config(
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
@@ -89,9 +85,7 @@ class store_S3(file)
 end
 ```
 
-With this two method we are able to create and store the file in AWS, no is the easy part send the email.
-
-Inside our controller we could call our mailer with our file url, to read from and send the email.
+We could call our Mailer with our file URL to read from and send the email inside our controller.
 
 ```ruby
 class SaleController < ApplicationController::Base
@@ -107,17 +101,14 @@ And for the last touch, inside our Mailer
 
 ```ruby
 class Mailer < ActionMailer::Base
-
   def send_mail(url)
     attachments['filename.csv'] = open(url).read
     mail(to: foo@bar.com, subject: 'Welcome to My Awesome Site')
   end
-
 end
 ```
 
-I hope this could help anyone, there are some problems with heroku if the file is to big there might be some problems, I'm working to solve it, hopefuly I could get and answer and share with all of you.
-
+I hope this helps anyone; Heroku has problems if the file is too big. I'm working to solve it, and I hope to get an answer and share it with all of you.
 
 Happy coding.
 
