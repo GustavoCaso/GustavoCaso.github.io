@@ -1,3 +1,9 @@
++++
+title = 'Set up a simple deployment system with Heroku and Rails'
+date = 2014-07-30
+tags = ["heroku", " rails"]
++++
+
 Before deploying to production is always recommended to test everything first; you probably have a Test suit to test your application, but you never know what will happen when you deploy all changes to production.
 
 People usually create a staging environment that copies the production environment.
