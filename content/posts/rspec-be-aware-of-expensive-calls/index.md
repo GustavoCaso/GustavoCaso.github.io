@@ -64,7 +64,7 @@ As you can see, the subject for the spec is a GET request to an HTTP service.
 
 Things look great once the spec is reviewed and merged in the main branch. We are confident our code has test coverage, and if we ever introduce a regression, our specs should be able to spot it. We continue to work on new features, so more and more test cases have to be tested, and our spec files grow.
 
-When it comes to adding more tests, other developers, myself included, tend to copy what others have than before; This is called cargo cult.
+When it comes to adding more tests, other developers, myself included, tend to copy what others have than before; This is called [cargo cult](https://en.wikipedia.org/wiki/Cargo_cult_programming).
 
 Suddenly, our test suite takes longer and longer to run, and we need to figure out why.
 
@@ -72,7 +72,7 @@ One day after waiting for far too long for our test suite to complete, I decided
 
 Since I have been working with the specs for quite a while, I did not consider the issue being on the spec definitions but rather on the underlying code that the specs were testing. After some exploration that led to nothing, I decided to check the spec definitions.
 
-Our spec was doing far too many HTTP requests :sad:
+Our spec was doing far too many HTTP requests 😓
 
 So a simple change from:
 
