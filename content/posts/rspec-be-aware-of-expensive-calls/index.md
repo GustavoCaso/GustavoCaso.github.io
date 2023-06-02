@@ -1,5 +1,5 @@
 +++
-title = 'Rspec. Be Aware of expensive calls'
+title = 'Rspec. Be ware of expensive calls'
 date = 2023-06-01
 tags = ["ruby", "rspec", "test"]
 +++
