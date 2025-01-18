@@ -98,4 +98,4 @@ I want to share some advice with everyone. Simply following a pre-existing patte
 
 Here is the [PR](https://github.com/DataDog/dd-trace-rb/pull/2843) with my changes to improve the test suite performance.
 
-**Update, 5th Jun 2023**: [Ivo Anjo](https://ivoanjo.me/) Reviewed the entry and offered some suggestions.
+**Update, 5th Jun 2023**: [Ivo Anjo](https://ivoanjo.me/) Reviewed this entry and offered some suggestions.
