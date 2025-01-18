@@ -7,8 +7,7 @@ tags = ["go", "dependencies"]
 At Datadog, I work on the Agent, a complex and substantial Go codebase. The Agent is designed to run on customer infrastructure, aggregating customer data and sending it to Datadog for real-time analysis.
 
 
-Since the Agent operates within customer environments, performance is a key factor in how we design our software. Over the years, the matrix of features and products has continued to grow. These features and products come with costs, which typically manifest in resource consumption and binary size, paying special attention in terms of memory and CPU. Ensuring that the Agent is as lean as possible is crucial to Datadog's success.
-
+Since the Agent operates within customer environments, performance is a key factor in how we design our software. Over the years, the matrix of features and products has continued to grow. These features and products come with costs, which typically manifest in resource consumption and binary size. We pay special attention in terms of memory and CPU. Ensuring that the Agent is as lean as possible is crucial to Datadog's success.
 
 
 Over the past few months, my team has worked on optimizing the Agent codebase. To achieve this, we needed to understand what gets included in the final binary we distribute to our customers. I will explain some of the techniques we've applied to understand the dependency graph of the Agent codebase.
@@ -37,16 +36,21 @@ func main() {
 }
 ```
 
-To build this program, we will use `go build -o helloworld .`
-Next, we can use `du -sh helloworld` to check the binary size, which reports as 1.9 MB. That’s quite a bit for a simple Hello World program. So, what’s included in this binary?
+Let's see what is the binary size of our Hello World program.
+```
+$ go build -o helloworld .
+$ du -sh helloworld
+1.9M	helloworld
+```
+
+Our Hello World program weigths 1.9 MB. That’s quite a bit for a simple Hello World program. So, what’s included in this binary?
 
 We’ll use several tools provided by the Go toolchain, as well as some open-source tools from the community, to get a list of all the dependencies and libraries our binary relies on.
 
-
 To do this, we can run the [go list](https://pkg.go.dev/cmd/go#hdr-List_packages_or_modules) command. Simply running `go list .` won’t provide much information, so we can modify the output format using the `-f` flag. If we run `go list -f '{{join .Deps "\n"}}' .`, we will obtain a complete list of package dependencies for our program:
 
-
 ```
+$ go list -f '{{join .Deps "\n"}}' .
 cmp
 errors
 fmt
@@ -64,9 +68,7 @@ internal/itoa
 ...
 ```
 
-
 ### Digging Deeper into Dependencies
-
 
 If we want to see which dependencies are included by a specific package, we can modify the target of the `go list` command. For example, to see the dependencies of the `math` package, we can run:
 
@@ -77,17 +79,11 @@ math/bits
 unsafe
 ```
 
-
 At this point, we could keep exploring further to fully understand the dependency chain, but depending on the size of your project, there could be hundreds of dependencies. Simply using `go list` might not be enough to give us the full picture.
-
 
 ### Understanding Why A Module is included in your Project
 
-
-Sometimes, it’s not enough to know which dependencies are part of your binary. We also want to understand _why_ they’re included. This is where [go mod why](https://go.dev/ref/mod#go-mod-why) comes in. This command shows us the reason a package is included in our project.
-
-
-For example:
+Sometimes, it’s not enough to know which dependencies are part of your binary. We also want to understand _why_ they’re included. This is where [go mod why](https://go.dev/ref/mod#go-mod-why) comes in. This command shows us the shortest path from our main module to the listed package.
 
 ```
 $ go mod why io
@@ -97,12 +93,9 @@ fmt
 io
 ```
 
-
 Here, we see that the `io` package is included by the `fmt` package, which is included by our HelloWorld project. While this example is obvious, in a large project with many dependencies, this tool becomes much more useful.
 
-
 ### Analyzing the Size of Dependencies
-
 
 Now that we know which dependencies are included, the next step is understanding how much space each of these dependencies takes up. Not all dependencies contribute to binary size equally, so it’s important to measure them.
 
@@ -112,7 +105,6 @@ For this, we can use a popular open-source tool called [go-size-analyzer](https:
 
 ```
 $ gsa helloworld --hide-sections
-
 
 ┌──────────────────────────────────────────────────────────────────────────────────────────┐
 │ helloworld                                                                               │
@@ -152,17 +144,13 @@ $ gsa helloworld --hide-sections
 
 ```
 
-
 From this output, we can see that the largest contributor is the `runtime` package, which is essential for any Go binary and cannot be removed. However, understanding which dependencies take up the most space helps us prioritize optimization efforts. 
 
 ### Visualizing the Dependency Graph
 
-
 Finally, to better understand how dependencies are spread throughout your codebase, we can use a tool like [goda](https://github.com/loov/goda?tab=readme-ov-file) to generate a visual dependency graph. This is especially useful when trying to pinpoint where a particular dependency is introduced within the project.
 
-
-For example, I ran the following command on my toy project [expensetrace](https://github.com/GustavoCaso/expensetrace) to see how the `github.com/fatih/color` package is used:
-
+For example, I ran the following command on my toy project [expensetrace](https://github.com/GustavoCaso/expensetrace) to see where the `github.com/fatih/color` package is used:
 
 ```
 $ goda graph -std "reach(github.com/GustavoCaso/expensetrace/...:all, github.com/fatih/color)" | dot -Tsvg -o color.svg
@@ -176,7 +164,6 @@ One crucial aspect that makes `goda` more useful than `go mod why` is that `goda
 
 
 ### Conclusion
-
 
 By leveraging these tools and techniques, you can get a solid understanding of your Go project's dependencies and start making informed decisions to reduce binary size and optimize memory consumption. Once you've identified large or unnecessary dependencies, the next step might be to explore alternative libraries or refactor parts of your code to use fewer resources.
 
