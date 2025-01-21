@@ -15,32 +15,32 @@ summaryLength = 30
 buildDrafts = false
 buildFuture = false
 
-# googleAnalytics = "G-XXXXXXXXX"
+googleAnalytics = "G-6G4EQ6NHTS"
 
 [imaging]
-  anchor = 'Center'
+anchor = 'Center'
 
 [taxonomies]
-  tag = "tags"
+tag = "tags"
 
 [sitemap]
-  changefreq = 'daily'
-  filename = 'sitemap.xml'
-  priority = 0.5
+changefreq = 'daily'
+filename = 'sitemap.xml'
+priority = 0.5
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+home = ["HTML", "RSS", "JSON"]
 
 [related]
-  threshold = 0
-  toLower = false
+threshold = 0
+toLower = false
 
-    [[related.indices]]
-        name = "tags"
-        weight = 100
+[[related.indices]]
+name = "tags"
+weight = 100
 
-    [[related.indices]]
-      applyFilter = false
-      name = 'fragmentrefs'
-      type = 'fragments'
-      weight = 10
+[[related.indices]]
+applyFilter = false
+name = 'fragmentrefs'
+type = 'fragments'
+weight = 10
